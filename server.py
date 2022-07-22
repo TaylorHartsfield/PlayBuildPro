@@ -3,14 +3,14 @@ from model import db, connect_to_db, User
 import os
 
 app = Flask(__name__)
-app.secret_key=os.environ
-print(os.environ)
+app.secret_key=os.environ.get('SECRET_KEY')
+
 def homepage():
     return render_template('base.html')
 
 @app.route('/login')
 def login():
-    return redirect('/user_profile/1')
+    return redirect('/user_profile/{{user.user_id}}')
 
 @app.route('/register_user', methods=["GET", "POST"])
 def register_user():
@@ -19,16 +19,15 @@ def register_user():
     if request.method == 'GET':
         return render_template("register_user.html")
     
-    #Get email input to query DB for existing user
+    #Use value of email input to query DB for existing user
     email = request.form.get("email")
+    user_exists = User.query.filter_by(email=email).first()
 
-    email_exists = User.query.filter_by(email=email).first()
-    print(email_exists)
+    if user_exists != None:
+        flash("You are already registered. Please login.", category='error')
+        return redirect(f'/user_profile/{user_exists.user_id}')
 
-    if email_exists != None:
-        flash("You are already registered. Please login.")
-        return redirect('/login')
-
+    #Create new user entry from remaining form values
     fname = request.form.get("fname")
     lname = request.form.get("lname")
 
@@ -37,9 +36,9 @@ def register_user():
 
     db.session.add(new_user)
     db.session.commit()
-
-    flash(f'Break a leg, {fname}!')
-    return redirect('/login')
+    print(new_user.user_id)
+    flash(f'Break a leg, {fname}!', category='success')
+    return redirect(f'/user_profile/{new_user.user_id}')
 
 
 
@@ -49,7 +48,8 @@ def register_show():
 
 @app.route('/user_profile/<user_id>')
 def user_profile(user_id):
-    return "phew we made it"
+    user = User.query.get(user_id)
+    return render_template("user_profile.html", user=user)
 
 if __name__ == "__main__":
     connect_to_db(app)
