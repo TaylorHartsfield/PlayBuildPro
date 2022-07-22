@@ -54,6 +54,9 @@ def register_show():
 
 @app.route('/user_profile/<user_id>')
 def user_profile(user_id):
+    """A route to a user's profile"""
+
+    #Grab user from DB by querying PK with user_id arguement
     user = User.query.get(user_id)
     return render_template("user_profile.html", user=user)
 
