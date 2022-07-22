@@ -1,5 +1,5 @@
 from flask_sqlalchemy import SQLAlchemy
-from werkzeug.security import password_hash, check_password_hash
+from werkzeug.security import generate_password_hash, check_password_hash
 
 db = SQLAlchemy()
 
@@ -14,7 +14,7 @@ class Show(db.Model):
     closing_night = db.Column(db.Date)
 
     """Relationship to Cast Table"""
-    cast = db.relationship("Cast", back_populates("show"))
+    cast = db.relationship("Cast", back_populates="show")
     
     def __repr__(self):
         return f'<Show show_id={self.show_id} title={self.title}>'
@@ -31,7 +31,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(200))
 
     """Relationship to Cast Table"""
-    cast = db.Relationship("Cast", back_populates="user")
+    cast = db.relationship("Cast", back_populates="user")
 
     """Function to hash user password for DB"""
     def hash_password(self, password):
@@ -64,8 +64,21 @@ class Cast(db.Model):
 
 
     def __repr__(self):
-        return f'<Cast '
+        return f'<Cast show_id={self.show_id}, user_id={self.user_id}, admin={self.admin}>'
+    
 
+def connect_to_db(flask_app, db_uri='postgresql:///playbillApp', echo=True):
+    flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
+    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
+    db.app = flask_app
+    db.init_app(flask_app)
+    db.create_all()
+    print("Connected to the db!")
 
+if __name__ == "__main__":
+    from server import app
+
+    connect_to_db(app)
 
