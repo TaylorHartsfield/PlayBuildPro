@@ -10,8 +10,7 @@ def homepage():
 
 @app.route('/login')
 def login():
-    return redirect('/user_profile/{{user.user_id}}')
-
+    pass
 
 @app.route('/register_user')
 def register_user_form():
@@ -23,9 +22,6 @@ def register_user_form():
 def register_user():
     """Route to register a new user"""
 
-    # if request.method == 'GET':
-    #     return render_template("register_user.html")
-    
     #Use value of email input to query DB for existing user
     email = request.form.get("email")
     user_exists = User.query.filter_by(email=email).first()
