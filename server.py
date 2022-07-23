@@ -31,6 +31,8 @@ def user_login():
         else:
             flash('Incorrect Password. Please Try again.')
             return redirect('/login')
+    flash('Please register!')
+    return redirect('/register_user')
 
 @app.route('/register_user')
 def register_user_form():
