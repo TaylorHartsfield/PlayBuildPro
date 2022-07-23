@@ -9,11 +9,14 @@ class Show(db.Model):
     __tablename__ = "shows"
 
     show_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'))
     title = db.Column(db.String(100), nullable=False)
+    year = db.Column(db.Integer, nullable=False)
     opening_night = db.Column(db.Date)
     closing_night = db.Column(db.Date)
 
-    """Relationship to Cast Table"""
+    """Relationship to Cast and Company Table"""
+    company = db.relationship("Company", back_populates="show")
     cast = db.relationship("Cast", back_populates="show")
     
     def __repr__(self):
@@ -65,6 +68,25 @@ class Cast(db.Model):
 
     def __repr__(self):
         return f'<Cast show_id={self.show_id}, user_id={self.user_id}, admin={self.admin}>'
+
+class Company(db.Model):
+    """A table for Company Information"""
+
+    __tablename__="companies"
+
+    company_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    name = db.Column(db.String(100), nullable=False)
+    city = db.Column(db.String(200), nullable=False)
+    state = db.Column(db.String(100), nullable=False)
+    country = db.Column(db.String(100), nullable=False)
+    zip_code = db.Column(db.String(25), nullable=False)
+    address = db.Column(db.String(400), nullable=False)
+    address_2 = db.Column(db.String(100))
+    webiste = db.Column(db.String(100))
+    logo = db.Column(db.String(500))
+
+    """Reference to Show Table"""
+    show = db.relationship("Show", back_populates="company")
     
 
 def connect_to_db(flask_app, db_uri='postgresql:///playbillApp', echo=True):

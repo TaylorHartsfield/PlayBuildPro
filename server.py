@@ -71,8 +71,15 @@ def register_user():
 
 
 @app.route('/register_show')
+def register_show_form():
+    return render_template("register_show.html")
+
+
+@app.route('/register_show', methods=["POST"])
 def register_show():
     pass
+
+
 
 @app.route('/user_profile/<user_id>')
 def user_profile(user_id):
