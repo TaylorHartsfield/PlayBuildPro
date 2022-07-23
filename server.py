@@ -5,12 +5,32 @@ import os
 app = Flask(__name__)
 app.secret_key=os.environ.get('SECRET_KEY')
 
+@app.route('/')
 def homepage():
     return render_template('base.html')
 
 @app.route('/login')
-def login():
-    pass
+def login_page():
+    return render_template("login.html")
+
+@app.route('/login', methods=["POST"])
+def user_login():
+    
+    #Grab email input and check DB for existing user
+    email = request.form.get("email_input")
+    user = User.query.filter_by(email=email).first()
+
+    #Check password by using the hash method defined in the User class
+    #if password entry is correct, redirect user to their profile
+    #otherwise, ask them to sign in again
+    if user:
+        password = request.form.get("password_input")
+        if user.check_password(password):
+            flash(f'Break a leg, {user.fname}!')
+            return redirect(f'/user_profile/{user.user_id}')
+        else:
+            flash('Incorrect Password. Please Try again.')
+            return redirect('/login')
 
 @app.route('/register_user')
 def register_user_form():
@@ -29,7 +49,7 @@ def register_user():
     #Redirect user to login page if they are already a registered user
     if user_exists != None:
         flash("You are already registered. Please login.", category='error')
-        return redirect(f'/login')
+        return redirect('/login')
 
     #Create new user entry from remaining form values
     fname = request.form.get("fname")
