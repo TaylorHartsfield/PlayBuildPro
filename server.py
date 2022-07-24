@@ -1,5 +1,7 @@
 from flask import Flask, render_template, request, redirect, flash
-from model import db, connect_to_db, User
+import model
+import crud
+from datetime import datetime
 import os
 
 app = Flask(__name__)
@@ -18,7 +20,7 @@ def user_login():
     
     #Grab email input and check DB for existing user
     email = request.form.get("email_input")
-    user = User.query.filter_by(email=email).first()
+    user = model.User.query.filter_by(email=email).first()
 
     #Check password by using the hash method defined in the User class
     #if password entry is correct, redirect user to their profile
@@ -46,7 +48,7 @@ def register_user():
 
     #Use value of email input to query DB for existing user
     email = request.form.get("email")
-    user_exists = User.query.filter_by(email=email).first()
+    user_exists = model.User.query.filter_by(email=email).first()
 
     #Redirect user to login page if they are already a registered user
     if user_exists != None:
@@ -62,8 +64,8 @@ def register_user():
     new_user.hash_password(request.form.get("password"))
 
     #add and commit new user to the DB
-    db.session.add(new_user)
-    db.session.commit()
+    model.db.session.add(new_user)
+    model.db.session.commit()
     
     #Redirect user to their profile page
     flash(f'Break a leg, {fname}!', category='success')
@@ -77,7 +79,70 @@ def register_show_form():
 
 @app.route('/register_show', methods=["POST"])
 def register_show():
-    pass
+    """A route to register a new show"""
+
+    """Get Company Information from Form"""
+    company_name = request.form.get("company_name")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zip_code = request.form.get("zip_code")
+    website = request.form.get("website")
+    logo = request.form.get("logo")
+
+    """Get Show Information from Form"""
+    title = request.form.get("title")
+    year = request.form.get("year")
+    opening_night = request.form.get("opening_night")
+    if opening_night:
+        opening_night = datetime.strptime(opening_night, "%Y-%m-%d")
+    closing_night = request.form.get("closing_night")
+    if closing_night:
+        closing_night = datetime.strptime(closing_night, "%Y-%m-%d")
+    
+    """Check if Company is already registered in DB"""
+    company_exists = model.Company.query.filter_by(name=company_name, city=city, state=state).all()
+    if not company_exists:
+        new_company = crud.register_new_company(company_name, city, state, zip_code, website, logo)
+        new_show = crud.register_new_show(title, year, opening_night, closing_night)
+        model.db.session.add(new_company)
+        model.db.session.add(new_show)
+        new_show.company_id = new_company.company_id
+        model.db.session.commit()
+        flash('Show registered!')
+        return redirect('/register_show')
+
+    for show in company_exists.show:
+        if show.title == title and show.year == year:
+            flash('Your company already registered this production!')
+            return redirect('/register_show')
+    
+    
+
+  
+    
+    """Check if Show is already in DB"""
+    show_registered_already = model.Show.query.filter_by(title=title, year=year).all()
+    if not show_registered_already:
+        new_show = crud.register_new_show(title, year, opening_night, closing_night)
+        print(new_show)
+        print(new_show.company_id)
+        model.db.session.add(new_show)
+    
+    """Get Company Information from Form"""
+    company_name = request.form.get("company_name")
+    city = request.form.get("city")
+    state = request.form.get("state")
+    zip_code = request.form.get("zip_code")
+    website = request.form.get("website")
+    logo = request.form.get("logo")
+
+    # show_registered_already = model.Show.query.filter_by(title=title, year=year).all()
+    # if show_registered_already:
+    #     for show in show_registered_already:
+    #         if show.company.company_name != company_name:
+    # #             crud.register_new_show(title, year,)
+    # print(show_registered_already)
+    return "hi"
 
 
 
@@ -90,5 +155,5 @@ def user_profile(user_id):
     return render_template("user_profile.html", user=user)
 
 if __name__ == "__main__":
-    connect_to_db(app)
+    model.connect_to_db(app)
     app.run(debug=True)

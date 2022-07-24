@@ -9,16 +9,25 @@ class Show(db.Model):
     __tablename__ = "shows"
 
     show_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'))
+    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
     title = db.Column(db.String(100), nullable=False)
     year = db.Column(db.Integer, nullable=False)
     opening_night = db.Column(db.Date)
     closing_night = db.Column(db.Date)
 
-    """Relationship to Cast and Company Table"""
+    """Relationship to Company Table"""
     company = db.relationship("Company", back_populates="show")
+
+    """Relationship to Cast Table"""
     cast = db.relationship("Cast", back_populates="show")
     
+    """Relationship to Headshot Table"""
+    headshots = db.relationship("Headshot", back_populates="show")
+
+    """Relationship to Bio Table"""
+    bios = db.relationship("Bio", back_populates="show")
+
+
     def __repr__(self):
         return f'<Show show_id={self.show_id} title={self.title}>'
 
@@ -35,6 +44,12 @@ class User(db.Model):
 
     """Relationship to Cast Table"""
     cast = db.relationship("Cast", back_populates="user")
+
+    """Relationship to Bio Table"""
+    bios = db.relationship("Bio", back_populates="user")
+
+    """Relationship to Headshot Table"""
+    headshots = db.relationship("Headshot", back_populates="user")
 
     """Function to hash user password for DB"""
     def hash_password(self, password):
@@ -78,16 +93,57 @@ class Company(db.Model):
     name = db.Column(db.String(100), nullable=False)
     city = db.Column(db.String(200), nullable=False)
     state = db.Column(db.String(100), nullable=False)
-    country = db.Column(db.String(100), nullable=False)
     zip_code = db.Column(db.String(25), nullable=False)
-    address = db.Column(db.String(400), nullable=False)
-    address_2 = db.Column(db.String(100))
-    webiste = db.Column(db.String(100))
-    logo = db.Column(db.String(500))
+    website = db.Column(db.Text, unique=True)
+    logo = db.Column(db.Text)
 
     """Reference to Show Table"""
     show = db.relationship("Show", back_populates="company")
+
+    def __repr__(self):
+        return f'<Company company_id={self.company_id} name={self.name} city={self.city}>'
+
+
+class Bio(db.Model):
+    """A table to store User Bios"""
+
+    __tablename__="bios"
+
+    bio_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
+    bio = db.Column(db.Text, nullable=False)
     
+    """Relationship to User Table"""
+    user = db.relationship("User", back_populates="bios")
+
+    """Relationship to Show Table"""
+    show = db.relationship("Show", back_populates="bios")
+
+
+    def __repr__(self):
+        return f'<Bio bio_id={self.bio_id} user_id={self.user_id} show_id = {self.show_id}>'
+
+
+class Headshot(db.Model):
+    """A table to store User Headshots"""
+
+    __tablename__="headshots"
+    
+    headshot_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
+    img = db.Column(db.Text, nullable=False)
+
+    """Relationship to User Table"""
+    user = db.relationship("User", back_populates="headshots")
+
+    """Relationship to Show Table"""
+    show = db.relationship("Show", back_populates="headshots")
+
+    def __repr__(self):
+        return f'<Headshot headshot_id={self.headshot_id} user_id={self.user_id} show_id={self.show_id}>'
+
 
 def connect_to_db(flask_app, db_uri='postgresql:///playbillApp', echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri

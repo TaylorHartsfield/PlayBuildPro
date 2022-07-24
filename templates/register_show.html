@@ -2,30 +2,55 @@
 {% block title %}Register A Show!{% endblock %}
 {% block body %}
 <h1>Register A New Show</h1>
+<h3>Show information:</h3>
 <form action="/register_show" method="POST">
     <div class="form-group">
       <label for="title">Tile of Show:</label>
       <input type="text" class="form-control" id="title" name="title" required>
     </div>
     <div class="form-group">
-        <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            Dropdown button
-          </button>
-          <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-            <a class="dropdown-item" href="#">Action</a>
-            <a class="dropdown-item" href="#">Another action</a>
-            <a class="dropdown-item" href="#">Something else here</a>
-          </div>
+      <label for="year">Performance Year:</label>
+      <input type="number" class="form-control" id="year" name="year" required>
       </div>
     <div class="form-group">
-      <label for="opening_night">Opening Night:</label>
+      <label for="opening_night">Opening Night:(optional)</label>
       <input type="date" class="form-control" id="opening_night" name="opening_night">
     </div>
-    <div class="datepicker">
-        <label for="closing_night">Closing Night:</label>
+    <div class="form-group">
+        <label for="closing_night">Closing Night:(optional)</label>
         <input type="date" class="form-control" id="closing_night" name="closing_night">
       </div>
-    <button type="submit" class="btn btn-primary">Submit</button>
+    <br>
+      <h3>Company Information:</h3>
+      <div class="form-group">
+        <label for="company_name">Company Name:</label>
+        <input type="text" class="form-control" id="company_name" name="company_name" required>
+      </div>
+      <div class="form-group">
+        <label for="city">City:</label>
+        <input type="text" class="form-control" id="city" name="city" required>
+      </div>
+      <div class="form-group">
+        <label for="state">State:</label>
+        <input type="text" class="form-control" id="state" name="state" required>
+      </div>
+      <div class="form-group">
+        <label for="zip_code">Zip Code:</label>
+        <input type="number" class="form-control" id="zip_code" name="zip_code" required>
+      </div>
+      <label for="website">Company Website:</label>
+      <div class="input-group mb-3">
+        <div class="input-group-prepend">
+          <span class="input-group-text" id="website">https://</span>
+        </div>
+        <input type="text" class="form-control" id="website" name="website">
+      </div>
+      
+      <div class="form-group">
+        <label for="logo">Company Logo:(optional)</label>
+        <input type="file" class="form-control" id="logo" name="logo">
+      </div>
+      <button type="submit" class="btn btn-primary">Submit</button>
   </form>
 
 {% endblock %}
