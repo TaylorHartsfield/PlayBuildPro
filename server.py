@@ -77,9 +77,6 @@ def register_show_form():
     return render_template("register_show.html")
 
 
-
-
-"""WORKING ON NOW! NEED TO FIX DATE FORMATTING FOR DB COMMIT!"""
 @app.route('/register_show', methods=["POST"])
 def register_show():
     """A route to register a new show"""
@@ -95,12 +92,12 @@ def register_show():
     """Get Show Information from Form"""
     title = request.form.get("title")
     opening_night = date.fromisoformat(request.form.get("opening_night"))
-    # opening_night = date.fromisoformat(opening_night)
-    closing_night = request.form.get("closing_night")
-    closing_night = date.fromisoformat(closing_night)
+    closing_night = date.fromisoformat(request.form.get("closing_night"))
+
     
     """Check if Company is already registered in DB"""
-    company_exists = model.Company.query.filter_by(name=company_name, city=city, state=state).first()
+    company_exists = crud.get_company_by_name_city_state(company_name, city, state)
+
     if not company_exists:
         new_company = crud.register_new_company(company_name, city, state, zip_code, website, logo)
         model.db.session.add(new_company)

@@ -68,6 +68,7 @@ class Cast(db.Model):
     """A table to hold all Users connected to One Show"""
 
     __tablename__ = "casts"
+    
     cast_id = db.Column(db.Integer, primary_key=True)
     show_id = db.Column(db.Integer, db.ForeignKey("shows.show_id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
