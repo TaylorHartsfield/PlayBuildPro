@@ -18,7 +18,7 @@
           <div class="carousel-item active">
             <img src="{{user.headshots[0].img}}" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
-              <h5>Show: {{user.headshots.show_id}}</h5>
+              <h5>Show: {{user.headshots[0].show_id}}</h5>
               <p><button type="Submit">Use for show</button></p>
             </div>
           </div>
@@ -26,18 +26,20 @@
           <div class="carousel-item">
             <img src="{{image.img}}" class="d-block w-100" alt="...">
             <div class="carousel-caption d-none d-md-block">
-                <h5>Show: {{user.headshots.show_id}}</h5>
+                <h5>Show: {{image.show_id}}</h5>
                 <p>
                        
                     <div class="dropdown">
-                        {%for show in user.cast%}
-                        <form action="/add_headshot_to_show/{{image.headshot_id}}/{{show.show_id}}" method="POST">
+                        <form action="/add_headshot_to_show/{{image.headshot_id}}/{{image.show_id}}" method="POST">
                     <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenuButton1" data-bs-toggle="dropdown" aria-expanded="false">
                     Use for show
                     </button>
                     <ul class="dropdown-menu" aria-labelledby="dropdownMenuButton1">
-                        <li><button type="submit">{{show.shows.title}}</a></li>
-                        {%endfor%}
+                      {%for show in user.cast%}
+                        
+                        <li><button type="submit">{{show.show_id}}</a></li>
+                        
+                          {%endfor%}
                         </ul>
                     </div>
                    </form>
@@ -58,11 +60,11 @@
     </div>
       <br>
       <br>
-<label for="add_headshot">Add Headshot:</label>    
-<form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
-    <input id="add_headshot" type="file" name="headshot">
-    <input type="submit">
-</form>
+      <label for="add_headshot">Add Headshot:</label>    
+      <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
+          <input id="add_headshot" type="file" name="headshot">
+          <input type="submit">
+      </form>
 </h3>
 <h3>Bio: {{user.bio}}</h3>
 <h2>Shows:</h2>
