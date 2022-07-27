@@ -39,15 +39,6 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     password_hash = db.Column(db.String(200))
 
-    # """Relationship to Cast Table"""
-    # cast = db.relationship("Cast", back_populates="user")
-
-    # """Relationship to Bio Table"""
-    # bios = db.relationship("Bio", back_populates="user")
-
-    # """Relationship to Headshot Table"""
-    # headshots = db.relationship("Headshot", back_populates="user")
-
     """Function to hash user password for DB"""
     def hash_password(self, password):
         self.password_hash = generate_password_hash(password)
@@ -66,11 +57,11 @@ class Cast(db.Model):
 
     __tablename__ = "casts"
 
-    cast_id = db.Column(db.Integer, primary_key=True)
+    cast_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     show_id = db.Column(db.Integer, db.ForeignKey("shows.show_id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     role = db.Column(db.String(50))
-    admin = db.Column(db.Boolean, nullable=False)
+    admin = db.Column(db.Boolean, nullable=False, default=False)
 
     """Relationship to User Table"""
     user = db.relationship("User", backref="cast")

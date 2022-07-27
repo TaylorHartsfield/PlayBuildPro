@@ -23,6 +23,13 @@ def register_new_company(name, city, state, zip_code, website, logo):
     
     return new_company
 
+def add_to_cast(role, admin):
+
+    new_cast_member = model.Cast(
+                                role=role,
+                                admin=admin)
+    
+    return new_cast_member
 
 def get_user_by_email(email):
     

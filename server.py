@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash
+from flask import Flask, render_template, request, redirect, flash, session
 import model
 import crud
 from datetime import datetime, date
@@ -60,7 +60,7 @@ def register_user():
     fname = request.form.get("fname")
     lname = request.form.get("lname")
 
-    new_user = User(fname=fname, lname=lname, email=email)
+    new_user = model.User(fname=fname, lname=lname, email=email)
     #call hash_password method to hash password before commiting to DB
     new_user.hash_password(request.form.get("password"))
 
@@ -138,21 +138,40 @@ def user_profile(user_id):
     """A route to a user's profile"""
 
     #Grab user from DB by querying PK with user_id arguement
-    user = User.query.get(user_id)
+    user = model.User.query.get(user_id)
     return render_template("user_profile.html", user=user)
 
+
 @app.route('/cast/<show_id>')
-def view_cast(show_id):
-
-    show = crud.get_show_by_id(show_id)
+def cast(show_id):
     cast = crud.get_cast_by_show_id(show_id)
+    show = crud.get_show_by_id(show_id)
 
-    return render_template("cast.html", cast=cast, show=show)
+    return render_template("add_cast.html", show=show, cast=cast)
+    
 
 
 @app.route('/cast/<show_id>', methods=["POST"])
 def add_cast(show_id):
-    return "Added Cast"
+
+    cast = crud.get_cast_by_show_id(show_id)
+    show = crud.get_show_by_id(show_id)
+    user = crud.get_user_by_email(request.form.get("email"))
+
+    role = request.form.get("role")
+    admin = request.form.get("admin")
+
+    if user:
+        new_cast = crud.add_to_cast(role, admin)
+        new_cast.show_id = show.show_id
+        new_cast.user_id = user.user_id
+        model.db.session.add(new_cast)
+        model.db.session.commit()
+        flash(f'{user.fname}, added to cast!')
+        return redirect(f'/cast/{show.show_id}')
+
+    flash('User does not exist')
+    return render_template("add_cast.html", show=show, cast=cast)
 
 if __name__ == "__main__":
     model.connect_to_db(app)
