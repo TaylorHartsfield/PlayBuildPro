@@ -1,11 +1,11 @@
 from flask import Flask, render_template, request, redirect, flash
 import model
 import crud
-from datetime import datetime
+from datetime import datetime, date
 import os
 
 app = Flask(__name__)
-app.secret_key=os.environ.get('SECRET_KEY')
+app.secret_key='test'
 
 @app.route('/')
 def homepage():
@@ -77,6 +77,9 @@ def register_show_form():
     return render_template("register_show.html")
 
 
+
+
+"""WORKING ON NOW! NEED TO FIX DATE FORMATTING FOR DB COMMIT!"""
 @app.route('/register_show', methods=["POST"])
 def register_show():
     """A route to register a new show"""
@@ -91,58 +94,41 @@ def register_show():
 
     """Get Show Information from Form"""
     title = request.form.get("title")
-    year = request.form.get("year")
-    opening_night = request.form.get("opening_night")
-    if opening_night:
-        opening_night = datetime.strptime(opening_night, "%Y-%m-%d")
+    opening_night = date.fromisoformat(request.form.get("opening_night"))
+    # opening_night = date.fromisoformat(opening_night)
     closing_night = request.form.get("closing_night")
-    if closing_night:
-        closing_night = datetime.strptime(closing_night, "%Y-%m-%d")
+    closing_night = date.fromisoformat(closing_night)
     
     """Check if Company is already registered in DB"""
-    company_exists = model.Company.query.filter_by(name=company_name, city=city, state=state).all()
+    company_exists = model.Company.query.filter_by(name=company_name, city=city, state=state).first()
     if not company_exists:
         new_company = crud.register_new_company(company_name, city, state, zip_code, website, logo)
-        new_show = crud.register_new_show(title, year, opening_night, closing_night)
         model.db.session.add(new_company)
-        model.db.session.add(new_show)
+        model.db.session.commit()
+        print(new_company)
+      
+        new_show = crud.register_new_show(title, opening_night, closing_night)
         new_show.company_id = new_company.company_id
+        model.db.session.add(new_show)
         model.db.session.commit()
         flash('Show registered!')
         return redirect('/register_show')
 
-    for show in company_exists.show:
-        if show.title == title and show.year == year:
-            flash('Your company already registered this production!')
-            return redirect('/register_show')
-    
-    
 
-  
-    
-    """Check if Show is already in DB"""
-    show_registered_already = model.Show.query.filter_by(title=title, year=year).all()
-    if not show_registered_already:
-        new_show = crud.register_new_show(title, year, opening_night, closing_night)
-        print(new_show)
-        print(new_show.company_id)
-        model.db.session.add(new_show)
-    
-    """Get Company Information from Form"""
-    company_name = request.form.get("company_name")
-    city = request.form.get("city")
-    state = request.form.get("state")
-    zip_code = request.form.get("zip_code")
-    website = request.form.get("website")
-    logo = request.form.get("logo")
+    if company_exists:
+        for show in company_exists.shows:
+            if show.title == title and show.opening_night == opening_night:
+                flash(f'This show is already registered with {company_exists.name}!')
+                return redirect('/register_show')
 
-    # show_registered_already = model.Show.query.filter_by(title=title, year=year).all()
-    # if show_registered_already:
-    #     for show in show_registered_already:
-    #         if show.company.company_name != company_name:
-    # #             crud.register_new_show(title, year,)
-    # print(show_registered_already)
-    return "hi"
+            else:
+                new_show = crud.register_new_show(title, opening_night, closing_night)
+                new_show.company_id = company_exists.company_id
+                model.db.session.add(new_show)
+                model.db.session.commit()
+                flash('Show registered!')
+                print(company_exists.shows)
+                return redirect('/register_show')
 
 
 

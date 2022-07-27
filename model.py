@@ -1,5 +1,6 @@
 from flask_sqlalchemy import SQLAlchemy
 from werkzeug.security import generate_password_hash, check_password_hash
+import datetime
 
 db = SQLAlchemy()
 
@@ -9,23 +10,22 @@ class Show(db.Model):
     __tablename__ = "shows"
 
     show_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    company_id = db.Column(db.Integer, db.ForeignKey('companies.company_id'), nullable=False)
+    company_id = db.Column(db.Integer, db.ForeignKey("companies.company_id"))
     title = db.Column(db.String(100), nullable=False)
-    year = db.Column(db.Integer, nullable=False)
-    opening_night = db.Column(db.Date)
-    closing_night = db.Column(db.Date)
+    opening_night = db.Column(db.Date, nullable=False)
+    closing_night = db.Column(db.Date, nullable=False)
 
     """Relationship to Company Table"""
-    company = db.relationship("Company", back_populates="show")
+    company = db.relationship("Company", backref="shows")
 
     """Relationship to Cast Table"""
-    cast = db.relationship("Cast", back_populates="show")
+    cast = db.relationship("Cast", backref="shows")
     
     """Relationship to Headshot Table"""
-    headshots = db.relationship("Headshot", back_populates="show")
+    headshots = db.relationship("Headshot", backref="shows")
 
     """Relationship to Bio Table"""
-    bios = db.relationship("Bio", back_populates="show")
+    bios = db.relationship("Bio", backref="shows")
 
 
     def __repr__(self):
@@ -42,14 +42,14 @@ class User(db.Model):
     email = db.Column(db.String(100), nullable=False, unique=True)
     password_hash = db.Column(db.String(200))
 
-    """Relationship to Cast Table"""
-    cast = db.relationship("Cast", back_populates="user")
+    # """Relationship to Cast Table"""
+    # cast = db.relationship("Cast", back_populates="user")
 
-    """Relationship to Bio Table"""
-    bios = db.relationship("Bio", back_populates="user")
+    # """Relationship to Bio Table"""
+    # bios = db.relationship("Bio", back_populates="user")
 
-    """Relationship to Headshot Table"""
-    headshots = db.relationship("Headshot", back_populates="user")
+    # """Relationship to Headshot Table"""
+    # headshots = db.relationship("Headshot", back_populates="user")
 
     """Function to hash user password for DB"""
     def hash_password(self, password):
@@ -74,11 +74,11 @@ class Cast(db.Model):
     role = db.Column(db.String(50))
     admin = db.Column(db.Boolean, nullable=False)
 
-    """Relationship to User Table"""
-    user = db.relationship("User", back_populates="cast")
+    # """Relationship to User Table"""
+    # user = db.relationship("User", back_populates="cast")
 
-    """Relationship to Show Table"""
-    show = db.relationship("Show", back_populates="cast")
+    # """Relationship to Show Table"""
+    # shows = db.relationship("Show", back_populates="shows")
 
 
     def __repr__(self):
@@ -97,8 +97,7 @@ class Company(db.Model):
     website = db.Column(db.Text, unique=True)
     logo = db.Column(db.Text)
 
-    """Reference to Show Table"""
-    show = db.relationship("Show", back_populates="company")
+    #shows = an array of Shows associated with Company
 
     def __repr__(self):
         return f'<Company company_id={self.company_id} name={self.name} city={self.city}>'
@@ -110,15 +109,15 @@ class Bio(db.Model):
     __tablename__="bios"
 
     bio_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
-    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
+    user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
     bio = db.Column(db.Text, nullable=False)
     
-    """Relationship to User Table"""
-    user = db.relationship("User", back_populates="bios")
+    # """Relationship to User Table"""
+    # user = db.relationship("User", back_populates="bios")
 
-    """Relationship to Show Table"""
-    show = db.relationship("Show", back_populates="bios")
+    # """Relationship to Show Table"""
+    # shows = db.relationship("Show", back_populates="bios")
 
 
     def __repr__(self):
@@ -135,11 +134,11 @@ class Headshot(db.Model):
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
     img = db.Column(db.Text, nullable=False)
 
-    """Relationship to User Table"""
-    user = db.relationship("User", back_populates="headshots")
+    # """Relationship to User Table"""
+    # user = db.relationship("User", back_populates="headshots")
 
-    """Relationship to Show Table"""
-    show = db.relationship("Show", back_populates="headshots")
+    # """Relationship to Show Table"""
+    # shows = db.relationship("Show", back_populates="headshots")
 
     def __repr__(self):
         return f'<Headshot headshot_id={self.headshot_id} user_id={self.user_id} show_id={self.show_id}>'

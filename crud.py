@@ -1,11 +1,10 @@
 import model
 
 
-def register_new_show(title, year, opening_night, closing_night):
+def register_new_show(title, opening_night, closing_night):
     
     new_show = model.Show(
                         title=title, 
-                        year=year,
                         opening_night=opening_night,
                         closing_night=closing_night)
     
@@ -23,3 +22,4 @@ def register_new_company(name, city, state, zip_code, website, logo):
                                 logo=logo)
     
     return new_company
+
