@@ -2,9 +2,13 @@ from flask import Flask, render_template, request, redirect, flash, session
 import model
 import crud
 from datetime import datetime, date
+import cloudinary.uploader
 import os
 
 app = Flask(__name__)
+CLOUDINARY_KEY = os.environ['API_KEY']
+CLOUDINARY_SECRET = os.environ['API_SECRET']
+CLOUD_NAME = os.environ['CLOUD_NAME']
 app.secret_key='test'
 
 @app.route('/')
@@ -172,6 +176,33 @@ def add_cast(show_id):
 
     flash('User does not exist')
     return render_template("add_cast.html", show=show, cast=cast)
+
+@app.route('/add_headshot/<user_id>', methods=["POST"])
+def add_headshot(user_id):
+   
+    headshot = request.files['headshot']
+    print(headshot)
+    image = cloudinary.uploader.upload(headshot,
+                                        api_key=CLOUDINARY_KEY,
+                                        api_secret=CLOUDINARY_SECRET,
+                                        cloud_name=CLOUD_NAME)
+    print(image)
+    img_url = image['secure_url']
+    print(img_url)
+    headshot = crud.add_new_headshot(img_url)
+    print(headshot)
+    model.db.session.add(headshot)
+    headshot.user_id = user_id
+    model.db.session.commit()
+    return redirect(f"/user_profile/{headshot.user_id}")
+
+
+@app.route('/add_headshot_to_show/<headshot_id>/<show_id>', methods=["POST"])
+def add_headshot_to_show(headshot_id, show_id):
+
+    headshot = crud.add_headshot_to_show(headshot_id, show_id)
+
+    return headshot
 
 if __name__ == "__main__":
     model.connect_to_db(app)

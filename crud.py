@@ -61,3 +61,19 @@ def get_cast_by_show_id(show_id):
     return cast
 
 
+def add_new_headshot(img):
+
+    headshot = model.Headshot(
+                            img=img)
+    
+    return headshot
+
+
+def add_headshot_to_show(headshot_id, show_id):
+    
+    headshot = model.Headshot.query.get(headshot_id)
+    headshot.show_id = show_id
+    model.db.session.add(headshot)
+    model.db.session.commit()
+
+    return "Added to show!"

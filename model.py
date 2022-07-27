@@ -102,11 +102,8 @@ class Bio(db.Model):
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
     bio = db.Column(db.Text, nullable=False)
     
-    # """Relationship to User Table"""
-    # user = db.relationship("User", back_populates="bios")
-
-    # """Relationship to Show Table"""
-    # shows = db.relationship("Show", back_populates="bios")
+    """Relationship to User Table"""
+    user = db.relationship("User", backref="bios")
 
 
     def __repr__(self):
@@ -121,13 +118,11 @@ class Headshot(db.Model):
     headshot_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
-    img = db.Column(db.Text, nullable=False)
+    img = db.Column(db.Text, nullable=False, unique=True)
 
     # """Relationship to User Table"""
-    # user = db.relationship("User", back_populates="headshots")
+    user = db.relationship("User", backref="headshots")
 
-    # """Relationship to Show Table"""
-    # shows = db.relationship("Show", back_populates="headshots")
 
     def __repr__(self):
         return f'<Headshot headshot_id={self.headshot_id} user_id={self.user_id} show_id={self.show_id}>'
