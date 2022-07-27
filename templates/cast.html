@@ -1,0 +1,15 @@
+{%extends 'base.html'%}
+{%block title%}{{show.title}} Cast{%endblock%}
+
+{%block body%}
+<h3>{{show.title}} Cast List:
+    <ul>
+        {%for member in cast%}
+        <li>{{member.fname}} {{member.lname}} {{cast.role}}</li>
+        {%endfor%}
+    </ul>
+    <form action="/cast/{{show.show_id}}" method="POST">
+        <button type="submit">Add Cast Members</button>
+    </form>
+</h3>
+{%endblock%}

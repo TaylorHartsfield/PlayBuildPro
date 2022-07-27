@@ -29,6 +29,7 @@ def user_login():
         password = request.form.get("password_input")
         if user.check_password(password):
             flash(f'Break a leg, {user.fname}!')
+            session['user'] = user.email
             return redirect(f'/user_profile/{user.user_id}')
         else:
             flash('Incorrect Password. Please Try again.')
@@ -67,6 +68,9 @@ def register_user():
     model.db.session.add(new_user)
     model.db.session.commit()
     
+    #create session for user
+    session['user'] = new_user.email
+
     #Redirect user to their profile page
     flash(f'Break a leg, {fname}!', category='success')
     return redirect(f'/user_profile/{new_user.user_id}')
@@ -74,6 +78,7 @@ def register_user():
 
 @app.route('/register_show')
 def register_show_form():
+
     return render_template("register_show.html")
 
 
@@ -128,7 +133,6 @@ def register_show():
                 return redirect('/register_show')
 
 
-
 @app.route('/user_profile/<user_id>')
 def user_profile(user_id):
     """A route to a user's profile"""
@@ -136,6 +140,19 @@ def user_profile(user_id):
     #Grab user from DB by querying PK with user_id arguement
     user = User.query.get(user_id)
     return render_template("user_profile.html", user=user)
+
+@app.route('/cast/<show_id>')
+def view_cast(show_id):
+
+    show = crud.get_show_by_id(show_id)
+    cast = crud.get_cast_by_show_id(show_id)
+
+    return render_template("cast.html", cast=cast, show=show)
+
+
+@app.route('/cast/<show_id>', methods=["POST"])
+def add_cast(show_id):
+    return "Added Cast"
 
 if __name__ == "__main__":
     model.connect_to_db(app)

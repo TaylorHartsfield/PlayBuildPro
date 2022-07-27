@@ -24,6 +24,12 @@ def register_new_company(name, city, state, zip_code, website, logo):
     return new_company
 
 
+def get_user_by_email(email):
+    
+    user = model.User.query.filter_by(email=email).first()
+
+    return user
+
 def get_company_by_name_city_state(name, city, state):
 
     company = model.Company.query.filter_by(
@@ -31,5 +37,20 @@ def get_company_by_name_city_state(name, city, state):
                                     city=city, 
                                     state=state).first()
     return company
+
+
+def get_show_by_id(show_id):
+
+    show = model.Show.query.get(show_id)
+
+    return show
+
+
+def get_cast_by_show_id(show_id):
+
+    show = get_show_by_id(show_id)
+    cast = model.Cast.query.filter_by(show_id=show.show_id).all()
+
+    return cast
 
 

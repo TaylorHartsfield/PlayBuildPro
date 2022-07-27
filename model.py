@@ -17,9 +17,6 @@ class Show(db.Model):
 
     """Relationship to Company Table"""
     company = db.relationship("Company", backref="shows")
-
-    """Relationship to Cast Table"""
-    cast = db.relationship("Cast", backref="shows")
     
     """Relationship to Headshot Table"""
     headshots = db.relationship("Headshot", backref="shows")
@@ -68,18 +65,18 @@ class Cast(db.Model):
     """A table to hold all Users connected to One Show"""
 
     __tablename__ = "casts"
-    
+
     cast_id = db.Column(db.Integer, primary_key=True)
     show_id = db.Column(db.Integer, db.ForeignKey("shows.show_id"), nullable=False)
     user_id = db.Column(db.Integer, db.ForeignKey("users.user_id"), nullable=False)
     role = db.Column(db.String(50))
     admin = db.Column(db.Boolean, nullable=False)
 
-    # """Relationship to User Table"""
-    # user = db.relationship("User", back_populates="cast")
+    """Relationship to User Table"""
+    user = db.relationship("User", backref="cast")
 
-    # """Relationship to Show Table"""
-    # shows = db.relationship("Show", back_populates="shows")
+    """Relationship to Show Table"""
+    shows = db.relationship("Show", backref="shows")
 
 
     def __repr__(self):
