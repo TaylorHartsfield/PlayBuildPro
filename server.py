@@ -181,19 +181,20 @@ def add_cast(show_id):
 def add_headshot(user_id):
    
     headshot = request.files['headshot']
-    print(headshot)
+    
     image = cloudinary.uploader.upload(headshot,
                                         api_key=CLOUDINARY_KEY,
                                         api_secret=CLOUDINARY_SECRET,
                                         cloud_name=CLOUD_NAME)
-    print(image)
+  
     img_url = image['secure_url']
-    print(img_url)
+
     headshot = crud.add_new_headshot(img_url)
-    print(headshot)
+
     model.db.session.add(headshot)
     headshot.user_id = user_id
     model.db.session.commit()
+    
     return redirect(f"/user_profile/{headshot.user_id}")
 
 
