@@ -13,7 +13,7 @@ app.secret_key='test'
 
 @app.route('/')
 def homepage():
-    return render_template('base.html')
+    return render_template('homepage.html')
 
 @app.route('/login')
 def login_page():
