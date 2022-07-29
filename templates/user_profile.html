@@ -48,28 +48,32 @@
 </h3>
 <h3>Bio: </h3>
     {%if user.bios %}
+    <form action="/add_bio_to_show" method="POST">
     <ul>
       {%for bios in user.bios%}
       <li>
         <p>
-          {{bios.bio}} 
-          <div class="dropdown">
-            <button class="btn btn-secondary dropdown-toggle" type="button" id="showPicker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-              Dropdown button
-            </button>
+          {{bios.bio}}<br>
+          Currently Published In: {{bios.shows.title}}
+          <label for="showPicker">Select A Show</label>
+            <select id="showPicker" name="showPicker">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
-              {%for show in user_shows%}
-              <a class="dropdown-item" href="/add_to_show/{{bios.bio_id}}/{{show.show_id}}">{{show.shows.title}}</a>
+              {%for show in user.cast%}
+              <option value="{{show.show_id}} {{bios.bio_id}}">{{show.shows.title}}</option>
               {%endfor%}
-            </div>
+          
+           
+            <input type="submit">
           </div>
+        </select>
         </p>
-      </li>
+        </li>
       {%endfor%}
     </ul>
+    </form>
     {%endif%}
     <form action="/add_bio/{{user.user_id}}" method="POST">
-      <input type="textbox" name="bio">
+      <input type="textbox" name="bio" required>
       <input type="submit">
     </form>
 

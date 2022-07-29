@@ -225,15 +225,19 @@ def add_bio(user_id):
     return redirect(f'/user_profile/{bio.user_id}')
 
 
-@app.route('/add_bio_to_show/<bio_id>/<show_id>', methods=["POST"])
-def add_bio_to_show(bio_id, show_id):
-
+@app.route('/add_bio_to_show', methods=["POST"])
+def add_bio_to_show():
+    
+    [show_id, bio_id] = request.form.get('showPicker').split(" ")
+    print(show_id)
+    
+    
     bio = crud.add_bio_to_show(bio_id, show_id)
-
+    print(bio)
     flash(f'Bio sent to {bio.shows.title} for publishing!')
     return redirect(f'/user_profile/{bio.user_id}')
 
 
 if __name__ == "__main__":
     model.connect_to_db(app)
-    app.run(debug=True)
+    app.run(host='0.0.0.0', debug=True)

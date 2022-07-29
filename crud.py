@@ -94,4 +94,4 @@ def add_bio_to_show(bio_id, show_id):
     model.db.session.add(bio)
     model.db.session.commit()
 
-    return "Bio Added to show!"
+    return bio
