@@ -46,7 +46,36 @@
           <input type="submit">
       </form>
 </h3>
-<h3>Bio: {{user.bio}}</h3>
+<h3>Bio: </h3>
+    {%if user.bios %}
+    <ul>
+      {%for bios in user.bios%}
+      <li>
+        <p>
+          {{bios.bio}} 
+          <div class="dropdown">
+            <button class="btn btn-secondary dropdown-toggle" type="button" id="showPicker" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+              Dropdown button
+            </button>
+            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+              {%for show in user_shows%}
+              <a class="dropdown-item" href="/add_to_show/{{bios.bio_id}}/{{show.show_id}}">{{show.shows.title}}</a>
+              {%endfor%}
+            </div>
+          </div>
+        </p>
+      </li>
+      {%endfor%}
+    </ul>
+    {%endif%}
+    <form action="/add_bio/{{user.user_id}}" method="POST">
+      <input type="textbox" name="bio">
+      <input type="submit">
+    </form>
+
+
+
+
 <h2>Shows:</h2>
 <ul>
     {%for show in user.cast%}

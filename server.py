@@ -19,6 +19,7 @@ def homepage():
 def login_page():
     return render_template("login.html")
 
+
 @app.route('/login', methods=["POST"])
 def user_login():
     
@@ -33,13 +34,19 @@ def user_login():
         password = request.form.get("password_input")
         if user.check_password(password):
             flash(f'Break a leg, {user.fname}!')
-            session['user'] = user.email
+            session['user'] = user.user_id
             return redirect(f'/user_profile/{user.user_id}')
         else:
             flash('Incorrect Password. Please Try again.')
             return redirect('/login')
     flash('Please register!')
     return redirect('/register_user')
+
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/register_user')
 def register_user_form():
@@ -73,7 +80,7 @@ def register_user():
     model.db.session.commit()
     
     #create session for user
-    session['user'] = new_user.email
+    session['user'] = new_user.user_id
 
     #Redirect user to their profile page
     flash(f'Break a leg, {fname}!', category='success')
@@ -204,6 +211,28 @@ def add_headshot_to_show(headshot_id, show_id):
     headshot = crud.add_headshot_to_show(headshot_id, show_id)
 
     return headshot
+
+@app.route('/add_bio/<user_id>', methods=["POST"])
+def add_bio(user_id):
+
+    bio = request.form.get('bio')
+
+    bio = crud.add_bio(bio)
+    model.db.session.add(bio)
+    bio.user_id = user_id
+    model.db.session.commit()
+
+    return redirect(f'/user_profile/{bio.user_id}')
+
+
+@app.route('/add_bio_to_show/<bio_id>/<show_id>', methods=["POST"])
+def add_bio_to_show(bio_id, show_id):
+
+    bio = crud.add_bio_to_show(bio_id, show_id)
+
+    flash(f'Bio sent to {bio.shows.title} for publishing!')
+    return redirect(f'/user_profile/{bio.user_id}')
+
 
 if __name__ == "__main__":
     model.connect_to_db(app)
