@@ -230,6 +230,7 @@ def add_bio_to_show():
     
     [show_id, bio_id] = request.form.get('showPicker').split(" ")
     print(show_id)
+    print(bio_id)
     
     
     bio = crud.add_bio_to_show(bio_id, show_id)

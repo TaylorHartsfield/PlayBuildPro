@@ -50,28 +50,28 @@
     {%if user.bios %}
     <form action="/add_bio_to_show" method="POST">
     <ul>
-      {%for bios in user.bios%}
+      {%for bio in user.bios%}
       <li>
         <p>
-          {{bios.bio}}<br>
-          Currently Published In: {{bios.shows.title}}
+          {{bio.bio}}<br>
+          Currently Published In: {{bio.shows.title}}
           <label for="showPicker">Select A Show</label>
             <select id="showPicker" name="showPicker">
             <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {%for show in user.cast%}
-              <option value="{{show.show_id}} {{bios.bio_id}}">{{show.shows.title}}</option>
+              <option value="{{show.show_id}} {{bio.bio_id}}">{{show.shows.title}}</option>
               {%endfor%}
-          
-           
             <input type="submit">
           </div>
         </select>
         </p>
         </li>
-      {%endfor%}
+        {%endfor%}
     </ul>
     </form>
     {%endif%}
+
+
     <form action="/add_bio/{{user.user_id}}" method="POST">
       <input type="textbox" name="bio" required>
       <input type="submit">
