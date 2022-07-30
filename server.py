@@ -223,6 +223,8 @@ def add_headshot_to_show():
     flash(f'Headshot sent to {headshot.shows.title} for publishing!')
     return redirect(f'/user_profile/{headshot.user_id}')
 
+
+"""Add Bios to User profile and Set Bios to a specific show"""
 @app.route('/add_bio/<user_id>', methods=["POST"])
 def add_bio(user_id):
 
@@ -239,10 +241,12 @@ def add_bio(user_id):
 @app.route('/add_bio_to_show', methods=["POST"])
 def add_bio_to_show():
     
+
     [show_id, bio_id] = request.form.get('showPicker').split(" ")
+    check_for_bio = crud.check_for_bio_in_show(show_id)
 
     bio = crud.add_bio_to_show(bio_id, show_id)
-   
+    print(bio.show_id)
     flash(f'Bio sent to {bio.shows.title} for publishing!')
     return redirect(f'/user_profile/{bio.user_id}')
 

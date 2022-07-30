@@ -29,34 +29,7 @@ Headshot_Id: {{image.headshot_id}}<br>
 </li>
 {%endfor%}
 </ul>
-  <!-- <div class="container">
-  <div class="row">
-    {%for image in user.headshots%}
-  <div class="col-6">
-  <div class="card" style="width: 18rem;">
-    <img class="card-img-top" src="{{image.img}}" alt="Card image cap">
-    <div class="card-body">
-      <p class="card-text">
-        Show: {{image.shows.title}}
-        <br> 
-        Headshot_Id: {{image.headshot_id}}
-        <br>
-        {%for show in user.cast%}
-        <div class="form-check">
-          <input class="form-check-input" type="checkbox" value="{{show.shows.show_id}}" id="flexCheckDefault">
-          <label class="form-check-label" for="flexCheckDefault">
-            {{show.shows.title}}
-          </label>
-          {%endfor%}
-        </div>
-      </p>
-    </div>
-    </div>
-  </div>
-  {%endfor%}
-</div>
-</div> -->
-  {%endif%}
+{%endif%}
 
 
       <br>
@@ -75,7 +48,7 @@ Headshot_Id: {{image.headshot_id}}<br>
         <ul>  
               {%for bio in user.bios%}
           <li>
-          {{bio.bio}}<br>
+          {{bio.bio_id}}: {{bio.bio}}<br>
           Currently Published In: {{bio.shows.title}} <br>
           <label for="showPicker">Select A Show</label>
           <form action="/add_bio_to_show" method="POST">

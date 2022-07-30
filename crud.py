@@ -39,10 +39,7 @@ def check_for_user_in_show(user, show_id):
     show = get_show_by_id(show_id)
     
     for user_show in user.cast:
-        print(show.show_id)
-        print(show_id)
         if user_show.show_id == show.show_id:
-            print("Show Id is in the users cast show Ids!")
             return True
 
     return False
@@ -111,3 +108,25 @@ def add_bio_to_show(bio_id, show_id):
     model.db.session.commit()
 
     return bio
+
+
+def check_for_bio_in_show(show_id):
+
+    show = get_show_by_id(show_id)
+    bios = []
+    if show.bios:
+        for bio in show.bios:
+            bio.show_id = None
+            model.db.session.commit()
+
+    print(show.bios)
+
+
+    
+    return ("Existing Bio Updated")
+
+
+
+
+
+
