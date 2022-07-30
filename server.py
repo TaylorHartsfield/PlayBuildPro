@@ -113,6 +113,7 @@ def register_show():
     
     """Check if Company is already registered in DB"""
     company_exists = crud.get_company_by_name_city_state(company_name, city, state)
+    print(company_exists)
 
     if not company_exists:
         new_company = crud.register_new_company(company_name, city, state, zip_code, website, logo)
@@ -129,19 +130,24 @@ def register_show():
 
 
     if company_exists:
+
         for show in company_exists.shows:
-            if show.title == title and show.opening_night == opening_night:
+            if show.title == title and show.opening_night == opening_night:   
+                print(show)        
                 flash(f'This show is already registered with {company_exists.name}!')
                 return redirect('/register_show')
 
-            else:
-                new_show = crud.register_new_show(title, opening_night, closing_night)
-                new_show.company_id = company_exists.company_id
-                model.db.session.add(new_show)
-                model.db.session.commit()
-                flash('Show registered!')
-                print(company_exists.shows)
-                return redirect('/register_show')
+
+        new_show = crud.register_new_show(title, opening_night, closing_night)
+        new_show.company_id = company_exists.company_id
+        model.db.session.add(new_show)
+        model.db.session.commit()
+        flash('Show registered!')
+        for show in company_exists.shows:
+            print(show.opening_night)
+            print(show.title)
+        print(company_exists.shows)
+        return redirect('/register_show')
 
 
 @app.route('/user_profile/<user_id>')
@@ -172,7 +178,7 @@ def add_cast(show_id):
     role = request.form.get("role")
     admin = request.form.get("admin")
     if admin != None:
-        admin = True;
+        admin = True
 
     if user:
         new_cast = crud.add_to_cast(role, admin)
@@ -207,12 +213,14 @@ def add_headshot(user_id):
     return redirect(f"/user_profile/{headshot.user_id}")
 
 
-@app.route('/add_headshot_to_show/<headshot_id>/<show_id>', methods=["POST"])
-def add_headshot_to_show(headshot_id, show_id):
-
+@app.route('/add_headshot_to_show/', methods=["POST"])
+def add_headshot_to_show():
+    
+    [show_id, headshot_id] = request.form.get('showPicker').split(" ")
     headshot = crud.add_headshot_to_show(headshot_id, show_id)
 
-    return headshot
+    flash(f'Headshot sent to {headshot.shows.title} for publishing!')
+    return redirect(f'/user_profile/{headshot.user_id}')
 
 @app.route('/add_bio/<user_id>', methods=["POST"])
 def add_bio(user_id):

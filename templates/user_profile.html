@@ -11,7 +11,25 @@
 <div class="headshot-container">
 <h3>Headshot:
   {%if user.headshots%}
-  <div class="container">
+  <ul>  
+    {%for image in user.headshots%}
+  <li>
+  <img class="card-img-top" src="{{image.img}}" alt="Card image cap"><br>
+Currently Published In: {{image.shows.title}} <br>
+Headshot_Id: {{image.headshot_id}}<br>
+<label for="showPicker">Select A Show</label>
+<form action="/add_headshot_to_show" method="POST">
+  <select id="showPicker" name="showPicker">
+    {%for show in user.cast%}
+    <option value="{{show.show_id}} {{image.headshot_id}}">{{show.shows.title}}</option>
+    {%endfor%}
+    <input type="submit">
+</select>
+</form>
+</li>
+{%endfor%}
+</ul>
+  <!-- <div class="container">
   <div class="row">
     {%for image in user.headshots%}
   <div class="col-6">
@@ -37,7 +55,7 @@
   </div>
   {%endfor%}
 </div>
-</div>
+</div> -->
   {%endif%}
 
 

@@ -76,7 +76,7 @@ def add_headshot_to_show(headshot_id, show_id):
     model.db.session.add(headshot)
     model.db.session.commit()
 
-    return "Headshot added to show!"
+    return headshot
 
 
 def add_bio(bio):
