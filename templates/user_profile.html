@@ -6,6 +6,9 @@
 <div class="user_info">
 <h1>Name: {{user.fname}} {{user.lname}}</h1>
 <h3>Email: {{user.email}}</h3>
+</div>
+
+<div class="headshot-container">
 <h3>Headshot:
   {%if user.headshots%}
   <div class="container">
@@ -46,38 +49,36 @@
           <input type="submit">
       </form>
 </h3>
+</div>
+
+<div class="bio-container">
 <h3>Bio: </h3>
-    {%if user.bios %}
-    <form action="/add_bio_to_show" method="POST">
-    <ul>
-      {%for bio in user.bios%}
-      <li>
-        <p>
+      {%if user.bios %}
+        <ul>  
+              {%for bio in user.bios%}
+          <li>
           {{bio.bio}}<br>
-          Currently Published In: {{bio.shows.title}}
+          Currently Published In: {{bio.shows.title}} <br>
           <label for="showPicker">Select A Show</label>
+          <form action="/add_bio_to_show" method="POST">
             <select id="showPicker" name="showPicker">
-            <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
               {%for show in user.cast%}
               <option value="{{show.show_id}} {{bio.bio_id}}">{{show.shows.title}}</option>
               {%endfor%}
-            <input type="submit">
-          </div>
-        </select>
-        </p>
+              <input type="submit">
+          </select>
+        </form>
         </li>
-        {%endfor%}
-    </ul>
-    </form>
+    {%endfor%}
+  </ul>
     {%endif%}
-
 
     <form action="/add_bio/{{user.user_id}}" method="POST">
       <input type="textbox" name="bio" required>
       <input type="submit">
     </form>
 
-
+  </div>
 
 
 <h2>Shows:</h2>
@@ -89,5 +90,5 @@
     {%endfor%}
 </ul>
 </div>
-</div>
 {%endblock%}
+</div>
