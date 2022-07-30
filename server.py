@@ -214,10 +214,12 @@ def add_headshot(user_id):
     return redirect(f"/user_profile/{headshot.user_id}")
 
 
-@app.route('/add_headshot_to_show/', methods=["POST"])
+@app.route('/add_headshot_to_show', methods=["POST"])
 def add_headshot_to_show():
     
     [show_id, headshot_id] = request.form.get('showPicker').split(" ")
+    print(show_id)
+    print(headshot_id)
     headshot = crud.add_headshot_to_show(headshot_id, show_id)
 
     flash(f'Headshot sent to {headshot.shows.title} for publishing!')
