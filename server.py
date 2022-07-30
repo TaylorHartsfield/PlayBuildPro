@@ -171,6 +171,8 @@ def add_cast(show_id):
 
     role = request.form.get("role")
     admin = request.form.get("admin")
+    if admin != None:
+        admin = True;
 
     if user:
         new_cast = crud.add_to_cast(role, admin)
@@ -229,12 +231,9 @@ def add_bio(user_id):
 def add_bio_to_show():
     
     [show_id, bio_id] = request.form.get('showPicker').split(" ")
-    print(show_id)
-    print(bio_id)
-    
-    
+
     bio = crud.add_bio_to_show(bio_id, show_id)
-    print(bio)
+   
     flash(f'Bio sent to {bio.shows.title} for publishing!')
     return redirect(f'/user_profile/{bio.user_id}')
 
