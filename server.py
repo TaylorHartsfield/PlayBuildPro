@@ -133,7 +133,6 @@ def register_show():
 
         for show in company_exists.shows:
             if show.title == title and show.opening_night == opening_night:   
-                print(show)        
                 flash(f'This show is already registered with {company_exists.name}!')
                 return redirect('/register_show')
 
@@ -143,10 +142,6 @@ def register_show():
         model.db.session.add(new_show)
         model.db.session.commit()
         flash('Show registered!')
-        for show in company_exists.shows:
-            print(show.opening_night)
-            print(show.title)
-        print(company_exists.shows)
         return redirect('/register_show')
 
 
@@ -179,6 +174,12 @@ def add_cast(show_id):
     admin = request.form.get("admin")
     if admin != None:
         admin = True
+
+    already_added = crud.check_for_user_in_show(user, show_id)
+    
+    if already_added:
+        flash("You have already added this user to your show. If you do not see your user in this list, please check with the user that they have registered with PlaybillRender")
+        return redirect(f'/cast/{show_id}')
 
     if user:
         new_cast = crud.add_to_cast(role, admin)
