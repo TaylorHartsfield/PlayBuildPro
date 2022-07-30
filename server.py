@@ -243,10 +243,9 @@ def add_bio_to_show():
     
 
     [show_id, bio_id] = request.form.get('showPicker').split(" ")
-    check_for_bio = crud.check_for_bio_in_show(show_id)
 
     bio = crud.add_bio_to_show(bio_id, show_id)
-    print(bio.show_id)
+
     flash(f'Bio sent to {bio.shows.title} for publishing!')
     return redirect(f'/user_profile/{bio.user_id}')
 

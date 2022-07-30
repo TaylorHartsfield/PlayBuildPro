@@ -84,7 +84,13 @@ def add_new_headshot(img):
 
 def add_headshot_to_show(headshot_id, show_id):
     
+    show = get_show_by_id(show_id)
     headshot = model.Headshot.query.get(headshot_id)
+
+    for headshot in show.headshots:
+        if headshot.user_id == headshot.user_id:
+            headshot.show_id = None
+
     headshot.show_id = show_id
     model.db.session.add(headshot)
     model.db.session.commit()
@@ -102,28 +108,20 @@ def add_bio(bio):
 
 def add_bio_to_show(bio_id, show_id):
     
+    show = get_show_by_id(show_id)
     bio=model.Bio.query.get(bio_id)
+
+    for bios in show.bios:
+      
+        if bios.user_id == bio.user_id:
+            bios.show_id = None
+
     bio.show_id = show_id
     model.db.session.add(bio)
     model.db.session.commit()
 
     return bio
 
-
-def check_for_bio_in_show(show_id):
-
-    show = get_show_by_id(show_id)
-    bios = []
-    if show.bios:
-        for bio in show.bios:
-            bio.show_id = None
-            model.db.session.commit()
-
-    print(show.bios)
-
-
-    
-    return ("Existing Bio Updated")
 
 
 
