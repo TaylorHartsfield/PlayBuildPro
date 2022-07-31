@@ -78,6 +78,9 @@ Headshot_Id: {{image.headshot_id}}<br>
     {%for show in user.cast%}
     <li>
     {{show.shows.title}} ADMIN: {{show.admin}}
+    {%if show.admin == True%}
+    <button type="submit"><a href="/cast/{{show.show_id}}">Add Cast</a></button>
+    {%endif%}
     </li>
     {%endfor%}
 </ul>
