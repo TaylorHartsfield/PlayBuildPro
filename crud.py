@@ -15,7 +15,7 @@ def get_show_by_id(show_id):
     return model.Show.query.get(show_id)
 
 def register_new_company(name, city, state, zip_code, website, logo):
-    
+
     new_company = model.Company(
                                 name=name,
                                 city=city,
@@ -23,6 +23,7 @@ def register_new_company(name, city, state, zip_code, website, logo):
                                 zip_code=zip_code,
                                 website=website,
                                 logo=logo)
+
     
     return new_company
 
@@ -47,6 +48,12 @@ def check_for_user_in_show(user, show_id):
 def get_user_by_email(email):
     
     user = model.User.query.filter_by(email=email).first()
+
+    return user
+
+def get_user_by_id(user_id):
+
+    user = model.User.query.get(user_id)
 
     return user
 
@@ -122,10 +129,6 @@ def add_bio_to_show(bio_id, show_id):
 
     return bio
 
-
-
-# 16603260
-# eyJ1c2VyIjoyfQ.YuXH7Q.u2ldtlWjgAipkyki0ZwnD2rO1Wg
 
 
 

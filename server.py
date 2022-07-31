@@ -64,7 +64,7 @@ def register_user():
 
     #Redirect user to login page if they are already a registered user
     if user_exists != None:
-        flash("You are already registered. Please login.", category='error')
+        flash("You are already registered. Please login.")
         return redirect('/login')
 
     #Create new user entry from remaining form values
@@ -93,7 +93,7 @@ def register_show_form():
     if not session:
         flash("Please login to register a show!")
         return redirect('/login')
-    
+   
     return render_template("register_show.html")
 
 
@@ -120,6 +120,7 @@ def register_show():
     print(company_exists)
 
     if not company_exists:
+        
         new_company = crud.register_new_company(company_name, city, state, zip_code, website, logo)
         model.db.session.add(new_company)
         model.db.session.commit()
@@ -129,11 +130,22 @@ def register_show():
         new_show.company_id = new_company.company_id
         model.db.session.add(new_show)
         model.db.session.commit()
+
+        #Set Admin TRUE for user that is registering the show
+        admin = crud.get_user_by_id(session['user'])
+        add_admin_to_show = crud.add_to_cast(f'{new_show.title} Admin', True)
+        add_admin_to_show.show_id = new_show.show_id
+        add_admin_to_show.user_id = admin.user_id
+        model.db.session.add(add_admin_to_show)
+        model.db.session.commit()
+
+
         flash('Show registered!')
         return redirect('/register_show')
 
 
     if company_exists:
+        
 
         for show in company_exists.shows:
             if show.title == title and show.opening_night == opening_night:   
@@ -141,6 +153,7 @@ def register_show():
                 return redirect('/register_show')
 
 
+       
         new_show = crud.register_new_show(title, opening_night, closing_night)
         new_show.company_id = company_exists.company_id
         model.db.session.add(new_show)
@@ -161,6 +174,7 @@ def user_profile(user_id):
     
     #Grab user from DB by querying PK with user_id arguement
     user = model.User.query.get(user_id)
+    print(user)
 
     #check that the logged in user matches the profile we are visiting
     if user == None or user.user_id != session['user']:
