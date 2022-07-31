@@ -27,6 +27,15 @@ def register_new_company(name, city, state, zip_code, website, logo):
     
     return new_company
 
+def is_admin(show_id, user_id=0):
+
+    admin = model.Cast.query.filter_by(show_id = show_id, admin=True).all()
+    for admin_account in admin:
+        if admin_account.user_id == user_id:
+            return True
+    
+    return False
+
 def add_to_cast(role, admin):
 
     new_cast_member = model.Cast(

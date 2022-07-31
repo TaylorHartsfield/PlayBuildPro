@@ -193,6 +193,10 @@ def cast(show_id):
         flash('Please Login')
         return redirect('/login')
 
+    if not crud.is_admin(show_id,session['user']):
+        flash('You are not an admin for this show. Please update your headshot and bio from your profile.')
+        return redirect(f'/user_profile/{session["user"]}')
+    
     cast = crud.get_cast_by_show_id(show_id)
     show = crud.get_show_by_id(show_id)
 
