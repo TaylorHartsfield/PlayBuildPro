@@ -39,7 +39,7 @@ def user_login():
         else:
             flash('Incorrect Password. Please Try again.')
             return redirect('/login')
-    flash('Please register!')
+    flash('Hey Superstar! Please register!')
     return redirect('/register_user')
 
 
@@ -90,6 +90,10 @@ def register_user():
 @app.route('/register_show')
 def register_show_form():
 
+    if not session:
+        flash("Please login to register a show!")
+        return redirect('/login')
+    
     return render_template("register_show.html")
 
 
@@ -149,13 +153,32 @@ def register_show():
 def user_profile(user_id):
     """A route to a user's profile"""
 
+    # Check that a session has been created from
+    # login or register user routes
+    if not session:
+        flash('Please Login')
+        return redirect('/login')
+    
     #Grab user from DB by querying PK with user_id arguement
     user = model.User.query.get(user_id)
+
+    #check that the logged in user matches the profile we are visiting
+    if user == None or user.user_id != session['user']:
+
+        flash('Oops, something went wrong here')
+        return redirect('/')
+
+    
     return render_template("user_profile.html", user=user)
 
 
 @app.route('/cast/<show_id>')
 def cast(show_id):
+
+    if not session:
+        flash('Please Login')
+        return redirect('/login')
+
     cast = crud.get_cast_by_show_id(show_id)
     show = crud.get_show_by_id(show_id)
 
@@ -218,8 +241,6 @@ def add_headshot(user_id):
 def add_headshot_to_show():
     
     [show_id, headshot_id] = request.form.get('showPicker').split(" ")
-    print(show_id)
-    print(headshot_id)
     headshot = crud.add_headshot_to_show(headshot_id, show_id)
 
     flash(f'Headshot sent to {headshot.shows.title} for publishing!')

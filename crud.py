@@ -86,20 +86,14 @@ def add_headshot_to_show(headshot_id, show_id):
     
     show = get_show_by_id(show_id)
     headshot = model.Headshot.query.get(headshot_id)
-    print(show)
-    print(headshot)
-
-    
 
     for headshots in show.headshots:
-        print(headshots)
         if headshot.user_id == headshots.user_id:
             headshots.show_id = None
 
     headshot.show_id = show_id
     model.db.session.add(headshot)
     model.db.session.commit()
-    print(show.headshots)
 
     return headshot
 
@@ -130,7 +124,8 @@ def add_bio_to_show(bio_id, show_id):
 
 
 
-
+# 16603260
+# eyJ1c2VyIjoyfQ.YuXH7Q.u2ldtlWjgAipkyki0ZwnD2rO1Wg
 
 
 

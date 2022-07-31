@@ -14,6 +14,7 @@ class Show(db.Model):
     title = db.Column(db.String(100), nullable=False)
     opening_night = db.Column(db.Date, nullable=False)
     closing_night = db.Column(db.Date, nullable=False)
+    active = db.Column(db.Boolean, nullable=False, default=True)
 
     """Relationship to Company Table"""
     company = db.relationship("Company", backref="shows")
@@ -101,6 +102,7 @@ class Bio(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
     bio = db.Column(db.Text, nullable=False)
+    active = db.Column(db.Boolean, nullable=False, default=True)
     
     """Relationship to User Table"""
     user = db.relationship("User", backref="bios")
@@ -119,6 +121,7 @@ class Headshot(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
     img = db.Column(db.Text, nullable=False, unique=True)
+    active = db.Column(db.Boolean, nullable=False, default=True)
 
     # """Relationship to User Table"""
     user = db.relationship("User", backref="headshots")
