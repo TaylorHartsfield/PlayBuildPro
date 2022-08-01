@@ -7,16 +7,23 @@
 <h1>Name: {{user.fname}} {{user.lname}}</h1>
 <h3>Email: {{user.email}}</h3>
 </div>
-
+<br>
+<br>
 <div class="headshot-container">
-<h3>Headshot:
-  {%if user.headshots%}
+<h3>Headshot Gallery:
+  {%if not user.headshots%}
+  <h2>Upload your first headshot!</h2>
+  {%else%}
   <ul>  
     {%for image in user.headshots%}
   <li>
   <img class="card-img-top" src="{{image.img}}" alt="Card image cap"><br>
-Currently Published In: {{image.shows.title}} <br>
-Headshot_Id: {{image.headshot_id}}<br>
+  {%if image.show_id == none %}
+  Currently Published In: No Show Assigned <br>
+    {%else%}
+  Currently Published In: {{image.shows.title}} <br>
+  {%endif%}
+  Headshot_Id: {{image.headshot_id}}<br>
 <label for="showPicker">Select A Show</label>
 <form action="/add_headshot_to_show" method="POST">
   <select id="showPicker" name="showPicker">
@@ -31,10 +38,6 @@ Headshot_Id: {{image.headshot_id}}<br>
 {%endfor%}
 </ul>
 {%endif%}
-
-
-      <br>
-      <br>
       <label for="add_headshot">Add Headshot:</label>    
       <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
           <input id="add_headshot" type="file" name="headshot">
@@ -44,12 +47,12 @@ Headshot_Id: {{image.headshot_id}}<br>
 </div>
 
 <div class="bio-container">
-<h3>Bio: </h3>
+<h2>Bio: </h2>
       {%if user.bios %}
-        <ul>  
+      <ul class="bios">
               {%for bio in user.bios%}
           <li>
-          {{bio.bio_id}}: {{bio.bio}}<br>
+          {{bio.bio}}<br>
           Currently Published In: {{bio.shows.title}} <br>
           <label for="showPicker">Select A Show</label>
           <form action="/add_bio_to_show" method="POST">
@@ -65,7 +68,8 @@ Headshot_Id: {{image.headshot_id}}<br>
   </ul>
     {%endif%}
 
-    <form action="/add_bio/{{user.user_id}}" method="POST">
+    <label for="add_bio">Add Bio</label>
+    <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
       <input type="textbox" name="bio" required>
       <input type="submit">
     </form>
@@ -77,7 +81,7 @@ Headshot_Id: {{image.headshot_id}}<br>
 <ul>
     {%for show in user.cast%}
     <li>
-    {{show.shows.title}} ADMIN: {{show.admin}}
+    {{show.shows.title}} Role: {{show.role}} ADMIN: {{show.admin}}
     {%if show.admin == True%}
     <button type="submit"><a href="/cast/{{show.show_id}}">Add Cast</a></button>
     {%endif%}

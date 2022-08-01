@@ -3,12 +3,17 @@ import model
 import crud
 from datetime import datetime, date
 import cloudinary.uploader
+from cloudinary import CloudinaryImage
 import os
 
 app = Flask(__name__)
+
+
 CLOUDINARY_KEY = os.environ['API_KEY']
 CLOUDINARY_SECRET = os.environ['API_SECRET']
 CLOUD_NAME = os.environ['CLOUD_NAME']
+CLOUDINARY_URL= os.environ['CLOUDINARY_URL']
+
 app.secret_key='test'
 
 @app.route('/')
@@ -290,6 +295,37 @@ def add_bio_to_show():
     flash(f'Bio sent to {bio.shows.title} for publishing!')
     return redirect(f'/user_profile/{bio.user_id}')
 
+
+
+@app.route('/viewplaybill/<show_id>')
+def viewplaybill(show_id):
+
+    show = crud.get_show_by_id(show_id)
+   
+    return render_template('playbill.html', show=show)
+    
+
+@app.route('/editplaybill/<show_id>', methods=["POST"])
+def edit_playbill(show_id):
+    show = crud.get_show_by_id(show_id)
+
+    image = request.files['image']
+    
+    image = cloudinary.uploader.upload(image,
+                                            api_key=CLOUDINARY_KEY,
+                                            api_secret=CLOUDINARY_SECRET,
+                                            cloud_name=CLOUD_NAME,
+                                            eager = [
+                                                    {"width": 528, 
+                                                    "height": 588,
+                                                     "crop": "scale"}])
+       
+    img_url = image['eager'][0]['url']
+    update = crud.update_show_image(show_id, img_url)
+    model.db.session.commit()
+
+    return redirect(f'/viewplaybill/{show.show_id}')
+    
 
 if __name__ == "__main__":
     model.connect_to_db(app)

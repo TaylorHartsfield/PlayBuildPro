@@ -1,0 +1,35 @@
+{%extends 'base.html'%}
+
+{%block title%} {{show.title}} Playbill {%endblock%}
+
+{%block body%}
+<form action="/editplaybill/{{show.show_id}}" method="POST" enctype="multipart/form-data">
+    <input id="image" type="file" name="image">
+    <input type="submit">
+</form>
+<div class="container" id="playbillContainer">
+    <div class="playbillBase">
+        <div class="pager-prev pager-prev-disabled"></div>
+    <div class="slideBase">
+        <div class="cover">
+            <div class="cover-head">
+                <div class="cover_head_text">
+                    <p><strong>{{show.company.name}}</strong><br>
+                    {{show.theatre}}<br>
+                    {{show.company.city}}</p>
+                </div>
+            </div>
+        </div>
+
+        <div class="body_base">
+                <img id="playbill-img" src="{{show.image}}">
+        </div>
+    </div>
+    </div>
+    
+
+
+    
+
+</div>
+{%endblock%}

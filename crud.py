@@ -139,5 +139,15 @@ def add_bio_to_show(bio_id, show_id):
     return bio
 
 
+def update_show_image(show_id, image):
+
+    show = get_show_by_id(show_id)
+    print(show)
+    show.image = image
+    print(show.image)
+    
+
+
+
 
 

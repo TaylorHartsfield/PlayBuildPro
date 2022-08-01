@@ -15,6 +15,7 @@ class Show(db.Model):
     opening_night = db.Column(db.Date, nullable=False)
     closing_night = db.Column(db.Date, nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
+    image = db.Column(db.Text, unique=True)
 
     """Relationship to Company Table"""
     company = db.relationship("Company", backref="shows")
@@ -68,7 +69,7 @@ class Cast(db.Model):
     user = db.relationship("User", backref="cast")
 
     """Relationship to Show Table"""
-    shows = db.relationship("Show", backref="shows")
+    shows = db.relationship("Show", backref="cast")
 
 
     def __repr__(self):
