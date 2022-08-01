@@ -1,0 +1,78 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-gH2yIJqKdNHPEq0n4Mqa/HGKIhSkIHeL5AyhkYV8i59U5AR6csBvApHHNl/vI1Bx" crossorigin="anonymous">
+    <link href="/static/css/style.css" rel="stylesheet">
+  </head>
+<body>
+<div class="container">
+    <nav class="navbar navbar-expand-lg navbar-light bg-light">
+        <a class="navbar-brand" href="#">Navbar</a>
+        <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+      
+        <div class="collapse navbar-collapse" id="navbarSupportedContent">
+          <ul class="navbar-nav mr-auto">
+            <li class="nav-item active">
+              <a class="nav-link" href="/">Home</a>
+            </li>
+            {%if 'user' in session%}
+            <li class="nav-item">
+              <a class="nav-link" href="/user_profile/{{session['user']}}">Profile</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register_show">Register Show</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/logout">Logout</a>
+            </li>
+            {%endif%}
+            {%if 'user' not in session%}
+            <li class="nav-item">
+              <a class="nav-link" href="/login">Login</a>
+            </li>
+            <li class="nav-item">
+              <a class="nav-link" href="/register_user">Register</a>
+            </li>
+            {%endif%}
+        </div>
+      </nav>
+      <form action="/editplaybill/{{show.show_id}}" method="POST" enctype="multipart/form-data">
+        <input id="image" type="file" name="image">
+        <input type="submit">
+    </form>
+    <div class="container" id="playbillContainer">
+        <div class="playbillBase">
+            <div class="pager-prev pager-prev-disabled"></div>
+        <div class="slideBase">
+            {%block body%}
+            <div class="cover">
+                <div class="cover-head">
+                    <div class="cover_head_text">
+                        <p><strong>{{show.company.name}}</strong><br>
+                        {{show.theatre}}<br>
+                        {{show.company.city}}</p>
+                    </div>
+                </div>
+            </div>
+            <div class="body_base">
+                    <img id="playbill-img" src="{{show.image}}">
+            </div>
+            {%endblock%}
+        </div>
+        <div class="pager-next"></div>
+        </div>
+        </div>
+
+ 
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+  </div>
+  
+</body>
+</html> 

@@ -216,6 +216,10 @@ def add_cast(show_id):
     show = crud.get_show_by_id(show_id)
     user = crud.get_user_by_email(request.form.get("email"))
 
+    if user == None:
+        flash('User does not exist')
+        return redirect(f'/cast/{show_id}')
+
     role = request.form.get("role")
     admin = request.form.get("admin")
     if admin != None:
@@ -236,8 +240,6 @@ def add_cast(show_id):
         flash(f'{user.fname}, added to cast!')
         return redirect(f'/cast/{show.show_id}')
 
-    flash('User does not exist')
-    return render_template("add_cast.html", show=show, cast=cast)
 
 @app.route('/add_headshot/<user_id>', methods=["POST"])
 def add_headshot(user_id):
@@ -247,9 +249,14 @@ def add_headshot(user_id):
     image = cloudinary.uploader.upload(headshot,
                                         api_key=CLOUDINARY_KEY,
                                         api_secret=CLOUDINARY_SECRET,
-                                        cloud_name=CLOUD_NAME)
+                                        cloud_name=CLOUD_NAME,
+                                        eager = [{"gravity":"face", 
+                                                "height":170, 
+                                                "width":170, 
+                                                    "zoom":0.8, 
+                                                    "crop":"fit"}])
   
-    img_url = image['secure_url']
+    img_url = image['eager'][0]['url']
 
     headshot = crud.add_new_headshot(img_url)
 
@@ -302,7 +309,7 @@ def viewplaybill(show_id):
 
     show = crud.get_show_by_id(show_id)
    
-    return render_template('playbill.html', show=show)
+    return render_template('playbillbase.html', show=show)
     
 
 @app.route('/editplaybill/<show_id>', methods=["POST"])
@@ -322,10 +329,23 @@ def edit_playbill(show_id):
        
     img_url = image['eager'][0]['url']
     update = crud.update_show_image(show_id, img_url)
-    model.db.session.commit()
-
+   
     return redirect(f'/viewplaybill/{show.show_id}')
     
+@app.route('/castlist/<show_id>')
+def playbill_castlist(show_id):
+
+    cast = crud.get_cast_by_show_id(show_id)
+    
+    show = crud.get_show_by_id(show_id)
+
+    return render_template("castlist.html", show=show, cast=cast)
+
+@app.route('/viewheadshots/<show_id>')
+def playbill_headshots(show_id):
+    show = crud.get_show_by_id(show_id)
+    return render_template('headshots.html', show=show)
+
 
 if __name__ == "__main__":
     model.connect_to_db(app)

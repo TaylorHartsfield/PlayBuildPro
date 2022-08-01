@@ -49,6 +49,7 @@ def check_for_user_in_show(user, show_id):
     show = get_show_by_id(show_id)
     
     for user_show in user.cast:
+        
         if user_show.show_id == show.show_id:
             return True
 
@@ -142,9 +143,10 @@ def add_bio_to_show(bio_id, show_id):
 def update_show_image(show_id, image):
 
     show = get_show_by_id(show_id)
-    print(show)
     show.image = image
-    print(show.image)
+    model.db.session.commit()
+
+    return show
     
 
 

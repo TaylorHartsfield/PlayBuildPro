@@ -29,13 +29,29 @@ div.container {
 
 .pager-prev {
     left: -14px;
-    height:84px;
+    height: 84px;
     width: 22px;
     background: url('/static/img/SliderArrows.png') no-repeat 0 0;
-    text-indent: -40000px;
+    font-size: 0;
+    line-height: 0;
+    text-indent: -4000px;
     position:absolute;
     top: 345px;
 }
+
+.pager-next {
+    right: -8px;
+    background-position: right 0;
+    right: -8px;
+    background-position: right 0;
+    height: 84px;
+    width: 22px;
+    background: url('/static/img/SliderArrows.png') no-repeat 0 0;
+    text-indent: -4000px;
+    position: absolute;
+    top: 345px;
+}
+
 
 .slideBase {
     position: relative;
