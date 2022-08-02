@@ -308,6 +308,9 @@ def add_bio_to_show():
 def viewplaybill(show_id):
 
     show = crud.get_show_by_id(show_id)
+    if show==None:
+        flash('Oops, something went wrong here!')
+        return redirect('/')
    
     return render_template('playbillbase.html', show=show)
     
@@ -338,12 +341,20 @@ def playbill_castlist(show_id):
     cast = crud.get_cast_by_show_id(show_id)
     
     show = crud.get_show_by_id(show_id)
+    if show==None:
+        flash('Oops, something went wrong here!')
+        return redirect('/')
+   
 
     return render_template("castlist.html", show=show, cast=cast)
 
 @app.route('/viewheadshots/<show_id>')
 def playbill_headshots(show_id):
     show = crud.get_show_by_id(show_id)
+    if show==None:
+        flash('Oops, something went wrong here!')
+        return redirect('/')
+    
     return render_template('headshots.html', show=show)
 
 

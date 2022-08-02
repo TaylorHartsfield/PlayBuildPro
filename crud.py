@@ -114,6 +114,28 @@ def add_headshot_to_show(headshot_id, show_id):
 
     return headshot
 
+#Can I set this to return FALSE if an error occured?
+def archive_headshot(headshot_id):
+
+    headshot = model.Headshot.query.get(headshot_id)
+    headshot.active = False
+    model.db.session.commit()
+
+    return True
+
+
+#Can I set this to return FALSE if an error occured?
+def delete_headshot(headshot_id):
+
+    headshot = model.Headshot.query.get(headshot_id)
+    model.db.session.delete(headshot)
+    model.db.session.commit()
+
+    return True
+
+
+
+
 
 def add_bio(bio):
 
@@ -149,6 +171,15 @@ def update_show_image(show_id, image):
     return show
     
 
+
+def archive_show(show_id, user_id):
+
+    if is_admin:
+        show.active = False
+        model.db.session.commit()
+        return show
+    
+    return False
 
 
 
