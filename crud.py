@@ -49,10 +49,11 @@ def archive_show(show_id, user_id):
 
 """All Company Functions"""
 
-def register_new_company(name, city, state, zip_code, website, logo):
+def register_new_company(name, theater_name, city, state, zip_code, website, logo):
 
     new_company = model.Company(
                                 name=name,
+                                theater_name=theater_name,
                                 city=city,
                                 state=state,
                                 zip_code=zip_code,

@@ -85,6 +85,7 @@ class Company(db.Model):
     city = db.Column(db.String(200), nullable=False)
     state = db.Column(db.String(100), nullable=False)
     zip_code = db.Column(db.String(25), nullable=False)
+    theater_name = db.Column(db.String)
     website = db.Column(db.Text)
     logo = db.Column(db.Text)
 

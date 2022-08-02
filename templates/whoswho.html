@@ -1,0 +1,25 @@
+{%extends 'playbillbase.html'%}
+
+{%block body%}
+<div class="container">
+    {%for actor in cast%}
+    <strong>{{actor.user.fname}} {{actor.user.lname}}</strong> as {{actor.role}}
+    <div class="row">
+        <div class="col-4">
+            {%for headshot in show.headshots%}
+            {%if headshot.user_id == actor.user.user_id%}
+            <img src="{{headshot.img}}">
+        {%endif%}
+        {%endfor%}
+        </div>
+        <div class="col-6">
+            {%for bio in show.bios%}
+            {%if bio.user_id == actor.user.user_id%}
+            <p>{{bio.bio}}</p>
+        {%endif%}
+        {%endfor%}
+        </div>
+    </div>
+{%endfor%}
+</div>
+{%endblock%}

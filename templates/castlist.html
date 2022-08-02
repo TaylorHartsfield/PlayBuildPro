@@ -3,12 +3,12 @@
 <div class="castlist">
     <h6>Cast Members</h6>
     <ul>
-
        {%for actor in cast%}
        <li>
        <h6>{{actor.user.fname}} {{actor.user.lname}}<p> as {{actor.role}}</p></h6>
        {%endfor%}
     </li>
     </ul>
+    
 </div>
 {% endblock %}

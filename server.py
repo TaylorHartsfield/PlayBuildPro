@@ -108,11 +108,13 @@ def register_show():
 
     """Get Company Information from Form"""
     company_name = request.form.get("company_name")
+    theater_name = request.form.get("theater_name")
     city = request.form.get("city")
     state = request.form.get("state")
     zip_code = request.form.get("zip_code")
     website = request.form.get("website")
-    logo = request.form.get("logo")
+    logo = request.files['logo']
+    
 
     """Get Show Information from Form"""
     title = request.form.get("title")
@@ -122,14 +124,28 @@ def register_show():
     
     """Check if Company is already registered in DB"""
     company_exists = crud.get_company_by_name_city_state(company_name, city, state)
-    print(company_exists)
-
+    
     if not company_exists:
+
+        if logo != None:
+            print(logo)
+    
+            logo  = cloudinary.uploader.upload(logo,
+                                            api_key=CLOUDINARY_KEY,
+                                            api_secret=CLOUDINARY_SECRET,
+                                            cloud_name=CLOUD_NAME,
+                                            eager = [{ 
+                                                    "height":150, 
+                                                    "width":150, 
+                                                    "crop":"scale"}])
+    
+            logo_url = logo['eager'][0]['url']
+    
         
-        new_company = crud.register_new_company(company_name, city, state, zip_code, website, logo)
+        new_company = crud.register_new_company(company_name, theater_name, city, state, zip_code, website, logo_url)
         model.db.session.add(new_company)
         model.db.session.commit()
-        print(new_company)
+        
       
         new_show = crud.register_new_show(title, opening_night, closing_night)
         new_show.company_id = new_company.company_id
@@ -138,7 +154,7 @@ def register_show():
 
         #Set Admin TRUE for user that is registering the show
         admin = crud.get_user_by_id(session['user'])
-        add_admin_to_show = crud.add_to_cast(f'{new_show.title} Admin', True)
+        add_admin_to_show = crud.add_to_cast(f'Admin', True)
         add_admin_to_show.show_id = new_show.show_id
         add_admin_to_show.user_id = admin.user_id
         model.db.session.add(add_admin_to_show)
@@ -162,6 +178,13 @@ def register_show():
         new_show = crud.register_new_show(title, opening_night, closing_night)
         new_show.company_id = company_exists.company_id
         model.db.session.add(new_show)
+        model.db.session.commit()
+
+        admin = crud.get_user_by_id(session['user'])
+        add_admin_to_show = crud.add_to_cast(f'Admin', True)
+        add_admin_to_show.show_id = new_show.show_id
+        add_admin_to_show.user_id = admin.user_id
+        model.db.session.add(add_admin_to_show)
         model.db.session.commit()
         flash('Show registered!')
         return redirect('/register_show')
@@ -251,10 +274,10 @@ def add_headshot(user_id):
                                         api_secret=CLOUDINARY_SECRET,
                                         cloud_name=CLOUD_NAME,
                                         eager = [{"gravity":"face", 
-                                                "height":170, 
-                                                "width":170, 
-                                                    "zoom":0.8, 
-                                                    "crop":"fit"}])
+                                                "height":150, 
+                                                "width":150, 
+                                                    "zoom":0.7, 
+                                                    "crop":"fill"}])
   
     img_url = image['eager'][0]['url']
 
@@ -401,12 +424,15 @@ def playbill_castlist(show_id):
 
 @app.route('/viewheadshots/<show_id>')
 def playbill_headshots(show_id):
+
     show = crud.get_show_by_id(show_id)
+    cast = crud.get_cast_by_show_id(show_id)
+    
     if show==None:
         flash('Oops, something went wrong here!')
         return redirect('/')
     
-    return render_template('headshots.html', show=show)
+    return render_template('whoswho.html', show=show, cast=cast)
 
 
 if __name__ == "__main__":

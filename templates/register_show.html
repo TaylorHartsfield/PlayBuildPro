@@ -3,7 +3,7 @@
 {% block body %}
 <h1>Register A New Show</h1>
 <h3>Show information:</h3>
-<form action="/register_show" method="POST">
+<form action="/register_show" method="POST" enctype="multipart/form-data">
     <div class="form-group">
       <label for="title">Tile of Show:</label>
       <input type="text" class="form-control" id="title" name="title" required>
@@ -21,6 +21,10 @@
       <div class="form-group">
         <label for="company_name">Company Name:</label>
         <input type="text" class="form-control" id="company_name" name="company_name" required>
+      </div>
+      <div class="form-group">
+        <label for="theater_name">Theater Name:</label>
+        <input type="text" class="form-control" id="theater_name" name="theater_name">
       </div>
       <div class="form-group">
         <label for="city">City:</label>

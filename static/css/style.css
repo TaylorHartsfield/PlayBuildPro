@@ -3,6 +3,11 @@ div{
 }
 div.container {
     font-size: 12px;
+    text-align: center;
+}
+
+.cover_head_text {
+    text-transform: uppercase;
 }
 
 .playbillContainer {
