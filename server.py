@@ -277,6 +277,26 @@ def add_headshot_to_show():
     return redirect(f'/user_profile/{headshot.user_id}')
 
 
+@app.route('/archive_headshot', methods=["POST"])
+def archive_headshot():
+
+    headshot_id = request.form.get('archive')
+    crud.archive_headshot(headshot_id)
+
+    flash('Your headshot has been archived!')
+    return redirect(f'/user_profile/{session["user"]}')
+
+
+@app.route('/delete_headshot', methods=["POST"])
+def delete_headshot():
+
+    headshot_id = request.form.get('delete')
+    crud.delete_headshot(headshot_id)
+
+    flash('Your headshot has been deleted')
+    return redirect(f'/user_profile/{session["user"]}')
+
+
 """Add Bios to User profile and Set Bios to a specific show"""
 @app.route('/add_bio/<user_id>', methods=["POST"])
 def add_bio(user_id):
@@ -301,6 +321,37 @@ def add_bio_to_show():
 
     flash(f'Bio sent to {bio.shows.title} for publishing!')
     return redirect(f'/user_profile/{bio.user_id}')
+
+
+@app.route('/update_bio/<bio_id>', methods=["POST"])
+def update_bio(bio_id):
+
+    print(bio_id)
+    update = request.form.get('update')
+    crud.update_bio(bio_id, update)
+
+    flash('Your Bio has been edited!')
+    return redirect(f'/user_profile/{session["user"]}')
+
+
+@app.route('/archive_bio', methods=["POST"])
+def archive_bio():
+
+    bio_id = request.form.get('archive')
+    crud.archive_bio(bio_id)
+
+    flash('Your bio has been archived!')
+    return redirect(f'/user_profile/{session["user"]}')
+
+
+@app.route('/delete_bio', methods=["POST"])
+def delete_bio():
+
+    bio_id = request.form.get('delete')
+    crud.delete_bio(bio_id)
+
+    flash('Your bio has been deleted')
+    return redirect(f'/user_profile/{session["user"]}')
 
 
 

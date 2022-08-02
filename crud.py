@@ -188,7 +188,7 @@ def add_bio_to_show(bio_id, show_id):
 
 def archive_bio(bio_id):
 
-    bio = model.Bio.get(bio_id)
+    bio = model.Bio.query.get(bio_id)
     bio.active = False
     model.db.session.commit()
 
@@ -197,11 +197,20 @@ def archive_bio(bio_id):
 
 def update_bio(bio_id, update):
 
-    bio = model.Bio.get(bio_id)
+    bio = model.Bio.query.get(bio_id)
     bio.bio = update
     model.db.session.commit()
 
     return bio
+
+
+def delete_bio(bio_id):
+
+    bio = model.Bio.query.get(bio_id)
+    model.db.session.delete(bio)
+    model.db.session.commit()
+
+    return True
 
 
 

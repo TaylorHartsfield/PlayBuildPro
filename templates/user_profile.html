@@ -16,6 +16,7 @@
   {%else%}
   <ul>  
     {%for image in user.headshots%}
+    {%if image.active==True%}
   <li>
   <img class="card-img-top" src="{{image.img}}" alt="Card image cap"><br>
   {%if image.show_id == none %}
@@ -31,10 +32,16 @@
     <option value="{{show.show_id}} {{image.headshot_id}}">{{show.shows.title}}</option>
     {%endfor%}
     <input type="submit">
-    <button type="button" class="btn btn-outline-danger">Danger</button>
 </select>
 </form>
+<form action="/archive_headshot" method="POST">
+  <button name="archive" value="{{image.headshot_id}}" class="btn btn-outline-warning">Archive Headshot</button>
+</form>
+<form action="/delete_headshot" method="POST">
+  <button name="delete" value="{{image.headshot_id}}" class="btn btn-outline-danger">Delete Headshot</button>
+</form>
 </li>
+{%endif%}
 {%endfor%}
 </ul>
 {%endif%}
@@ -51,6 +58,7 @@
       {%if user.bios %}
       <ul class="bios">
               {%for bio in user.bios%}
+              {%if bio.active == True%}
           <li>
           {{bio.bio}}<br>
           Currently Published In: {{bio.shows.title}} <br>
@@ -63,14 +71,25 @@
               <input type="submit">
           </select>
         </form>
+        <form action="/update_bio/{{bio.bio_id}}" method="POST">
+          <textarea name="update" maxlength="375" cols="33" required>{{bio.bio}}</textarea>
+          <button type="submit" class="btn btn-outline-warning">Edit Bio</button>
+        </form>
+        <form action="/archive_bio" method="POST">
+          <button name="archive" value="{{bio.bio_id}}" class="btn btn-outline-warning">Archive Bio</button>
+        </form>
+        <form action="/delete_bio" method="POST">
+          <button name="delete" value="{{bio.bio_id}}" class="btn btn-outline-danger">Delete Bio</button>
+        </form>
         </li>
+        {%endif%}
     {%endfor%}
   </ul>
     {%endif%}
 
     <label for="add_bio">Add Bio</label>
     <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
-      <input type="textbox" name="bio" required>
+      <textarea name="bio" maxlength="375" cols="33" required></textarea>
       <input type="submit">
     </form>
 
