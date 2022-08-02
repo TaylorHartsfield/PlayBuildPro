@@ -1,5 +1,7 @@
 import model
 
+"""All Show Functions"""
+
 
 def register_new_show(title, opening_night, closing_night):
     
@@ -14,6 +16,39 @@ def get_show_by_id(show_id):
 
     return model.Show.query.get(show_id)
 
+
+
+def check_for_user_in_show(user, show_id):
+
+    show = get_show_by_id(show_id)
+    
+    for user_show in user.cast:
+        
+        if user_show.show_id == show.show_id:
+            return True
+
+    return False
+
+def update_show_image(show_id, image):
+
+    show = get_show_by_id(show_id)
+    show.image = image
+    model.db.session.commit()
+
+    return show
+
+
+def archive_show(show_id, user_id):
+
+    if is_admin:
+        show.active = False
+        model.db.session.commit()
+        return show
+    
+    return False
+
+"""All Company Functions"""
+
 def register_new_company(name, city, state, zip_code, website, logo):
 
     new_company = model.Company(
@@ -27,33 +62,16 @@ def register_new_company(name, city, state, zip_code, website, logo):
     
     return new_company
 
-def is_admin(show_id, user_id=0):
+def get_company_by_name_city_state(name, city, state):
 
-    admin = model.Cast.query.filter_by(show_id = show_id, admin=True).all()
-    for admin_account in admin:
-        if admin_account.user_id == user_id:
-            return True
-    
-    return False
+    company = model.Company.query.filter_by(
+                                    name=name, 
+                                    city=city, 
+                                    state=state).first()
+    return company
 
-def add_to_cast(role, admin):
 
-    new_cast_member = model.Cast(
-                                role=role,
-                                admin=admin)
-    
-    return new_cast_member
-
-def check_for_user_in_show(user, show_id):
-
-    show = get_show_by_id(show_id)
-    
-    for user_show in user.cast:
-        
-        if user_show.show_id == show.show_id:
-            return True
-
-    return False
+"""All User Functions"""
 
 def get_user_by_email(email):
     
@@ -67,21 +85,18 @@ def get_user_by_id(user_id):
 
     return user
 
-def get_company_by_name_city_state(name, city, state):
+def is_admin(show_id, user_id=0):
 
-    company = model.Company.query.filter_by(
-                                    name=name, 
-                                    city=city, 
-                                    state=state).first()
-    return company
+    admin = model.Cast.query.filter_by(show_id = show_id, admin=True).all()
+    for admin_account in admin:
+        if admin_account.user_id == user_id:
+            return True
+    
+    return False
 
 
-def get_show_by_id(show_id):
 
-    show = model.Show.query.get(show_id)
-
-    return show
-
+"""All Cast Functions"""
 
 def get_cast_by_show_id(show_id):
 
@@ -90,6 +105,16 @@ def get_cast_by_show_id(show_id):
 
     return cast
 
+def add_to_cast(role, admin):
+
+    new_cast_member = model.Cast(
+                                role=role,
+                                admin=admin)
+    
+    return new_cast_member
+
+
+"""Headshot Functions"""
 
 def add_new_headshot(img):
 
@@ -134,8 +159,7 @@ def delete_headshot(headshot_id):
     return True
 
 
-
-
+"""Bio Functions"""
 
 def add_bio(bio):
 
@@ -162,24 +186,28 @@ def add_bio_to_show(bio_id, show_id):
     return bio
 
 
-def update_show_image(show_id, image):
+def archive_bio(bio_id):
 
-    show = get_show_by_id(show_id)
-    show.image = image
+    bio = model.Bio.get(bio_id)
+    bio.active = False
     model.db.session.commit()
 
-    return show
+    return bio
+
+
+def update_bio(bio_id, update):
+
+    bio = model.Bio.get(bio_id)
+    bio.bio = update
+    model.db.session.commit()
+
+    return bio
+
+
+
+
     
 
-
-def archive_show(show_id, user_id):
-
-    if is_admin:
-        show.active = False
-        model.db.session.commit()
-        return show
-    
-    return False
 
 
 
