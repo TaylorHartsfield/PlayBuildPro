@@ -135,9 +135,10 @@ def register_show():
                                             api_secret=CLOUDINARY_SECRET,
                                             cloud_name=CLOUD_NAME,
                                             eager = [{ 
-                                                    "height":150, 
-                                                    "width":150, 
-                                                    "crop":"scale"}])
+                                                    "gravity": "auto",
+                                                    "zoom": "0.75",
+                                                    "crop":"thumb"}])
+            
     
             logo_url = logo['eager'][0]['url']
     
@@ -202,7 +203,7 @@ def user_profile(user_id):
     
     #Grab user from DB by querying PK with user_id arguement
     user = model.User.query.get(user_id)
-    print(user)
+    
 
     #check that the logged in user matches the profile we are visiting
     if user == None or user.user_id != session['user']:
@@ -238,15 +239,14 @@ def add_cast(show_id):
     cast = crud.get_cast_by_show_id(show_id)
     show = crud.get_show_by_id(show_id)
     user = crud.get_user_by_email(request.form.get("email"))
-
-    if user == None:
-        flash('User does not exist')
-        return redirect(f'/cast/{show_id}')
-
     role = request.form.get("role")
     admin = request.form.get("admin")
     if admin != None:
         admin = True
+
+    if user == None:
+        flash('User does not exist')
+        return redirect(f'/cast/{show_id}')
 
     already_added = crud.check_for_user_in_show(user, show_id)
     
@@ -273,11 +273,12 @@ def add_headshot(user_id):
                                         api_key=CLOUDINARY_KEY,
                                         api_secret=CLOUDINARY_SECRET,
                                         cloud_name=CLOUD_NAME,
-                                        eager = [{"gravity":"face", 
-                                                "height":150, 
-                                                "width":150, 
-                                                    "zoom":0.7, 
-                                                    "crop":"fill"}])
+                                        eager = [{"aspect_ratio":"1:1",
+                                                    "gravity": "face",
+                                                    "height":150, 
+                                                    "zoom": "0.75",
+                                                    "crop":"thumb"}])
+
   
     img_url = image['eager'][0]['url']
 
@@ -296,9 +297,30 @@ def add_headshot_to_show():
     [show_id, headshot_id] = request.form.get('showPicker').split(" ")
     headshot = crud.add_headshot_to_show(headshot_id, show_id)
 
-    flash(f'Headshot sent to {headshot.shows.title} for publishing!')
+    flash(f'Headshot sent to {headshot.shows.title} for approval!')
     return redirect(f'/user_profile/{headshot.user_id}')
 
+
+@app.route('/approve_headshot', methods=["POST"])
+def approve_headshot():
+
+    headshot_id = request.form.get('headshot_id')
+    approved_headshot = crud.approve_headshot_to_publish(headshot_id)
+    
+
+    return redirect(f'/viewheadshots/{approved_headshot.show_id}')
+
+@app.route('/deny_headshot', methods=["POST"])
+def deny_headshot():
+
+    headshot_id = request.form.get('headshot_id')
+    headshot = model.Headshot.query.get(headshot_id)
+    show_id = headshot.show_id
+    headshot.show_id = None
+    model.db.session.commit()
+
+    flash(f'Headshot not published. Sent back to {headshot.user.fname}{headshot.user.lname} for updating.')
+    return redirect(f'/viewheadshots/{show_id}')
 
 @app.route('/archive_headshot', methods=["POST"])
 def archive_headshot():
@@ -342,18 +364,17 @@ def add_bio_to_show():
 
     bio = crud.add_bio_to_show(bio_id, show_id)
 
-    flash(f'Bio sent to {bio.shows.title} for publishing!')
+    flash(f'Bio sent to {bio.shows.title} for approval!')
     return redirect(f'/user_profile/{bio.user_id}')
 
 
 @app.route('/update_bio/<bio_id>', methods=["POST"])
 def update_bio(bio_id):
 
-    print(bio_id)
     update = request.form.get('update')
     crud.update_bio(bio_id, update)
 
-    flash('Your Bio has been edited!')
+    flash('Your Bio has been updated and sent for approval!')
     return redirect(f'/user_profile/{session["user"]}')
 
 
@@ -377,6 +398,26 @@ def delete_bio():
     return redirect(f'/user_profile/{session["user"]}')
 
 
+@app.route('/approve_bio', methods=["POST"])
+def approve_bio():
+
+    bio_id = request.form.get('bio_id')
+    approved_bio = crud.approve_bio_to_publish(bio_id)
+
+    return redirect(f'/viewheadshots/{approved_bio.show_id}')
+
+@app.route('/deny_bio', methods=["POST"])
+def deny_bio():
+
+    bio_id = request.form.get('bio_id')
+    bio = model.Bio.query.get(bio_id)
+    show_id = bio.show_id
+    bio.show_id = None
+    model.db.session.commit()
+
+    flash(f'Headshot not published. Sent back to {bio.user.fname}{bio.user.lname} for updating.')
+    return redirect(f'/viewheadshots/{show_id}')
+
 
 @app.route('/viewplaybill/<show_id>')
 def viewplaybill(show_id):
@@ -389,7 +430,7 @@ def viewplaybill(show_id):
     return render_template('playbillbase.html', show=show)
     
 
-@app.route('/editplaybill/<show_id>', methods=["POST"])
+@app.route('/editplaybillimage/<show_id>', methods=["POST"])
 def edit_playbill(show_id):
     show = crud.get_show_by_id(show_id)
 

@@ -103,6 +103,7 @@ class Bio(db.Model):
     bio_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'))
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
+    pending = db.Column(db.Boolean, nullable=False, default=True)
     bio = db.Column(db.Text, nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
     
@@ -122,6 +123,7 @@ class Headshot(db.Model):
     headshot_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'))
+    pending = db.Column(db.Boolean, nullable=False, default=True)
     img = db.Column(db.Text, nullable=False, unique=True)
     active = db.Column(db.Boolean, nullable=False, default=True)
 

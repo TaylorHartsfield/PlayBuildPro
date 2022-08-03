@@ -133,6 +133,7 @@ def add_headshot_to_show(headshot_id, show_id):
     for headshots in show.headshots:
         if headshot.user_id == headshots.user_id:
             headshots.show_id = None
+            headshots.pending = True
 
     headshot.show_id = show_id
     model.db.session.add(headshot)
@@ -160,6 +161,15 @@ def delete_headshot(headshot_id):
     return True
 
 
+def approve_headshot_to_publish(headshot_id):
+
+    headshot = model.Headshot.query.get(headshot_id)
+    headshot.pending = False
+    model.db.session.commit()
+
+    return headshot
+
+
 """Bio Functions"""
 
 def add_bio(bio):
@@ -179,6 +189,7 @@ def add_bio_to_show(bio_id, show_id):
       
         if bios.user_id == bio.user_id:
             bios.show_id = None
+            bios.pending = True
 
     bio.show_id = show_id
     model.db.session.add(bio)
@@ -191,6 +202,7 @@ def archive_bio(bio_id):
 
     bio = model.Bio.query.get(bio_id)
     bio.active = False
+    bio.pending = True
     model.db.session.commit()
 
     return bio
@@ -200,6 +212,7 @@ def update_bio(bio_id, update):
 
     bio = model.Bio.query.get(bio_id)
     bio.bio = update
+    bio.pending = True
     model.db.session.commit()
 
     return bio
@@ -214,7 +227,13 @@ def delete_bio(bio_id):
     return True
 
 
+def approve_bio_to_publish(bio_id):
 
+    bio = model.Bio.query.get(bio_id)
+    bio.pending=False
+    model.db.session.commit()
+
+    return bio
 
     
 
