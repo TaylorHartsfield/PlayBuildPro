@@ -1,14 +1,30 @@
 {%extends 'base.html'%}
 {%block title%}{{show.title}} Add Cast {%endblock%}
 {%block body%}
-<h3>{{show.title}} Cast List:
-    <ul>
-        {%for member in cast%}
-        <li>{{member.user.fname}} {{member.user.lname}} - {{member.role}}</li>
-        {%endfor%}
+<h3>{{show.title}} Cast List:</h3>
+<div class="container">
+  <div class="row">
+    <div class="col-4"></div>
+    <div class="col-4">
+      <h5>Actor</h5>
+    </div>
+    <div class="col-4">
+      <h5>Role</h5>
+    </div>
+  </div>
+{%for member in cast%}
+    <div class="row">
+      <div class="col-4">
+        <button type="edit" class="edit-cast" id="{{member.user.user_id}}">Edit Info</button>
+      </div>
+      <div class="col-4">{{member.user.fname}} {{member.user.lname}}</div>
+      <div class="col-4" id="role">{{member.role}}</div>
 
-    </ul>
-</h3>
+    </div>
+    {%endfor%}
+  </div>
+       
+
 <h3>Add Cast Members:</h3>
 <form action="/cast/{{show.show_id}}" method="POST">
 <div class="form-group">
@@ -33,4 +49,5 @@
   </div>
   <input type="submit">
 </form>
+<script src="/static/js/editcast.js"></script>
 {%endblock%}

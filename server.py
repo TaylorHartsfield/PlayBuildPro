@@ -264,6 +264,18 @@ def add_cast(show_id):
         return redirect(f'/cast/{show.show_id}')
 
 
+@app.route('/update_actor', methods=["POST"])
+def udpate_actor():
+
+    user_id = request.json["user_id"]
+    updated_role = request.json["updated_role"]
+
+    if crud.update_actor(user_id, updated_role):
+   
+        return "Success"
+    
+
+
 @app.route('/add_headshot/<user_id>', methods=["POST"])
 def add_headshot(user_id):
    
@@ -443,7 +455,7 @@ def edit_playbill(show_id):
                                             eager = [
                                                     {"width": 528, 
                                                     "height": 588,
-                                                     "crop": "scale"}])
+                                                    "crop": "scale"}])
        
     img_url = image['eager'][0]['url']
     update = crud.update_show_image(show_id, img_url)
