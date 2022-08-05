@@ -1,7 +1,29 @@
 {%extends 'base.html'%}
 
 {%block body%} 
+<form action="/search" method="POST">
+    <input type="input" name="show_title" placeholder="Search for a Show!"/> 
+</form>
+{%if shows%}
+<h3>View Playbills</h3>
+<div class="container">
+{%for show in shows%}
+<div class="row">
+    <div class="col-4">
+        <a href="/viewplaybill/{{show.show_id}}">{{show.title}}</a>
+    </div>
+    <div class="col-4">
+        {{show.company.name}}<br>
+        {{show.company.city}}
+    </div>
+    <div class="col-4">
+        {{show.opening_night}} - {{show.closing_night}}
+    </div>
+</div>
 
+{%endfor%}
+</div>
+{%endif%}
 <img src="/static/img/broadway.jpeg">
 
 {%endblock%}

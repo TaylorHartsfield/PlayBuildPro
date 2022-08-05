@@ -144,7 +144,9 @@
     {%for show in user.cast%}
     {%if show.shows.active == True%}
     <li>
+      {%if show.shows.company.logo != none %}
     <img src="{{show.shows.company.logo}}">
+      {%endif%}
     {{show.shows.title}} <strong>Role:</strong><i>{{show.role}}</i> <strong>ADMIN:</strong><i> {{show.admin}}</i> 
     {%if show.admin == True%}
     <button type="submit"><a href="/cast/{{show.show_id}}">Add Cast</a></button>

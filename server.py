@@ -18,7 +18,7 @@ app.secret_key='test'
 
 @app.route('/')
 def homepage():
-    return render_template('homepage.html')
+    return render_template("homepage.html")
 
 @app.route('/login')
 def login_page():
@@ -91,6 +91,18 @@ def register_user():
     flash(f'Break a leg, {fname}!', category='success')
     return redirect(f'/user_profile/{new_user.user_id}')
 
+@app.route('/search', methods=["POST"])
+def search_show():
+
+    title = request.form.get("show_title")
+    shows = crud.search_shows(title)
+
+    if not shows:
+        flash("No show by that title! Search again.")
+        return redirect('/')
+
+    return render_template("homepage.html", shows=shows)
+
 
 @app.route('/register_show')
 def register_show_form():
@@ -114,6 +126,8 @@ def register_show():
     zip_code = request.form.get("zip_code")
     website = request.form.get("website")
     logo = request.files['logo']
+    print(logo)
+    print(logo.filename)
     
 
     """Get Show Information from Form"""
@@ -127,7 +141,7 @@ def register_show():
     
     if not company_exists:
 
-        if logo != None:
+        if logo.filename != '':
             print(logo)
     
             logo  = cloudinary.uploader.upload(logo,
@@ -143,10 +157,13 @@ def register_show():
             logo_url = logo['eager'][0]['url']
     
         
-        new_company = crud.register_new_company(company_name, theater_name, city, state, zip_code, website, logo_url)
-        model.db.session.add(new_company)
-        model.db.session.commit()
-        
+            new_company = crud.register_new_company(company_name, theater_name, city, state, zip_code, website, logo_url)
+            model.db.session.add(new_company)
+            model.db.session.commit()
+        else:
+            new_company = crud.register_new_company(company_name, theater_name, city, state, zip_code, website, logo=None)
+            model.db.session.add(new_company)
+            model.db.session.commit()
       
         new_show = crud.register_new_show(title, opening_night, closing_night)
         new_show.company_id = new_company.company_id

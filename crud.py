@@ -47,6 +47,14 @@ def archive_show(show_id, user_id):
     
     return False
 
+
+def search_shows(title):
+   
+
+    shows = model.Show.query.filter_by(title=title).all()
+
+    return shows
+
 """All Company Functions"""
 
 def register_new_company(name, theater_name, city, state, zip_code, website, logo):
