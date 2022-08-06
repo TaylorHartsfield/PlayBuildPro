@@ -4,6 +4,8 @@
 <h3>{{show.title}} Cast List:</h3>
 <div class="container">
   <div class="row">
+<div class="col-6">
+  <div class="row">
     <div class="col-4"></div>
     <div class="col-4">
       <h5>Actor</h5>
@@ -23,7 +25,23 @@
     </div>
     {%endfor%}
   </div>
-       
+
+<div class="col-6">
+  <div class="row">
+    New Submissions
+  </div>
+  <div class="row">
+    Invite Company
+  </div>
+  <div class="row">
+    Update Playbill
+  </div>
+  <div class="row">
+    View Playbill
+  </div>
+</div>
+</div>
+</div>
 
 <h3>Add Cast Members:</h3>
 <form action="/cast/{{show.show_id}}" method="POST">
@@ -49,5 +67,6 @@
   </div>
   <input type="submit">
 </form>
+</div>
 <script src="/static/js/editcast.js"></script>
 {%endblock%}

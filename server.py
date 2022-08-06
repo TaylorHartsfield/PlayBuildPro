@@ -231,6 +231,19 @@ def user_profile(user_id):
     
     return render_template("user_profile.html", user=user)
 
+@app.route('/updateshow/<show_id>')
+def update_show(show_id):
+
+    show = crud.get_show_by_id(show_id)
+    user = crud.get_user_by_id(session['user'])
+    is_admin = crud.is_admin(show_id, session['user'])
+
+    headshot = crud.get_user_headshot_for_show(user, show)
+    bio = crud.get_user_bio_for_show(user,show)
+    role = crud.get_role(show, user)
+
+    return render_template("update_show.html", show=show, admin=is_admin, user=user, headshot=headshot, bio=bio, role=role)
+
 
 @app.route('/cast/<show_id>')
 def cast(show_id):
@@ -248,7 +261,6 @@ def cast(show_id):
 
     return render_template("add_cast.html", show=show, cast=cast)
     
-
 
 @app.route('/cast/<show_id>', methods=["POST"])
 def add_cast(show_id):
@@ -297,7 +309,8 @@ def udpate_actor():
 def add_headshot(user_id):
    
     headshot = request.files['headshot']
-    
+    show_id = request.form.get('show')
+
     image = cloudinary.uploader.upload(headshot,
                                         api_key=CLOUDINARY_KEY,
                                         api_secret=CLOUDINARY_SECRET,
@@ -315,19 +328,22 @@ def add_headshot(user_id):
 
     model.db.session.add(headshot)
     headshot.user_id = user_id
+    headshot.show_id = show_id
     model.db.session.commit()
-    
-    return redirect(f"/user_profile/{headshot.user_id}")
+
+    flash('Headshot Added!')
+    return redirect(f"/updateshow/{headshot.show_id}")
 
 
-@app.route('/add_headshot_to_show', methods=["POST"])
-def add_headshot_to_show():
-    
-    [show_id, headshot_id] = request.form.get('showPicker').split(" ")
-    headshot = crud.add_headshot_to_show(headshot_id, show_id)
+@app.route('/update_headshot/<headshot_id>', methods=["POST"])
+def update_headshot(headshot_id):
 
-    flash(f'Headshot sent to {headshot.shows.title} for approval!')
-    return redirect(f'/user_profile/{headshot.user_id}')
+    new_headshot = request.files['headshot']
+
+    headshot = crud.update_headshot(headshot_id, new_headshot)
+
+    flash(f'Headshot udpated!')
+    return redirect(f'/updateshow/{headshot.show_id}')
 
 
 @app.route('/approve_headshot', methods=["POST"])
@@ -336,7 +352,6 @@ def approve_headshot():
     headshot_id = request.form.get('headshot_id')
     approved_headshot = crud.approve_headshot_to_publish(headshot_id)
     
-
     return redirect(f'/viewheadshots/{approved_headshot.show_id}')
 
 @app.route('/deny_headshot', methods=["POST"])
@@ -351,80 +366,31 @@ def deny_headshot():
     flash(f'Headshot not published. Sent back to {headshot.user.fname}{headshot.user.lname} for updating.')
     return redirect(f'/viewheadshots/{show_id}')
 
-@app.route('/archive_headshot', methods=["POST"])
-def archive_headshot():
-
-    headshot_id = request.form.get('archive')
-    crud.archive_headshot(headshot_id)
-
-    flash('Your headshot has been archived!')
-    return redirect(f'/user_profile/{session["user"]}')
-
-
-@app.route('/delete_headshot', methods=["POST"])
-def delete_headshot():
-
-    headshot_id = request.form.get('delete')
-    crud.delete_headshot(headshot_id)
-
-    flash('Your headshot has been deleted')
-    return redirect(f'/user_profile/{session["user"]}')
-
 
 """Add Bios to User profile and Set Bios to a specific show"""
 @app.route('/add_bio/<user_id>', methods=["POST"])
 def add_bio(user_id):
 
     bio = request.form.get('bio')
-
+    show_id = request.form.get('show')
     bio = crud.add_bio(bio)
     model.db.session.add(bio)
     bio.user_id = user_id
+    bio.show_id = show_id
     model.db.session.commit()
 
-    return redirect(f'/user_profile/{bio.user_id}')
-
-
-@app.route('/add_bio_to_show', methods=["POST"])
-def add_bio_to_show():
-    
-
-    [show_id, bio_id] = request.form.get('showPicker').split(" ")
-
-    bio = crud.add_bio_to_show(bio_id, show_id)
-
-    flash(f'Bio sent to {bio.shows.title} for approval!')
-    return redirect(f'/user_profile/{bio.user_id}')
+    flash('Bio Added!')
+    return redirect(f'/updateshow/{bio.show_id}')
 
 
 @app.route('/update_bio/<bio_id>', methods=["POST"])
 def update_bio(bio_id):
 
     update = request.form.get('update')
-    crud.update_bio(bio_id, update)
+    bio = crud.update_bio(bio_id, update)
 
-    flash('Your Bio has been updated and sent for approval!')
-    return redirect(f'/user_profile/{session["user"]}')
-
-
-@app.route('/archive_bio', methods=["POST"])
-def archive_bio():
-
-    bio_id = request.form.get('archive')
-    crud.archive_bio(bio_id)
-
-    flash('Your bio has been archived!')
-    return redirect(f'/user_profile/{session["user"]}')
-
-
-@app.route('/delete_bio', methods=["POST"])
-def delete_bio():
-
-    bio_id = request.form.get('delete')
-    crud.delete_bio(bio_id)
-
-    flash('Your bio has been deleted')
-    return redirect(f'/user_profile/{session["user"]}')
+    flash('Your Bio has been updated!')
+    return redirect(f'/updateshow/{bio.show_id}')
 
 
 @app.route('/approve_bio', methods=["POST"])
@@ -476,7 +442,7 @@ def edit_playbill(show_id):
        
     img_url = image['eager'][0]['url']
     update = crud.update_show_image(show_id, img_url)
-   
+
     return redirect(f'/viewplaybill/{show.show_id}')
     
 @app.route('/castlist/<show_id>')

@@ -1,4 +1,11 @@
 import model
+from cloudinary import CloudinaryImage
+import cloudinary.uploader
+import os
+CLOUDINARY_KEY = os.environ['API_KEY']
+CLOUDINARY_SECRET = os.environ['API_SECRET']
+CLOUD_NAME = os.environ['CLOUD_NAME']
+CLOUDINARY_URL= os.environ['CLOUDINARY_URL']
 
 """All Show Functions"""
 
@@ -103,7 +110,13 @@ def is_admin(show_id, user_id=0):
     
     return False
 
-
+def get_role(show, user):
+    
+    for shows in user.cast:
+        print(shows)
+        if shows.show_id == show.show_id:
+            print(shows.role)
+            return shows.role
 
 """All Cast Functions"""
 
@@ -142,40 +155,26 @@ def add_new_headshot(img):
     return headshot
 
 
-def add_headshot_to_show(headshot_id, show_id):
+def update_headshot(current_headshot, new_headshot):
     
-    show = get_show_by_id(show_id)
-    headshot = model.Headshot.query.get(headshot_id)
+    current_headshot = model.Headshot.query.get(current_headshot)
+    
+    upload_new_headshot = cloudinary.uploader.upload(new_headshot,
+                                        api_key=CLOUDINARY_KEY,
+                                        api_secret=CLOUDINARY_SECRET,
+                                        cloud_name=CLOUD_NAME,
+                                        eager = [{"aspect_ratio":"1:1",
+                                                    "gravity": "face",
+                                                    "height":150, 
+                                                    "zoom": "0.75",
+                                                    "crop":"thumb"}])
 
-    for headshots in show.headshots:
-        if headshot.user_id == headshots.user_id:
-            headshots.show_id = None
-            headshots.pending = True
-
-    headshot.show_id = show_id
-    model.db.session.add(headshot)
+  
+    new_headshot_url = upload_new_headshot['eager'][0]['url']
+    current_headshot.img = new_headshot_url
     model.db.session.commit()
 
-    return headshot
-
-#Can I set this to return FALSE if an error occured?
-def archive_headshot(headshot_id):
-
-    headshot = model.Headshot.query.get(headshot_id)
-    headshot.active = False
-    model.db.session.commit()
-
-    return True
-
-
-#Can I set this to return FALSE if an error occured?
-def delete_headshot(headshot_id):
-
-    headshot = model.Headshot.query.get(headshot_id)
-    model.db.session.delete(headshot)
-    model.db.session.commit()
-
-    return True
+    return current_headshot
 
 
 def approve_headshot_to_publish(headshot_id):
@@ -187,6 +186,14 @@ def approve_headshot_to_publish(headshot_id):
     return headshot
 
 
+def get_user_headshot_for_show(user, show):
+
+    for headshot in user.headshots:
+        if headshot.show_id == show.show_id:
+            return headshot
+
+    return None
+
 """Bio Functions"""
 
 def add_bio(bio):
@@ -194,34 +201,6 @@ def add_bio(bio):
     bio = model.Bio(
                     bio=bio)
     
-    return bio
-
-
-def add_bio_to_show(bio_id, show_id):
-    
-    show = get_show_by_id(show_id)
-    bio=model.Bio.query.get(bio_id)
-
-    for bios in show.bios:
-      
-        if bios.user_id == bio.user_id:
-            bios.show_id = None
-            bios.pending = True
-
-    bio.show_id = show_id
-    model.db.session.add(bio)
-    model.db.session.commit()
-
-    return bio
-
-
-def archive_bio(bio_id):
-
-    bio = model.Bio.query.get(bio_id)
-    bio.active = False
-    bio.pending = True
-    model.db.session.commit()
-
     return bio
 
 
@@ -235,15 +214,6 @@ def update_bio(bio_id, update):
     return bio
 
 
-def delete_bio(bio_id):
-
-    bio = model.Bio.query.get(bio_id)
-    model.db.session.delete(bio)
-    model.db.session.commit()
-
-    return True
-
-
 def approve_bio_to_publish(bio_id):
 
     bio = model.Bio.query.get(bio_id)
@@ -252,6 +222,14 @@ def approve_bio_to_publish(bio_id):
 
     return bio
 
+
+def get_user_bio_for_show(user, show):
+
+    for bio in user.bios:
+        if bio.show_id == show.show_id:
+            return bio
+            
+    return None
     
 
 

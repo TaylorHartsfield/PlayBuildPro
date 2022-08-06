@@ -1,0 +1,119 @@
+{%extends 'base.html'%}
+
+{%block body%}
+<div class="container">
+    <div class="row">
+        <div class="col-6">
+            <h2>{{user.fname}} {{user.lname}}</h2>
+            <h3>{{role}}</h3>
+            {%if admin%}
+            <a href="/approvesubmits">Approve Updates</a>
+            <a href="/invitecompany">Invite Company Members</a>
+            <a href="/editcompany">Edit Company Member Information</a>
+            {%else%}
+            {%if headshot and bio%}
+<div class="row">
+    <div class="col-6">
+      <img src="{{headshot.img}}"><br>
+    <label for="update_headshot">Update Headshot</label>
+    <form action="/update_headshot/{{headshot.headshot_id}}" id="update_headshot" method="POST" enctype="multipart/form-data">
+        <input id="add_headshot" type="file" name="headshot" required>
+        <input type="hidden" name="show" value="{{show.show_id}}">
+        <input type="submit">
+      </form>
+    </div>
+</div>
+<div class="row">
+    <div class="col-6">
+        {{bio.bio}}
+    </div>
+    <form action="/update_bio/{{bio.bio_id}}" method="POST">
+        <textarea name="update" maxlength="375" cols="33" required>{{bio.bio}}</textarea>
+        <button type="submit" class="btn btn-outline-warning">Edit Bio</button>
+    </form>
+</div>
+{%elif headshot or bio%}
+    {%if headshot%}
+<div class="row">
+    <div class="col-6">
+      <img src="{{headshot.img}}"><br>
+    <label for="update_headshot">Update Headshot</label>
+    <form action="/update_headshot/{{headshot.headshot_id}}" id="update_headshot" method="POST" enctype="multipart/form-data">
+        <input id="add_headshot" type="file" name="headshot" required>
+        <input type="hidden" name="show" value="{{show.show_id}}">
+        <input type="submit">
+      </form>
+    </div>
+</div>
+<div class="col-6">
+    <h3><label for="add_bio">Add Bio</label></h3>
+    <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
+      <textarea name="bio" maxlength="375" cols="33" required></textarea>
+      <input type="hidden" name="show" value="{{show.show_id}}">
+      <input type="submit">
+    </form>
+  </div>
+  {%endif%}
+{%if bio%}
+<div class="row">
+    <div class="col-6">
+        {{bio.bio}}
+    </div>
+    <form action="/update_bio/{{bio.bio_id}}" method="POST">
+        <textarea name="update" maxlength="375" cols="33" required>{{bio.bio}}</textarea>
+        <button type="submit" class="btn btn-outline-warning">Edit Bio</button>
+    </form>
+</div>
+<div class="col-6">
+    <h3><label for="add_headshot">Add Headshot:</label></h3>
+    <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
+        <input id="add_headshot" type="file" name="headshot" required>
+        <input type="hidden" name="show" value="{{show.show_id}}">
+        <input type="submit">
+    </form>
+  </div>
+{%endif%}
+{%else%}
+<div class="container">
+    <div class="row">
+      <div class="col-6">
+        <h3><label for="add_headshot">Add Headshot:</label></h3>
+        <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
+            <input id="add_headshot" type="file" name="headshot" required>
+            <input type="hidden" name="show" value="{{show.show_id}}">
+            <input type="submit">
+        </form>
+      </div>
+      <div class="col-6">
+        <h3><label for="add_bio">Add Bio</label></h3>
+        <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
+          <textarea name="bio" maxlength="375" cols="33" required></textarea>
+          <input type="hidden" name="show" value="{{show.show_id}}">
+          <input type="submit">
+        </form>
+      </div>
+    </div>
+  </div>
+{%endif%}
+{%endif%}
+
+
+        </div>
+        <div class="col-6 offset-6">
+            <h3>{{show.title}}</h3>
+            <h2>{{show.company.name}}</h2>
+            <h2>{{show.opening_night}} - {{show.closing_night}}</h2>
+            <a href="/viewplaybill/{{show.show_id}}">View Playbill</a>
+            {%if show.image != none%}
+            <img src={{show.image}}>
+            {%endif%}
+ 
+        </div>
+    
+    </div>
+  
+
+
+
+</div>
+{%endblock%}

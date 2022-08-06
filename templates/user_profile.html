@@ -3,139 +3,12 @@
 
 {%block body%}
 <div class="container">
-<div class="user_info">
+  <div class="container">
+  <div class="row">
 <h1>Name: {{user.fname}} {{user.lname}}</h1>
 <h3>Email: {{user.email}}</h3>
 </div>
-<br>
-<br>
-<div class="container">
-<h3>Headshot Gallery:</h3>
-  {%if not user.headshots%}
-  <h2>Upload your first headshot!</h2>
-  {%else%}
-  {%for image in user.headshots%}
-    {%if image.active==True%}
-  <div class="row">
-    <div class="col-4">
-      <img src="{{image.img}}">
-    </div>
-    <div class="col-6">
-  {%if image.show_id == none %}
-  Currently Published In: No Show Assigned <br>
-    {%else%}
-  Currently Published In: {{image.shows.title}} <br>
-  {%endif%}
-  <label for="showPicker">Select A Show</label>
-  <form action="/add_headshot_to_show" method="POST">
-    <select id="showPicker" name="showPicker">
-      {%for show in user.cast%}
-      <option value="{{show.show_id}} {{image.headshot_id}}">{{show.shows.title}}</option>
-      {%endfor%}
-      <input type="submit">
-  </select>
-  </form>
-  <form action="/archive_headshot" method="POST">
-    <button name="archive" value="{{image.headshot_id}}" class="btn btn-outline-warning">Archive Headshot</button>
-  </form>
-  <form action="/delete_headshot" method="POST">
-    <button name="delete" value="{{image.headshot_id}}" class="btn btn-outline-danger">Delete Headshot</button>
-  </form>
-  {%endif%}
-</div> 
-    </div>
-    {%endfor%}
-    {%endif%}
-  
 </div>
-<br>
-<div class="container">
-  <div class="row">
-    <div class="col-6">
-      <h3><label for="add_headshot">Add Headshot:</label></h3>
-      <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
-          <input id="add_headshot" type="file" name="headshot">
-          <input type="submit">
-      </form>
-    </div>
-    <div class="col-6">
-      <h3><label for="add_bio">Add Bio</label></h3>
-      <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
-        <textarea name="bio" maxlength="375" cols="33" required></textarea>
-        <input type="submit">
-      </form>
-    </div>
-  </div>
-</div>
-
-  <div class="container">
-    <div class="row">
-      <div class="col-6">
-<h2>Active Bios: </h2>
-      {%if user.bios %}
-      <div class="row">
-      {%for bio in user.bios%}
-      {%if bio.active == True%}
-      {%if bio.show_id != none%}
-      <div class="col-6">
-      <ul class="bios">
-          <li>
-          {{bio.bio}}<br>
-          Currently Published In: {{bio.shows.title}} <br>
-      </li>
-      </ul>
-      </div>
-      <div class="col-6">
-        <form action="/update_bio/{{bio.bio_id}}" method="POST">
-          <textarea name="update" maxlength="375" cols="33" required>{{bio.bio}}</textarea>
-          <button type="submit" class="btn btn-outline-warning">Edit Bio</button>
-        </form>
-        <form action="/archive_bio" method="POST">
-          <button name="archive" value="{{bio.bio_id}}" class="btn btn-outline-warning">Archive Bio</button>
-        </form>
-        <form action="/delete_bio" method="POST">
-          <button name="delete" value="{{bio.bio_id}}" class="btn btn-outline-danger">Delete Bio</button>
-        </form>
-      </div>
-      {%endif%}
-        {%endif%}
-    {%endfor%}
-    {%endif%}
-</div>
-</div>
-<div class="col-6">
-  <h2>Unassigned Bios:</h2>
-  {%for bio in user.bios%}
-  {%if bio.show_id == none %}
-  <ul class="bios">
-    <li>
-    {{bio.bio}}<br>
-    Currently Published In: {{bio.shows.title}} <br>
-    <label for="showPicker">Select A Show</label>
-    <form action="/add_bio_to_show" method="POST">
-      <select id="showPicker" name="showPicker">
-        {%for show in user.cast%}
-        <option value="{{show.show_id}} {{bio.bio_id}}">{{show.shows.title}}</option>
-        {%endfor%}
-        <input type="submit">
-    </select>
-  </form>
-</li>
-</ul>
-{%endif%}
-    {%endfor%}
-
-
-    
-</div>
-</div>
-</div>
-
-
-
-  </div>
- 
-
 <div class="container">
   <div class="row">
     <div class="col-6">
@@ -147,7 +20,7 @@
       {%if show.shows.company.logo != none %}
     <img src="{{show.shows.company.logo}}">
       {%endif%}
-    {{show.shows.title}} <strong>Role:</strong><i>{{show.role}}</i> <strong>ADMIN:</strong><i> {{show.admin}}</i> 
+    <a href='/updateshow/{{show.shows.show_id}}'>{{show.shows.title}}</a> <strong>Role:</strong><i>{{show.role}}</i> <strong>ADMIN:</strong><i> {{show.admin}}</i> 
     {%if show.admin == True%}
     <button type="submit"><a href="/cast/{{show.show_id}}">Add Cast</a></button>
     {%endif%}
@@ -172,7 +45,6 @@
 </div>
 </div>
 </div>
-</div>
-</div>
+
 </div>
 {%endblock%}
