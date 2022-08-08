@@ -10,12 +10,13 @@ CLOUDINARY_URL= os.environ['CLOUDINARY_URL']
 """All Show Functions"""
 
 
-def register_new_show(title, opening_night, closing_night):
+def register_new_show(title, opening_night, closing_night, theater_name):
     
     new_show = model.Show(
                         title=title, 
                         opening_night=opening_night,
-                        closing_night=closing_night)
+                        closing_night=closing_night,
+                        theater_name=theater_name)
     
     return new_show
 
@@ -64,11 +65,10 @@ def search_shows(title):
 
 """All Company Functions"""
 
-def register_new_company(name, theater_name, city, state, zip_code, website, logo):
+def register_new_company(name, city, state, zip_code, website, logo):
 
     new_company = model.Company(
                                 name=name,
-                                theater_name=theater_name,
                                 city=city,
                                 state=state,
                                 zip_code=zip_code,
@@ -95,17 +95,11 @@ def get_user_by_email(email):
 
     return user
 
-def get_user_by_id(user_id):
-
-    user = model.User.query.get(user_id)
-
-    return user
-
-def is_admin(show_id, user_id=0):
+def is_admin(show_id, user):
 
     admin = model.Cast.query.filter_by(show_id = show_id, admin=True).all()
     for admin_account in admin:
-        if admin_account.user_id == user_id:
+        if admin_account.user_id == user.user_id:
             return True
     
     return False
@@ -172,6 +166,7 @@ def update_headshot(current_headshot, new_headshot):
   
     new_headshot_url = upload_new_headshot['eager'][0]['url']
     current_headshot.img = new_headshot_url
+    current_headshot.pending = True
     model.db.session.commit()
 
     return current_headshot
@@ -217,7 +212,7 @@ def update_bio(bio_id, update):
 def approve_bio_to_publish(bio_id):
 
     bio = model.Bio.query.get(bio_id)
-    bio.pending=False
+    bio.pending = False
     model.db.session.commit()
 
     return bio
@@ -232,6 +227,19 @@ def get_user_bio_for_show(user, show):
     return None
     
 
+
+"""Admin Functions"""
+
+def new_submissions(show):
+
+    for headshot in show.headshots:
+        if headshot.pending == True:
+            return True
+    for bio in show.bios:
+        if bio.pending == True:
+            return True
+    
+    return False
 
 
 

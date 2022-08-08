@@ -22,7 +22,7 @@
             </li>
             {%if 'user' in session%}
             <li class="nav-item">
-              <a class="nav-link" href="/user_profile/{{session['user']}}">Profile</a>
+              <a class="nav-link" href="/user_profile">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/register_show">Register Show</a>
@@ -33,10 +33,7 @@
             {%endif%}
             {%if 'user' not in session%}
             <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register_user">Register</a>
+              <a class="nav-link" href="/login">Login/Register</a>
             </li>
             {%endif%}
         </div>

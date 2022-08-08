@@ -9,17 +9,6 @@
             {%for headshot in show.headshots%}
                 {%if headshot.user_id == actor.user.user_id and headshot.pending==false%}
                 <img src="{{headshot.img}}">
-                {%elif headshot.user_id == actor.user.user_id and headshot.pending == true%}
-                <img class="pending_publish" src="{{headshot.img}}">
-                <p>Pending Approval</p>
-                <form action='/approve_headshot' method="POST">
-                    <button name="headshot_id" type="submit" value="{{headshot.headshot_id}}">Approve</button>
-                </form>
-                <form action='/deny_headshot' method="POST">
-                    <button name="headshot_id" type="submit" value="{{headshot.headshot_id}}">Deny</button>
-                </form>
-                {%else%}
-                
                 {%endif%}
             {%endfor%}
         </div>
@@ -27,17 +16,7 @@
             {%for bio in show.bios%}
                 {%if bio.user_id == actor.user.user_id and bio.pending == false%}
                 <p>{{bio.bio}}</p>
-                {%elif bio.user_id == actor.user.user_id and bio.pending == true%}
-                <p class="pending_publish">{{bio.bio}}</p>
-                <p>Pending Approval</p> 
-                <form action='/approve_bio' method="POST">
-                    <button name="bio_id" type="submit" value="{{bio.bio_id}}">Approve</button>
-                </form>
-                <form action='/deny_bio' method="POST">
-                    <button name="bio_id" type="submit" value="{{bio.bio_id}}">Deny</button>
-                </form>
-                {%else%}
-                
+
                 {%endif%}
             {%endfor%}
         </div>

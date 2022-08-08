@@ -16,6 +16,8 @@ class Show(db.Model):
     closing_night = db.Column(db.Date, nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
     image = db.Column(db.Text, unique=True)
+    tickets = db.Column(db.Text)
+    theater_name = db.Column(db.String)
 
     """Relationship to Company Table"""
     company = db.relationship("Company", backref="shows")
@@ -39,15 +41,15 @@ class User(db.Model):
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False, unique=True)
-    password_hash = db.Column(db.String(200))
+    # password_hash = db.Column(db.String(200))
 
-    """Function to hash user password for DB"""
-    def hash_password(self, password):
-        self.password_hash = generate_password_hash(password)
+    # """Function to hash user password for DB"""
+    # def hash_password(self, password):
+    #     self.password_hash = generate_password_hash(password)
     
-    """Function to check password hash for login authentication"""
-    def check_password(self, password):
-        return check_password_hash(self.password_hash, password)
+    # """Function to check password hash for login authentication"""
+    # def check_password(self, password):
+    #     return check_password_hash(self.password_hash, password)
     
 
     def __repr__(self):
@@ -85,7 +87,6 @@ class Company(db.Model):
     city = db.Column(db.String(200), nullable=False)
     state = db.Column(db.String(100), nullable=False)
     zip_code = db.Column(db.String(25), nullable=False)
-    theater_name = db.Column(db.String)
     website = db.Column(db.Text)
     logo = db.Column(db.Text)
 
@@ -105,7 +106,7 @@ class Bio(db.Model):
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'), nullable=False)
     pending = db.Column(db.Boolean, nullable=False, default=True)
     bio = db.Column(db.Text, nullable=False)
-    active = db.Column(db.Boolean, nullable=False, default=True)
+    active = db.Column(db.Boolean, nullable=False, default=False)
     
     """Relationship to User Table"""
     user = db.relationship("User", backref="bios")
@@ -125,7 +126,7 @@ class Headshot(db.Model):
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'), nullable=False)
     pending = db.Column(db.Boolean, nullable=False, default=True)
     img = db.Column(db.Text, nullable=False, unique=True)
-    active = db.Column(db.Boolean, nullable=False, default=True)
+    active = db.Column(db.Boolean, nullable=False, default=False)
 
     # """Relationship to User Table"""
     user = db.relationship("User", backref="headshots")

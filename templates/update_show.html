@@ -7,9 +7,11 @@
             <h2>{{user.fname}} {{user.lname}}</h2>
             <h3>{{role}}</h3>
             {%if admin%}
-            <a href="/approvesubmits">Approve Updates</a>
-            <a href="/invitecompany">Invite Company Members</a>
-            <a href="/editcompany">Edit Company Member Information</a>
+            {%if new_submissions%}
+            <div class="row"><a href="/approvesubmits/{{show.show_id}}">New Submissions Need Review!</a></div>
+            {%endif%}
+            <div class="row"><a href="/invitecompany/{{show.show_id}}">Invite Company Members</a></div>
+            <div class="row"><a href="/editcompany">Edit Company Member Information</a></div>
             {%else%}
             {%if headshot and bio%}
 <div class="row">
@@ -54,7 +56,7 @@
     </form>
   </div>
   {%endif%}
-{%if bio%}
+{%if bio and not admin%}
 <div class="row">
     <div class="col-6">
         {{bio.bio}}
@@ -100,6 +102,10 @@
 
         </div>
         <div class="col-6 offset-6">
+            {%block edit%}
+            {%if admin%}
+            <a href="/editshowinfo/{{show.show_id}}">Edit Show Info</a>
+            {%endif%}
             <h3>{{show.title}}</h3>
             <h2>{{show.company.name}}</h2>
             <h2>{{show.opening_night}} - {{show.closing_night}}</h2>
@@ -107,6 +113,7 @@
             {%if show.image != none%}
             <img src={{show.image}}>
             {%endif%}
+            {%endblock%}
  
         </div>
     

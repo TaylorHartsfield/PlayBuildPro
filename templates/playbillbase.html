@@ -22,7 +22,7 @@
             </li>
             {%if 'user' in session%}
             <li class="nav-item">
-              <a class="nav-link" href="/user_profile/{{session['user']}}">Profile</a>
+              <a class="nav-link" href="/user_profile">Profile</a>
             </li>
             <li class="nav-item">
               <a class="nav-link" href="/register_show">Register Show</a>
@@ -41,10 +41,7 @@
             {%endif%}
         </div>
       </nav>
-      <form action="/editplaybillimage/{{show.show_id}}" method="POST" enctype="multipart/form-data">
-        <input id="image" type="file" name="image">
-        <input type="submit">
-    </form>
+      
     <div class="container" id="playbillContainer">
         <div class="playbillBase">
             <div class="pager-prev pager-prev-disabled"></div>
