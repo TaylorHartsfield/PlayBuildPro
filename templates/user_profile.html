@@ -1,14 +1,21 @@
-{%extends 'base.html'%}
+{%extends 'base.html'%} 
 {%block title%}{{user.fname}}'s Profile{%endblock%}
+
+{%block head%}
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+{%endblock%}
+
+
 
 {%block body%}
 <div class="container">
-  <div class="container">
-  <div class="row">
-<h1>Name: {{user.fname}} {{user.lname}}</h1>
-<h3>Email: {{user.email}}</h3>
-</div>
-</div>
+  
+  <div id="userInfo"></div>
+
+
+
 <div class="container">
   <div class="row">
     <div class="col-6">
@@ -47,4 +54,5 @@
 </div>
 
 </div>
+<script src="/static/js/UserInfo.jsx" type="text/jsx"></script>
 {%endblock%}

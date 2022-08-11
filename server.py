@@ -1,4 +1,4 @@
-from flask import Flask, render_template, request, redirect, flash, session, url_for
+from flask import Flask, render_template, request, redirect, flash, session, url_for, jsonify
 import model
 import crud
 from datetime import datetime, date
@@ -10,6 +10,7 @@ import http.client
 import json
 import os
 import requests
+
 
 app = Flask(__name__)
 app.secret_key=os.environ['APP_SECRET_KEY']
@@ -25,6 +26,7 @@ oauth.register(
     },
     server_metadata_url=f'https://{os.environ["AUTH0_DOMAIN"]}/.well-known/openid-configuration'
 )
+NEW_USER_MANAGEMENT_TOKEN = ""
 
 # Cloudinary Configs
 CLOUDINARY_KEY = os.environ['API_KEY']
@@ -204,48 +206,7 @@ def register_show():
     flash('Show registered!')
     return redirect('/register_show')
     
-    # new_show = crud.register_new_show(title, opening_night, closing_night, theater_name) 
-    # model.db.session.add(new_show)
-    # new_show.company_id = company_exists.company_id
-    # model.db.session.commit()
-
-    # #Set Admin TRUE for user that is registering the show
-    # admin = crud.get_user_by_email(session['user']['userinfo']['email'])
-    # show_admin = crud.add_to_cast("Admin", True)
-    
-    # add_admin_to_show.user_id = admin.user_id
-
-    # model.db.session.add(add_admin_to_show)
-    # model.db.session.commit()
-
-
-    # flash('Show registered!')
-    # return redirect('/register_show')
-
-
-    # if company_exists:
-        
-
-    #     for show in company_exists.shows:
-    #         if show.title == title and show.opening_night == opening_night:   
-    #             flash(f'This show is already registered with {company_exists.name}!')
-    #             return redirect('/register_show')
-
-
-       
-    #     new_show = crud.register_new_show(title, opening_night, closing_night, theater_name)
-    #     new_show.company_id = company_exists.company_id
-    #     model.db.session.add(new_show)
-    #     model.db.session.commit()
-
-    #     admin = crud.get_user_by_email(session['user']['userinfo']['email'])
-    #     add_admin_to_show = crud.add_to_cast('Admin', True)
-    #     add_admin_to_show.show_id = new_show.show_id
-    #     add_admin_to_show.user_id = admin.user_id
-    #     model.db.session.add(add_admin_to_show)
-    #     model.db.session.commit()
-    #     flash('Show registered!')
-    #     return redirect('/register_show')
+ 
 
 @app.route('/editshowinfo/<show_id>')
 def edit_show_info(show_id):
@@ -264,6 +225,51 @@ def update_show_info(show_id):
     return redirect(f'/editshowinfo/{show.show_id}')
 
 
+
+
+
+
+@app.route('/api/userinfo')
+def get_user_info():
+    """Return user information from database"""
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+  
+    return jsonify ({
+                "fname": f"{user.fname}",
+                "lname": f"{user.lname}",
+                "email": f"{user.email}"
+    })
+
+@app.route('/updateuser', methods=["POST"])
+def update_user_info():
+    """Update User first name and last name to DB."""
+    
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+
+    fname = request.json.get('fname')
+    lname = request.json.get('lname')
+
+    if user.fname != fname:
+        user.fname = fname
+
+    if user.lname != lname:
+        user.lname = lname
+
+    model.db.session.commit()
+
+    return {
+        "success": True,
+        "status": f"Your information has been updated. Break a leg, {user.fname} {user.lname}!"
+    }
+
+
+
+
+
+
+
+
+ 
 
 @app.route('/user_profile')
 def user_profile():
@@ -351,49 +357,45 @@ def add_cast(show_id):
         fname = request.form.get('fname')
         lname = request.form.get('lname')
 
+    
         conn = http.client.HTTPSConnection(os.environ['AUTH0_MGMT_DOMAIN'])
         payload = f"grant_type=client_credentials&client_id={os.environ['AUTH0_MGMT_CLIENT_ID']}&client_secret={os.environ['AUTH0_MGMT_CLIENT_SECRET']}&audience={os.environ['AUTH0_MGMT_IDENTIFIER']}"
         
-        # # payload = {
-        #     "grant_type": "client_credentials",
-        #     "client_id": os.environ['AUTH0_MGMT_CLIENT_ID'],
-        #     "client_secret": os.environ['AUTH0_MGMT_CLIENT_SECRET'],
-        #     "audience": os.environ['AUTH0_MGMT_IDENTIFIER']
-        # }
+        headers = {
+            'content-type': "application/x-www-form-urlencoded" 
+        }
 
-        # access_token = requests.post( "/dev-l30b7cri.us.auth0.com/oauth/token", params=payload)
-        # print(access_token)
-        headers = { 'content-type': "application/x-www-form-urlencoded" }
-
-        conn.request("POST", "/oauth/token", payload, headers)
+        conn.request("POST", f"https://{os.environ['AUTH0_MGMT_DOMAIN']}/oauth/token", payload, headers)
         res = conn.getresponse()
         data = res.read()
-        print(data.decode("utf-8"))
+        new_data = data.decode('utf=8')
+        access_token = json.loads(new_data).get('access_token')
+    
 
+        new_conn = http.client.HTTPConnection(os.environ['AUTH0_DOMAIN'])
+        user_payload = {
+            "email": request.form.get("email"),
+            "email_verified": False,
+            "given_name": fname,
+            "family_name": lname,
+            "connection": "Initial-Connection",
+        }
 
-        # print(token_payload)
-        # # token_url = f"https://{os.environ['AUTH0_MGMT_DOMAIN']}"
-        # token_url = "https://dev-l30b7cri.us.auth0.com/oauth/token"
-        # access_token_request = requests.post(token_url, params=token_payload)
-        # res = access_token_request.json()
-        # print(res)
-        # access_token = res.get('access_token')
-        # print(access_token)
+    
+        user_headers = {
+            'Authorization': f'Bearer {access_token}',
+            "cache-control": "no-cache",
+            "content-type": "application/json; charset=utf-8",
+        }
+        
+        
+        new_conn.request("GET", "/api/v2/users", urlencode(user_payload), user_headers)
+        new_user = conn.getresponse()
+        # new_user_info = new_user.read()
+        # new_user_info = new_user_info.decode('utf-8')
+        # print(new_user_info)
 
-
-        # payload = {
-        #     "authorization": f"Bearer {access_token}"
-        #     "email": request.form.get("email"),
-        #     "email_verified": False,
-        #     "given_name": fname,
-        #     "family_name": lname,
-        #     "connection": "con_o2LNjLSA03YHao8l",
-        # }
-        # url = f'https://{os.environ["AUTH0_DOMAIN"]}/api/v2/users'
-
-        # new_user = requests.post(url, params=payload)
-        # print(new_user)
-        # flash(f'{fname} has been invited to {show.title}!')
+        flash(f'{fname} has been invited to {show.title}!')
         return redirect(f'/invitecompany/{show_id}')
 
     already_added = crud.check_for_user_in_show(user, show_id)
