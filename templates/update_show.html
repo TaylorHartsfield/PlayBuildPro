@@ -1,7 +1,27 @@
 {%extends 'base.html'%}
 
+{%block title%}{{show.title}}{%endblock%}
+
+{%block head%}
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+{%endblock%}
+
+
 {%block body%}
 <div class="container">
+  <div id="userActions"></div>
+  <div id="showEdits"></div>
+
+
+
+
+
+
+
+
+
     <div class="row">
         <div class="col-6">
             <h2>{{user.fname}} {{user.lname}}</h2>
@@ -100,22 +120,7 @@
 {%endif%}
 
 
-        </div>
-        <div class="col-6 offset-6">
-            {%block edit%}
-            {%if admin%}
-            <a href="/editshowinfo/{{show.show_id}}">Edit Show Info</a>
-            {%endif%}
-            <h3>{{show.title}}</h3>
-            <h2>{{show.company.name}}</h2>
-            <h2>{{show.opening_night}} - {{show.closing_night}}</h2>
-            <a href="/viewplaybill/{{show.show_id}}">View Playbill</a>
-            {%if show.image != none%}
-            <img src={{show.image}}>
-            {%endif%}
-            {%endblock%}
- 
-        </div>
+     
     
     </div>
   
@@ -123,4 +128,5 @@
 
 
 </div>
+<script src="/static/js/ShowEdits.jsx" type="text/jsx"></script>
 {%endblock%}

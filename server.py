@@ -206,15 +206,51 @@ def register_show():
     flash('Show registered!')
     return redirect('/register_show')
     
- 
 
-@app.route('/editshowinfo/<show_id>')
-def edit_show_info(show_id):
+@app.route('/api/showInfo')
+def get_show_info():
+
+    show = crud.get_show_by_id(session['show_id'])
+    print(show, '***************************************')
+
+    return jsonify({
+        "title": f"{show.title}",
+        "company": f"{show.company.name}",
+        "opening_night": f"{show.opening_night}",
+        "closing_night": f"{show.closing_night}",
+        "image": f"{show.image}",
+        "active": f"{show.active}",
+        "tickets": f"{show.tickets}",
+        "theater_name": f"{show.theater_name}",
+        "show_id": f"{show.show_id}"
+
+    })
+
+@app.route('/updateShowInfo', methods=["POST"])
+def edit_show_info():
     
-    show = crud.get_show_by_id(show_id)
-    company = show.company
+    show = crud.get_show_by_id(session['show_id'])
 
-    return render_template('editshowinfo.html', show=show, company=company)
+    title = request.json.get('title')
+    company = request.json.get('company')
+    opening_night = request.json.get('opening_night')
+    closing_night = request.json.get('closing_night')
+
+
+    if show.title != title:
+        show.title = title
+    if show.company.name != company:
+        show.company.name = company
+    if show.opening_night != opening_night:
+        show.opening_night = opening_night
+    if show.closing_night != closing_night:
+        show.closing_night = closing_night
+
+    model.db.session.commit()
+
+    return jsonify({
+        "success": True
+    })
 
 @app.route('/editshowinfo/<show_id>', methods=["POST"])
 def update_show_info(show_id):
@@ -252,10 +288,9 @@ def update_user_info():
         user.lname = lname
 
     model.db.session.commit()
-
+    
     return {
         "success": True,
-        "status": f"Your information has been updated. Break a leg, {user.fname} {user.lname}!"
     }
 
 
@@ -274,7 +309,7 @@ def get_user_shows():
             "is_admin": show.admin,
             "active": show.shows.active
         })
-    print(shows,'***************')
+
     return jsonify({'shows': shows})
 
 
@@ -318,7 +353,10 @@ def update_show(show_id):
     bio = crud.get_user_bio_for_show(user,show)
     role = crud.get_role(show, user)
     new_submissions = crud.new_submissions(show)
-    print(new_submissions)
+    
+
+    session['show_id'] = show.show_id
+    
     return render_template("update_show.html", show=show, admin=is_admin, 
                                                user=user, headshot=headshot, 
                                                bio=bio, role=role,
@@ -545,10 +583,10 @@ def deny_bio():
     return redirect(f'/viewheadshots/{show_id}')
 
 
-@app.route('/viewplaybill/<show_id>')
-def viewplaybill(show_id):
+@app.route('/viewplaybill/')
+def viewplaybill():
 
-    show = crud.get_show_by_id(show_id)
+    show = crud.get_show_by_id(session['show_id'])
     if show==None:
         flash('Oops, something went wrong here!')
         return redirect('/')
@@ -556,9 +594,9 @@ def viewplaybill(show_id):
     return render_template('playbillbase.html', show=show)
     
 
-@app.route('/editplaybillimage/<show_id>', methods=["POST"])
-def edit_playbill(show_id):
-    show = crud.get_show_by_id(show_id)
+@app.route('/editplaybillimage', methods=["POST"])
+def edit_playbill():
+    show = crud.get_show_by_id(session['show_id'])
 
     image = request.files['image']
     
@@ -572,9 +610,9 @@ def edit_playbill(show_id):
                                                     "crop": "scale"}])
        
     img_url = image['eager'][0]['url']
-    update = crud.update_show_image(show_id, img_url)
+    update = crud.update_show_image(show.show_id, img_url)
 
-    return redirect(f'/viewplaybill/{show.show_id}')
+    return redirect(f'/updateshow/{show.show_id}')
     
 @app.route('/castlist/<show_id>')
 def playbill_castlist(show_id):

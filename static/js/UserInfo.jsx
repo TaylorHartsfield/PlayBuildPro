@@ -2,7 +2,7 @@ function ShowUserInfo() {
 
     const [fName, setFName] = React.useState('');
     const [lName, setLName] = React.useState('');
-    const [email, setEmail] = React.useState('')
+    const [email, setEmail] = React.useState('');
     const [isEditing, setIsEditing] = React.useState(false);
 
     React.useEffect(()=> {
@@ -31,7 +31,6 @@ function ShowUserInfo() {
         })
         .then((response) => response.json())
         .then((responseJSon) => {
-            alert(responseJSon.status);
             setIsEditing(false)
         })
     }
@@ -50,21 +49,24 @@ function ShowUserInfo() {
 
     
     function renderViewUserInfo(){
-        return <div>
+        return (
+        <div>
         <h1>User Name: {fName} {lName}</h1>
         <h4>User Email: {email} </h4>
         <button type="button" onClick={handleOnClick}>Edit User Info</button>
     </div>
+    )
     }
 
+  
     function renderEditUserInfo(){
-        return <div>
-            
-                <input type="text" placeholder={fName} value={fName} onChange={handleFNameChange}></input>
-                <input type="text" placeholder={lName} value={lName} onChange={handleLNameChange}></input>
+        return (
+            <div>
+                <input type="text" placeholder={fName} value={fName} onChange={handleFNameChange}/>
+                <input type="text" placeholder={lName} value={lName} onChange={handleLNameChange}/>
                 <button type="submit" onClick={handleSumbission}>Submit your Changes!</button>
-            
-        </div>
+            </div>
+        )
     }
     
     function renderUserInfo() {
