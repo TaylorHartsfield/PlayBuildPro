@@ -225,10 +225,6 @@ def update_show_info(show_id):
     return redirect(f'/editshowinfo/{show.show_id}')
 
 
-
-
-
-
 @app.route('/api/userinfo')
 def get_user_info():
     """Return user information from database"""
@@ -263,13 +259,27 @@ def update_user_info():
     }
 
 
+@app.route('/api/usershows')
+def get_user_shows():
+
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+
+    shows = []
+
+    for show in user.cast:
+        shows.append({
+            "show_id": show.show_id,
+            "title": show.shows.title,
+            "role": show.role,
+            "is_admin": show.admin,
+            "active": show.shows.active
+        })
+    print(shows,'***************')
+    return jsonify({'shows': shows})
 
 
 
 
-
-
- 
 
 @app.route('/user_profile')
 def user_profile():
