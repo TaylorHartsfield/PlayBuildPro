@@ -45,12 +45,12 @@
       </nav>
       
     <div class="container" id="playbillContainer">
+      <a href="/viewplaybill">View Cover</a>
+      <a href="/castlist/{{show.show_id}}">View Cast List</a>
+      <a href="/whoswho/{{show.show_id}}">Whos Who</a>
         <div class="playbillBase">
             <div class="pager-prev pager-prev-disabled"></div>
         <div class="slideBase">
-          <a href="/viewplaybill">View Cover</a>
-          <a href="/castlist/{{show.show_id}}">View Cast List</a>
-          <a href="/whoswho/{{show.show_id}}">Whos Who</a>
             {%block body%}
             <div class="cover">
                 <div class="cover-head">

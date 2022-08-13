@@ -402,50 +402,8 @@ def add_cast(show_id):
 
     if user == None:
         flash("User does not exist with PlayBuild Pro! Invite them to register")
-        return edirect(f'/invitecompany/{show_id}')
-        fname = request.form.get('fname')
-        lname = request.form.get('lname')
-
-    
-        conn = http.client.HTTPSConnection(os.environ['AUTH0_MGMT_DOMAIN'])
-        payload = f"grant_type=client_credentials&client_id={os.environ['AUTH0_MGMT_CLIENT_ID']}&client_secret={os.environ['AUTH0_MGMT_CLIENT_SECRET']}&audience={os.environ['AUTH0_MGMT_IDENTIFIER']}"
-        
-        headers = {
-            'content-type': "application/x-www-form-urlencoded" 
-        }
-
-        conn.request("POST", f"https://{os.environ['AUTH0_MGMT_DOMAIN']}/oauth/token", payload, headers)
-        res = conn.getresponse()
-        data = res.read()
-        new_data = data.decode('utf=8')
-        access_token = json.loads(new_data).get('access_token')
-    
-
-        new_conn = http.client.HTTPConnection(os.environ['AUTH0_DOMAIN'])
-        user_payload = {
-            "email": request.form.get("email"),
-            "email_verified": False,
-            "given_name": fname,
-            "family_name": lname,
-            "connection": "Initial-Connection",
-        }
-
-    
-        user_headers = {
-            'Authorization': f'Bearer {access_token}',
-            "cache-control": "no-cache",
-            "content-type": "application/json; charset=utf-8",
-        }
-        
-        
-        new_conn.request("GET", "/api/v2/users", urlencode(user_payload), user_headers)
-        new_user = conn.getresponse()
-        # new_user_info = new_user.read()
-        # new_user_info = new_user_info.decode('utf-8')
-        # print(new_user_info)
-
-        flash(f'{fname} has been invited to {show.title}!')
         return redirect(f'/invitecompany/{show_id}')
+
 
     already_added = crud.check_for_user_in_show(user, show_id)
     
@@ -569,7 +527,7 @@ def approve_bio():
     bio_id = request.form.get('bio_id')
     approved_bio = crud.approve_bio_to_publish(bio_id)
 
-    return redirect(f'/viewheadshots/{approved_bio.show_id}')
+    return redirect(f'/whoswho/{approved_bio.show_id}')
 
 @app.route('/deny_bio', methods=["POST"])
 def deny_bio():
@@ -659,23 +617,31 @@ def get_cast_list():
                 headshot="/static/img/download.png"
             elif headshots.show_id == session['show_id'] and len(headshot)>0:
                 headshot = headshots.img
+                hpend = headshots.pending
             
   
         if headshot == []:
             headshot = "/static/img/download.png"
+            hpend = False
 
         bio = crud.get_user_bio_for_show(member.user, session['show_id'])
         if bio == None:
             bio = 'No Bio Submitted'
+            bpend = False
         else:
+            bpend = bio.pending
             bio = bio.bio
+           
 
         castList.append({
             "fname": member.user.fname,
             "lname": member.user.lname,
             "role": member.role,
             "headshot": headshot,
+            "hpend": hpend,
             "bio" : bio,
+            "bpend": bpend,
+            "id" : member.user.user_id
         })
     return jsonify({'cast' : castList})
 

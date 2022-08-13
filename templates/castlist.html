@@ -1,14 +1,10 @@
 {%extends 'playbillbase.html'%}
+{%block head%}
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+{%endblock%}
 {%block body%}
-<div class="castlist">
-    <h6>Cast Members</h6>
-    <ul>
-       {%for actor in cast%}
-       <li>
-       <h6>{{actor.user.fname}} {{actor.user.lname}}<p> as {{actor.role}}</p></h6>
-       {%endfor%}
-    </li>
-    </ul>
-    
-</div>
+<div id="castlist"></div>
+<script src="/static/js/CastList.jsx" type="text/jsx"></script>
 {% endblock %}
