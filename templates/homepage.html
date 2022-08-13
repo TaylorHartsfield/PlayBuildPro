@@ -10,7 +10,7 @@
 {%for show in shows%}
 <div class="row">
     <div class="col-4">
-        <a href="/viewplaybill/{{show.show_id}}">{{show.title}}</a>
+        <a href="/viewplaybill">{{show.title}}</a>
     </div>
     <div class="col-4">
         {{show.company.name}}<br>
@@ -24,6 +24,6 @@
 {%endfor%}
 </div>
 {%endif%}
-<img src="/static/img/broadway.jpeg">
+<img src="static/img/PlayBuildLogo.jpg">
 
 {%endblock%}

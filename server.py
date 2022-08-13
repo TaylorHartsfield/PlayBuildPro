@@ -235,6 +235,7 @@ def edit_show_info():
     company = request.json.get('company')
     opening_night = request.json.get('opening_night')
     closing_night = request.json.get('closing_night')
+    tickets = request.json.get('tickets')
 
 
     if show.title != title:
@@ -245,6 +246,8 @@ def edit_show_info():
         show.opening_night = opening_night
     if show.closing_night != closing_night:
         show.closing_night = closing_night
+    if show.tickets != tickets:
+        show.tickets = tickets
 
     model.db.session.commit()
 
@@ -311,10 +314,6 @@ def get_user_shows():
         })
 
     return jsonify({'shows': shows})
-
-
-
-
 
 @app.route('/user_profile')
 def user_profile():
@@ -587,6 +586,7 @@ def deny_bio():
 def viewplaybill():
 
     show = crud.get_show_by_id(session['show_id'])
+    print(show)
     if show==None:
         flash('Oops, something went wrong here!')
         return redirect('/')
@@ -638,6 +638,45 @@ def playbill_headshots(show_id):
         return redirect('/')
     
     return render_template('whoswho.html', show=show, cast=cast)
+
+
+@app.route('/api/getCast')
+def get_cast_list():
+
+    cast = crud.get_cast_by_show_id(session['show_id'])
+
+    castList = []
+
+
+    for member in cast:
+        print(member, "*****************")
+
+        headshot = member.user.headshots
+        for headshots in headshot:
+            if len(headshot) == 0:
+                headshot="/static/img/download.png"
+            elif headshots.show_id == session['show_id'] and len(headshot)>0:
+                headshot = headshots.img
+            
+  
+        if headshot == []:
+            headshot = "/static/img/download.png"
+
+        bio = crud.get_user_bio_for_show(member.user, session['show_id'])
+        if bio == None:
+            bio = 'No Bio Submitted'
+        else:
+            bio = bio.bio
+
+        castList.append({
+            "fname": member.user.fname,
+            "lname": member.user.lname,
+            "role": member.role,
+            "headshot": headshot,
+            "bio" : bio,
+        })
+    return jsonify({'cast' : castList})
+
 
 
 if __name__ == "__main__":

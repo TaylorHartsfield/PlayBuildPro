@@ -181,10 +181,12 @@ def approve_headshot_to_publish(headshot_id):
     return headshot
 
 
-def get_user_headshot_for_show(user, show):
+def get_user_headshot_for_show(user, show_id):
 
     for headshot in user.headshots:
-        if headshot.show_id == show.show_id:
+        
+        if headshot.show_id == show_id:
+            print(type(headshot),"*********TESTFROMCRUD*********")
             return headshot
 
     return None
@@ -218,10 +220,10 @@ def approve_bio_to_publish(bio_id):
     return bio
 
 
-def get_user_bio_for_show(user, show):
+def get_user_bio_for_show(user, show_id):
 
     for bio in user.bios:
-        if bio.show_id == show.show_id:
+        if bio.show_id == show_id:
             return bio
             
     return None
