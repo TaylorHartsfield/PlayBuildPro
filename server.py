@@ -401,6 +401,8 @@ def add_cast(show_id):
         admin = True
 
     if user == None:
+        flash("User does not exist with PlayBuild Pro! Invite them to register")
+        return edirect(f'/invitecompany/{show_id}')
         fname = request.form.get('fname')
         lname = request.form.get('lname')
 
