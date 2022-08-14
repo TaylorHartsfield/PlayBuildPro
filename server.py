@@ -50,6 +50,7 @@ def login_or_register():
 def callback():
     token = oauth.auth0.authorize_access_token()
     session['user'] = token
+    session['show_id'] = None
     email = token['userinfo']['email']
     new_user = crud.get_user_by_email(email)
    
@@ -211,18 +212,18 @@ def register_show():
 def get_show_info():
 
     show = crud.get_show_by_id(session['show_id'])
-    print(show, '***************************************')
+    print(show.image)
 
-    return jsonify({
-        "title": f"{show.title}",
-        "company": f"{show.company.name}",
-        "opening_night": f"{show.opening_night}",
-        "closing_night": f"{show.closing_night}",
-        "image": f"{show.image}",
-        "active": f"{show.active}",
-        "tickets": f"{show.tickets}",
-        "theater_name": f"{show.theater_name}",
-        "show_id": f"{show.show_id}"
+    return jsonify({"show": {
+        "title": show.title,
+        "company": show.company.name,
+        "opening_night": show.opening_night,
+        "closing_night": show.closing_night,
+        "image": show.image,
+        "active": show.active,
+        "tickets": show.tickets,
+        "theater_name": show.theater_name,
+        "show_id": show.show_id}
 
     })
 
@@ -255,25 +256,62 @@ def edit_show_info():
         "success": True
     })
 
-@app.route('/editshowinfo/<show_id>', methods=["POST"])
-def update_show_info(show_id):
-
-    show = crud.get_show_by_id(show_id)
-
-    flash('I see you')
-    return redirect(f'/editshowinfo/{show.show_id}')
-
 
 @app.route('/api/userinfo')
 def get_user_info():
-    """Return user information from database"""
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
-  
-    return jsonify ({
+
+    return jsonify({"user": {
                 "fname": f"{user.fname}",
                 "lname": f"{user.lname}",
-                "email": f"{user.email}"
-    })
+                "email": f"{user.email}"}})
+
+
+@app.route('/api/usershowinfo')
+def get_user_show_info():
+    """Return user information from database"""
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    print(user)
+    show = crud.get_show_by_id(session['show_id'])
+    headshot = crud.get_user_headshot_for_show(user, session['show_id'])
+    is_admin = crud.is_admin(session['show_id'], user)
+    submissions = crud.new_submissions(show)
+   
+    if headshot != None:
+        headshot = headshot.img
+       
+    else:
+        headshot = "/static/img/download.png"
+    
+
+    bio = crud.get_user_bio_for_show(user,session['show_id'])
+   
+    if bio != None:
+        bio = bio.bio
+    else:
+        bio = crud.add_bio("No Bio")
+        model.db.session.add(bio)
+        bio.show_id = session['show_id']
+        bio.user_id = user.user_id
+        model.db.session.commit()
+        bio = crud.get_user_bio_for_show(user,session['show_id'])
+        bio = bio.bio
+       
+    
+    role = crud.get_role(show, user)
+ 
+    return jsonify ({"user" : {
+                "fname": f"{user.fname}",
+                "lname": f"{user.lname}",
+                "email": f"{user.email}",
+                "headshot": headshot,
+                "bio": bio,
+                "role": role,
+                "admin": is_admin,
+                "submissions": submissions,
+                "show_id": show.show_id
+
+    }})
 
 @app.route('/updateuser', methods=["POST"])
 def update_user_info():
@@ -329,7 +367,7 @@ def user_profile():
     # user_id = session['user']
 
     #Grab user from DB by querying PK with user_id arguement
-    user = crud.get_user_by_email(user_email)
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
     
 
     #check that the logged in user matches the profile we are visiting
@@ -362,28 +400,28 @@ def update_show(show_id):
                                                new_submissions=new_submissions)
 
 
-@app.route('/invitecompany/<show_id>')
-def cast(show_id):
+@app.route('/invitecompany')
+def cast():
     
-    if not session:
+    if not session['user']:
         flash('Please Login')
         return redirect('/login')
 
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
-    if not crud.is_admin(show_id, user):
+    if not crud.is_admin(session['show_id'], user):
         flash('You are not an admin for this show. Please update your headshot and bio from your profile.')
         return redirect(f'/user_profile')
     
-    cast = crud.get_cast_by_show_id(show_id)
-    show = crud.get_show_by_id(show_id)
+    cast = crud.get_cast_by_show_id(session['show_id'])
+    show = crud.get_show_by_id(session['show_id'])
 
     return render_template("add_cast.html", show=show, cast=cast)
     
-@app.route('/approvesubmits/<show_id>')
-def approve_submissions(show_id):
+@app.route('/approvesubmits')
+def approve_submissions():
 
-    show = crud.get_show_by_id(show_id)
-    cast = crud.get_cast_by_show_id(show_id)
+    show = crud.get_show_by_id(session['show_id'])
+    cast = crud.get_cast_by_show_id(session['show_id'])
 
     return render_template('whoswhoedit.html', show=show, cast=cast)
 
@@ -402,14 +440,14 @@ def add_cast(show_id):
 
     if user == None:
         flash("User does not exist with PlayBuild Pro! Invite them to register")
-        return redirect(f'/invitecompany/{show_id}')
+        return redirect(f'/invitecompany')
 
 
     already_added = crud.check_for_user_in_show(user, show_id)
     
     if already_added:
         flash("You have already added this user to your show. If you do not see your user in this list, please check with the user that they have registered with PlaybillRender")
-        return redirect(f'/invitecompany/{show_id}')
+        return redirect(f'/invitecompany')
 
     if user:
         new_cast = crud.add_to_cast(role, admin)
@@ -418,7 +456,7 @@ def add_cast(show_id):
         model.db.session.add(new_cast)
         model.db.session.commit()
         flash(f'{user.fname}, added to cast!')
-        return redirect(f'/invitecompany/{show.show_id}')
+        return redirect(f'/invitecompany')
 
 
 @app.route('/update_actor', methods=["POST"])
@@ -432,46 +470,19 @@ def udpate_actor():
         return "Success"
     
 
-
-@app.route('/add_headshot/<user_id>', methods=["POST"])
-def add_headshot(user_id):
-   
-    headshot = request.files['headshot']
-    show_id = request.form.get('show')
-
-    image = cloudinary.uploader.upload(headshot,
-                                        api_key=CLOUDINARY_KEY,
-                                        api_secret=CLOUDINARY_SECRET,
-                                        cloud_name=CLOUD_NAME,
-                                        eager = [{"aspect_ratio":"1:1",
-                                                    "gravity": "face",
-                                                    "height":150, 
-                                                    "zoom": "0.75",
-                                                    "crop":"thumb"}])
-
-  
-    img_url = image['eager'][0]['url']
-
-    headshot = crud.add_new_headshot(img_url)
-
-    model.db.session.add(headshot)
-    headshot.user_id = user_id
-    headshot.show_id = show_id
-    model.db.session.commit()
-
-    flash('Headshot Added!')
-    return redirect(f"/updateshow/{headshot.show_id}")
-
-
-@app.route('/update_headshot/<headshot_id>', methods=["POST"])
-def update_headshot(headshot_id):
+@app.route('/update_headshot', methods=["POST"])
+def update_headshot():
 
     new_headshot = request.files['headshot']
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    show = crud.get_show_by_id(session['show_id'])
+    current_headshot = crud.get_user_headshot_for_show(user, session['show_id'])
 
-    headshot = crud.update_headshot(headshot_id, new_headshot)
+    update_headshot = crud.update_headshot(current_headshot, new_headshot, user, show)
 
-    flash(f'Headshot udpated!')
-    return redirect(f'/updateshow/{headshot.show_id}')
+
+    flash("Headshot Updated!")
+    return redirect(f'/updateshow/{session["show_id"]}')
 
 
 @app.route('/approve_headshot', methods=["POST"])
@@ -495,27 +506,19 @@ def deny_headshot():
     return redirect(f'/viewheadshots/{show_id}')
 
 
-"""Add Bios to User profile and Set Bios to a specific show"""
-@app.route('/add_bio/<user_id>', methods=["POST"])
-def add_bio(user_id):
 
-    bio = request.form.get('bio')
-    show_id = request.form.get('show')
-    bio = crud.add_bio(bio)
-    model.db.session.add(bio)
-    bio.user_id = user_id
-    bio.show_id = show_id
-    model.db.session.commit()
+@app.route('/update_bio', methods=["POST"])
+def update_bio():
 
-    flash('Bio Added!')
-    return redirect(f'/updateshow/{bio.show_id}')
-
-
-@app.route('/update_bio/<bio_id>', methods=["POST"])
-def update_bio(bio_id):
-
+    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    bio = crud.get_user_bio_for_show(user, session['show_id'])
     update = request.form.get('update')
-    bio = crud.update_bio(bio_id, update)
+    print(update,'**************************PRINTUP')
+
+    update_bio = crud.update_bio(bio, update)
+    bio.user_id = user.user_id
+    bio.show_id = session['show_id']
+    model.db.session.commit()
 
     flash('Your Bio has been updated!')
     return redirect(f'/updateshow/{bio.show_id}')
@@ -552,7 +555,14 @@ def viewplaybill():
         return redirect('/')
    
     return render_template('playbillbase.html', show=show)
-    
+
+@app.route('/editPlaybill')
+def editing_playbill():
+
+    show = crud.get_show_by_id(session['show_id'])
+
+    flash('Editing Playbill Here!')
+    return redirect(f'/updateshow/{show.show_id}')
 
 @app.route('/editplaybillimage', methods=["POST"])
 def edit_playbill():
@@ -609,16 +619,15 @@ def get_cast_list():
 
 
     for member in cast:
-        print(member, "*****************")
+
 
         headshot = member.user.headshots
         for headshots in headshot:
-            if len(headshot) == 0:
-                headshot="/static/img/download.png"
-            elif headshots.show_id == session['show_id'] and len(headshot)>0:
+            # if len(headshot) == 0:
+            #     headshot="/static/img/download.png"
+            if headshots.show_id == session['show_id']:
                 headshot = headshots.img
                 hpend = headshots.pending
-            
   
         if headshot == []:
             headshot = "/static/img/download.png"

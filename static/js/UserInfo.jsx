@@ -1,25 +1,24 @@
 function ShowUserInfo() {
 
-    const [fName, setFName] = React.useState('');
-    const [lName, setLName] = React.useState('');
-    const [email, setEmail] = React.useState('');
+    const[user, setUser] = React.useState({})
     const [isEditing, setIsEditing] = React.useState(false);
 
+
     React.useEffect(()=> {
-        fetch('/api/userinfo')
+       fetch('/api/userinfo')
         .then((response) => response.json())
         .then((result) => {
-            setFName(result['fname']);
-            setLName(result['lname']);
-            setEmail(result['email']);
+           setUser(result.user)
         });
     }, []);
+
+
 
     function handleSumbission() {
 
         const updateInputs ={
-            fname: `${fName}`,
-            lname: `${lName}`
+            fname: `${user.fname}`,
+            lname: `${user.lname}`
         }
 
         fetch('/updateuser', {
@@ -40,30 +39,33 @@ function ShowUserInfo() {
     };
 
     function handleFNameChange(event){
-        setFName(event.target.value);
+        setUser({...user, "fname": event.target.value})
     }
 
     function handleLNameChange(event) {
-        setLName(event.target.value);
+        setUser({...user, "lname": event.target.value})
     }
 
     
     function renderViewUserInfo(){
+        if (user.fname){
         return (
         <div>
-        <h1>User Name: {fName} {lName}</h1>
-        <h4>User Email: {email} </h4>
-        <button type="button" onClick={handleOnClick}>Edit User Info</button>
-    </div>
-    )
-    }
+            <h1>User Name: {user.fname} {user.lname}</h1>
+            <h4>User Email: {user.email} </h4>
+            <button type="button" onClick={handleOnClick}>Edit User Info</button>
+        </div>
+        )
+    }else {
+        return (<div>No Name</div>)
+    }}
 
   
     function renderEditUserInfo(){
         return (
             <div>
-                <input type="text" placeholder={fName} value={fName} onChange={handleFNameChange}/>
-                <input type="text" placeholder={lName} value={lName} onChange={handleLNameChange}/>
+                <input type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
+                <input type="text" placeholder={user.lname} value={user.lname} onChange={handleLNameChange}/>
                 <button type="submit" onClick={handleSumbission}>Submit your Changes!</button>
             </div>
         )

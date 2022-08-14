@@ -1,75 +1,65 @@
 function ShowEdits() {
 
-    const [title, setTitle] = React.useState('');
-    const [company, setCompany] = React.useState('');
-    const [theater, setTheater] = React.useState('');
-    const [openingNight, setOpeningNight] = React.useState('');
-    const [closingNight, setClosingNight] = React.useState(null);
-    const [showImage, setShowImage] = React.useState('');
-    const [tickets, setTickets] = React.useState('');
-    const [showId, setShowId] = React.useState('');
-    const [activeShow, setActiveShow] = React.useState(true)
-    const [isEditingShow, setIsEditingShow] = React.useState(false);
+    const[show, setShow] = React.useState({})
+    const[isEditingShow, setIsEditingShow] = React.useState(false)
 
-
-    if (showImage === ''){
-        setShowImage(null)
-    }
+    
     React.useEffect(() => {
         fetch('/api/showInfo')
         .then((response) => response.json())
         .then((result) => {
-            console.log(result)
-            setTitle(result['title'])
-            setCompany(result['company'])
-            setOpeningNight(result['opening_night'])
-            setClosingNight(result['closing_night'])
-            setShowImage(result['image'])
-            setTheater(result['theater_name'])
-            setTickets(result['tickets'])
-            setActiveShow(result['active'])
-            setShowId(result['show_id'])
+            setShow(result.show)
+            
         });
     }, []);
 
-  
+    console.log(show)
+    console.log(show.title)
+    console.log(show.theater_name, show.opening_night, show.closing_night, show.company, show.show_id)
+
+    console.log(show.image)
+    
     function handleEditInfo() {
         setIsEditingShow(!isEditingShow)
     }
 
+
     function handleChangeCompany(event){
-        setCompany(event.target.value)
-    }
+        setShow({...show, "company": event.target.value})}
     
     function handleChangeTitle(event) {
-        setTitle(event.target.value)
+        setShow({...show, "title": event.target.value})
+    
     }
     
     function handleClosingNightChange(event) {
-        setClosingNight(event.target.value)
+        setShow({...show, "closing_night": event.target.value})
+    
     }
 
     function handleOpeningNightChange(event) {
-        setOpeningNight(event.target.value)
+        setShow({...show, "opening_night": event.target.value})
+    
     }
 
     function handleChangeTheater(event) {
-        setTheater(event.target.value)
+        setShow({...show, "theater_name": event.target.value})
+    
     }
 
     function handleChangeTickets(event) {
-        setTickets(event.target.value)
-    }
+        setShow({...show, "tickets": event.target.value})}
+    
 
     function handleSubmission() {
         
         const formInputs = {
-            title: `${title}`,
-            company: `${company}`,
-            closing_night: `${closingNight}`,
-            opening_night: `${openingNight}`,
-            theater_name: `${theater}`,
-            tickets: `${tickets}`
+            title: `${show.title}`,
+            company: `${show.company}`,
+            closing_night: `${show.closing_night}`,
+            opening_night: `${show.opening_night}`,
+            theater_name: `${show.theater_name}`,
+            tickets: `${show.tickets}`
         }
 
         fetch('/updateShowInfo', {
@@ -83,31 +73,30 @@ function ShowEdits() {
         .then((responseJson) => {
             setIsEditingShow(false)
         })
+    
     }
     function renderShowInfo() {
-        console.log(showImage)
-        if (showImage === "None"){
+        
+        if (show.image === "None"){
             return (
                 <div className="card">
-                    <h3>{title}</h3>
-                    <p>{company}</p>
-                    <p>{theater}</p>
-                    <p>{openingNight} - {closingNight}</p>
-                    
+                    <h3>{show.title}</h3>
+                    <p>{show.company}</p>
+                    <p>{show.theater_name}</p>
+                    <p>{show.opening_night} - {show.closing_night}</p>
                     <button type="button" onClick={handleEditInfo}>Update Show Info</button>
-                    <a href="/viewplaybill">View Playbill</a>
                 </div>)
             } else {
                 return (
                     <div className="card">
-                        <h3>{title}</h3>
-                        <p>{company}</p>
-                        <p>{theater}</p>
-                        <p>{openingNight} - {closingNight}</p>
+                        <h3>{show.title}</h3>
+                        <p>{show.company}</p>
+                        <p>{show.theater_name}</p>
+                        <p>{show.opening_night} - {show.closing_night}</p>
                         
-                        <img src={showImage} disabled="true"></img>
+                        <img src={show.image}></img>
                         <button type="button" onClick={handleEditInfo}>Update Show Info</button>
-                        <a href="/viewplaybill">View Playbill</a>
+                    
                     </div>)
                 }
     }
@@ -116,18 +105,18 @@ function ShowEdits() {
         return (
             <div className="card">
                 <h3>
-                <input type="text" placeholer={title} name={title} value={title} onChange={handleChangeTitle}/>
+                <input type="text" placeholer={show.title} name={show.title} value={show.title} onChange={handleChangeTitle}/>
                 </h3>
                 <p>
-                <input type="text" placeholder={company} name={company} value={company} onChange={handleChangeCompany}/>
-                <input type="text" placeholder={theater} value={theater} onChange={handleChangeTheater}/>
-                <input type="date" placeholder={openingNight} value={openingNight} onChange={handleOpeningNightChange}/>
-                <input type="date" placeholder={closingNight} value={closingNight} onChange={handleClosingNightChange}/>
-                <input type="url"  placeholder={tickets} value={tickets} onChange={handleChangeTickets}/>
+                <input type="text" placeholder={show.company} name={show.company} value={show.company} onChange={handleChangeCompany}/>
+                <input type="text" placeholder={show.theater_name} value={show.theater_name} onChange={handleChangeTheater}/>
+                <input type="date" placeholder={show.opening_night} value={show.opening_night} onChange={handleOpeningNightChange}/>
+                <input type="date" placeholder={show.closing_night} value={show.closing_night} onChange={handleClosingNightChange}/>
+                <input type="url"  placeholder={show.tickets} value={show.tickets} onChange={handleChangeTickets}/>
                 </p>
                 <button type="button" onClick={handleSubmission}>Submit Changes</button>
                 <label for="updateShowImage">Update Show Image:</label>
-                <form id="updateShowImage" action="/editplaybillimage" method="POST" enctype="multipart/form-data">
+                <form id="updateShowImage" action="/editplaybillimage" method="POST" encType="multipart/form-data">
                     <input id="image" type="file" name="image" required/>
                     <input type="submit"/>
                 </form>                

@@ -149,10 +149,9 @@ def add_new_headshot(img):
     return headshot
 
 
-def update_headshot(current_headshot, new_headshot):
+def update_headshot(current_headshot, new_headshot, user, show):
     
-    current_headshot = model.Headshot.query.get(current_headshot)
-    
+
     upload_new_headshot = cloudinary.uploader.upload(new_headshot,
                                         api_key=CLOUDINARY_KEY,
                                         api_secret=CLOUDINARY_SECRET,
@@ -165,10 +164,19 @@ def update_headshot(current_headshot, new_headshot):
 
   
     new_headshot_url = upload_new_headshot['eager'][0]['url']
+
+    if current_headshot == None:
+        current_headshot = add_new_headshot(new_headshot_url)
+        model.db.session.add(current_headshot)
+        current_headshot.user_id = user.user_id
+        current_headshot.show_id = show.show_id
+        model.db.session.commit()
+        return current_headshot
+
     current_headshot.img = new_headshot_url
     current_headshot.pending = True
     model.db.session.commit()
-
+   
     return current_headshot
 
 
@@ -195,19 +203,24 @@ def get_user_headshot_for_show(user, show_id):
 
 def add_bio(bio):
 
-    bio = model.Bio(
+    new_bio = model.Bio(
                     bio=bio)
     
-    return bio
+    return new_bio
 
 
-def update_bio(bio_id, update):
+def update_bio(bio, update):
 
-    bio = model.Bio.query.get(bio_id)
+    if bio == None:
+       new_bio = add_bio(update)
+       print(new_bio)
+       db.model.session.add(new_bio)
+       return new_bio
+       
     bio.bio = update
     bio.pending = True
-    model.db.session.commit()
-
+    print(bio)
+    model.db.session.add(bio)
     return bio
 
 

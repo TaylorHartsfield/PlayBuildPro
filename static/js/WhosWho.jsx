@@ -19,11 +19,11 @@ function WhosWho() {
             return (
                 <React.Fragment>
                 <div className="row">
-                    <h5>{fname} {lname} as {role}</h5>
                     <div className="col-4">
                         <img src={headshot}></img>
                     </div>
                     <div className="col-6">
+                    <h6>{fname} {lname} as {role}</h6>
                         <p>{bio}</p>
                     </div>
                 </div>
@@ -37,6 +37,9 @@ function WhosWho() {
     return (
         <React.Fragment>
             <div className="row">
+                <div className="col-6 offset 4">
+                <h5>{fname} {lname}</h5>
+                </div>
                 <h5>{fname} {lname} as {role}</h5>
                 <div className="col-4">
                     <h3>Submission Waiting for approval!</h3>
@@ -50,6 +53,8 @@ function WhosWho() {
    }
     
    for (const cast of castList) {
+    console.log(cast.admin)
+    if (cast.role != "Admin"){
    
     whosWhoRows.push(
         <CastInfoCard
@@ -60,13 +65,15 @@ function WhosWho() {
         bio={cast.bio}
         key={cast.id}
         />
-    )
+    )}
    }
 
     
         return (
             <React.Fragment>
                 <div className="castList">
+                    <h3>Who's Who</h3>
+                    <br></br>
                     {whosWhoRows}
                 </div>
            </React.Fragment>

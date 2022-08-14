@@ -113,7 +113,7 @@ class Bio(db.Model):
 
 
     def __repr__(self):
-        return f'<Bio bio_id={self.bio_id} user_id={self.user_id} show_id = {self.show_id}>'
+        return f'<Bio bio_id={self.bio_id} {self.bio} user_id={self.user_id} show_id = {self.show_id}>'
 
 
 class Headshot(db.Model):

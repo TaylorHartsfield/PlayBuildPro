@@ -11,122 +11,14 @@
 
 {%block body%}
 <div class="container">
-  <div id="userActions"></div>
-  <div id="showEdits"></div>
 
-
-
-
-
-
-
-
-
-    <div class="row">
-        <div class="col-6">
-            <h2>{{user.fname}} {{user.lname}}</h2>
-            <h3>{{role}}</h3>
-            {%if admin%}
-            {%if new_submissions%}
-            <div class="row"><a href="/approvesubmits/{{show.show_id}}">New Submissions Need Review!</a></div>
-            {%endif%}
-            <div class="row"><a href="/invitecompany/{{show.show_id}}">Invite Company Members</a></div>
-            <div class="row"><a href="/editcompany">Edit Company Member Information</a></div>
-            {%else%}
-            {%if headshot and bio%}
-<div class="row">
-    <div class="col-6">
-      <img src="{{headshot.img}}"><br>
-    <label for="update_headshot">Update Headshot</label>
-    <form action="/update_headshot/{{headshot.headshot_id}}" id="update_headshot" method="POST" enctype="multipart/form-data">
-        <input id="add_headshot" type="file" name="headshot" required>
-        <input type="hidden" name="show" value="{{show.show_id}}">
-        <input type="submit">
-      </form>
-    </div>
-</div>
-<div class="row">
-    <div class="col-6">
-        {{bio.bio}}
-    </div>
-    <form action="/update_bio/{{bio.bio_id}}" method="POST">
-        <textarea name="update" maxlength="375" cols="33" required>{{bio.bio}}</textarea>
-        <button type="submit" class="btn btn-outline-warning">Edit Bio</button>
-    </form>
-</div>
-{%elif headshot or bio%}
-    {%if headshot%}
-<div class="row">
-    <div class="col-6">
-      <img src="{{headshot.img}}"><br>
-    <label for="update_headshot">Update Headshot</label>
-    <form action="/update_headshot/{{headshot.headshot_id}}" id="update_headshot" method="POST" enctype="multipart/form-data">
-        <input id="add_headshot" type="file" name="headshot" required>
-        <input type="hidden" name="show" value="{{show.show_id}}">
-        <input type="submit">
-      </form>
-    </div>
-</div>
-<div class="col-6">
-    <h3><label for="add_bio">Add Bio</label></h3>
-    <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
-      <textarea name="bio" maxlength="375" cols="33" required></textarea>
-      <input type="hidden" name="show" value="{{show.show_id}}">
-      <input type="submit">
-    </form>
+  <div class="row">
+    <div id="userShowProfile"></div>
+    <div id="showEdits"></div>
   </div>
-  {%endif%}
-{%if bio and not admin%}
-<div class="row">
-    <div class="col-6">
-        {{bio.bio}}
-    </div>
-    <form action="/update_bio/{{bio.bio_id}}" method="POST">
-        <textarea name="update" maxlength="375" cols="33" required>{{bio.bio}}</textarea>
-        <button type="submit" class="btn btn-outline-warning">Edit Bio</button>
-    </form>
-</div>
-<div class="col-6">
-    <h3><label for="add_headshot">Add Headshot:</label></h3>
-    <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
-        <input id="add_headshot" type="file" name="headshot" required>
-        <input type="hidden" name="show" value="{{show.show_id}}">
-        <input type="submit">
-    </form>
-  </div>
-{%endif%}
-{%else%}
-<div class="container">
-    <div class="row">
-      <div class="col-6">
-        <h3><label for="add_headshot">Add Headshot:</label></h3>
-        <form action="/add_headshot/{{user.user_id}}" method="POST" enctype="multipart/form-data">
-            <input id="add_headshot" type="file" name="headshot" required>
-            <input type="hidden" name="show" value="{{show.show_id}}">
-            <input type="submit">
-        </form>
-      </div>
-      <div class="col-6">
-        <h3><label for="add_bio">Add Bio</label></h3>
-        <form action="/add_bio/{{user.user_id}}" id="add_bio" method="POST">
-          <textarea name="bio" maxlength="375" cols="33" required></textarea>
-          <input type="hidden" name="show" value="{{show.show_id}}">
-          <input type="submit">
-        </form>
-      </div>
-    </div>
-  </div>
-{%endif%}
-{%endif%}
-
-
-     
-    
-    </div>
-  
-
-
 
 </div>
+
+<script src="/static/js/UserShowProfile.jsx" type="text/jsx"></script>
 <script src="/static/js/ShowEdits.jsx" type="text/jsx"></script>
 {%endblock%}
