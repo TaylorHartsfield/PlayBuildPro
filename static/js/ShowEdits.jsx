@@ -13,11 +13,6 @@ function ShowEdits() {
         });
     }, []);
 
-    console.log(show)
-    console.log(show.title)
-    console.log(show.theater_name, show.opening_night, show.closing_night, show.company, show.show_id)
-
-    console.log(show.image)
     
     function handleEditInfo() {
         setIsEditingShow(!isEditingShow)

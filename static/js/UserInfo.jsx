@@ -48,7 +48,7 @@ function ShowUserInfo() {
 
     
     function renderViewUserInfo(){
-        if (user.fname){
+
         return (
         <div>
             <h1>User Name: {user.fname} {user.lname}</h1>
@@ -56,9 +56,7 @@ function ShowUserInfo() {
             <button type="button" onClick={handleOnClick}>Edit User Info</button>
         </div>
         )
-    }else {
-        return (<div>No Name</div>)
-    }}
+    }
 
   
     function renderEditUserInfo(){

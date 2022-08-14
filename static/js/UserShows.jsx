@@ -1,6 +1,7 @@
 function UserShows() {
 
     const [userShows, setUserShows] = React.useState([])
+    
     const showInfoCards = [];
     const notActive = [];
 
