@@ -15,10 +15,9 @@ function CastList() {
     function CastList({fname, lname, role}) {
         return (
             <React.Fragment>
-                <div className="row">
-                    <div className="col-4">
+                <div className="row"  draggable='true'>
+                    <div className="col-4" >
                     <strong><p>{role}</p></strong>
-                
                     </div>
                     <div className="col-4">
                        <p>..........................................</p> 

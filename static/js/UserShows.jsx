@@ -22,14 +22,21 @@ function UserShows() {
                 <div className="showCard">
                     <p>Title: {title}</p>
                     <p>Role: {role}</p>
-                    <a href={'/updateshow/' + show_id}>View/Edit Show Info</a>
+                    <form action='/updateshow'>
+                        <input type="hidden" name="show_id" value={show_id}/>
+                        <input type="submit" placeholder="View/Edit Show Info" />
+                    </form>
+                    <a href='/updateshow'>View/Edit Show Info</a>
                 </div> )
                 } else {
                 return (
                     <div className="showCard">
                         <p>Title: {title}</p>
                         <p>Role: {role}</p>
-                        <a href={'/updateshow/' + show_id}>Update Show Profile</a>
+                        <form action='/updateshow'>
+                            <input type="hidden" name="show_id" value={show_id}/>
+                            <input type="submit" placeholder="View/Edit Show Info" />
+                        </form>
                     </div>
                 )
              }
@@ -39,7 +46,7 @@ function UserShows() {
                 <div className="notActive">
                     <p>Title: {title}</p>
                     <p>Role: {role}</p>
-                    <a href={'/viewplaybill/' + show_id}>View Playbill</a>
+                    <a href='/viewplaybill'>View Playbill</a>
                 </div>
             )
         }
@@ -74,18 +81,22 @@ function UserShows() {
     return (
         <React.Fragment>
             <div className="row">
+           
                 <div className="col-6">
                     <h3>Active Shows:</h3>
                     <div className="showInfoCards">
                         {showInfoCards}
+                        </div>
                     </div>
-                </div>
+                
             <div className="col-6">
                 <h3>Archived Shows:</h3>
                 <div className="notActive">
                     {notActive}
                 </div>
             </div>
+            
+       
             </div>
         </React.Fragment>
    

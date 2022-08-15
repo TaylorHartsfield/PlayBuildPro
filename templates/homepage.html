@@ -10,7 +10,12 @@
 {%for show in shows%}
 <div class="row">
     <div class="col-4">
-        <a href="/viewplaybill">{{show.title}}</a>
+        <form action="/viewplaybill/">
+            <label for="show">{{show.title}}</label>
+            <input id="show" type="hidden" value={{show.show_id}} name="show_id" hidden/>
+            <input type="submit">
+        </form>
+        <!-- <a href="/viewplaybill">{{show.title}}</a> -->
     </div>
     <div class="col-4">
         {{show.company.name}}<br>

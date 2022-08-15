@@ -1,5 +1,4 @@
 // import ShowEdits from "ShowEdits.jsx";
-
 function UserShowProfile() {
 
 
@@ -14,7 +13,7 @@ function UserShowProfile() {
     }, [user.headshot, user.bio]);
 
 
-    console.log(user)
+
     function UserInformation() {
         return (
             <div className="card">
@@ -25,9 +24,10 @@ function UserShowProfile() {
          
         )
     }
-
+    console.log(user)
     function AdminUser() {
         if (user.submissions){
+            console.log(user.submissions)
            return (
             <React.Fragment>
             <div className="row">
@@ -46,7 +46,7 @@ function UserShowProfile() {
             </React.Fragment>
            )
         } else {
-
+            console.log('no submission')
         return (
             <React.Fragment>
             <div className="row">
@@ -117,4 +117,4 @@ function UserShowProfile() {
     )
 }
 
-ReactDOM.render(<UserShowProfile />, document.querySelector('#userShowProfile'))
+// ReactDOM.render(<UserShowProfile />, document.querySelector('#userShowProfile'))

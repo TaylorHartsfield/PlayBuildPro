@@ -2,58 +2,51 @@ function WhosWho() {
 
 
     const [castList, setCastList] = React.useState([])
-    
+  
     const whosWhoRows = []
+  
 
     React.useEffect(() => {
         fetch('/api/getCast')
         .then((response)=> response.json())
         .then((result)=> {
         setCastList(result.cast)
+     
    
     });
     }, []);
     
+   
 
    function CastInfoCard({fname, lname, role, headshot, bio}) {
             return (
                 <React.Fragment>
-                <div className="row">
+                
+                <div className="row whoswho" draggable>
                     <div className="col-4">
                         <img src={headshot}></img>
                     </div>
-                    <div className="col-6">
-                    <h6>{fname} {lname} as {role}</h6>
-                        <p>{bio}</p>
+                    <div className="col-8">
+                        <div className="row">
+                            <div className="col" style={{textAlign: 'left'}}>
+                                <h6>{fname} {lname} (<i>{role}</i>)</h6>
+                            </div>
+                        </div>
+                        <div className="row" style={{textAlign: 'right'}} >
+                            <p>{bio}</p>
+                        </div>
                     </div>
                 </div>
+        
                 </React.Fragment>
             )
 
    }
 
-   function CastPendingCard ({fname, lname, role}) {
-
-    return (
-        <React.Fragment>
-            <div className="row">
-                <div className="col-6 offset 4">
-                <h5>{fname} {lname}</h5>
-                </div>
-                <h5>{fname} {lname} as {role}</h5>
-                <div className="col-4">
-                    <h3>Submission Waiting for approval!</h3>
-                </div>
-                <div className="col-6">
-                    <p>Submission waiting for approval!</p>
-                </div>
-            </div>
-        </React.Fragment>
-    )
-   }
+   
     
    for (const cast of castList) {
-    console.log(cast.admin)
+  
     if (cast.role != "Admin"){
    
     whosWhoRows.push(
@@ -68,17 +61,19 @@ function WhosWho() {
     )}
    }
 
+
+
+
     
         return (
             <React.Fragment>
+                 <h3>Who's Who</h3>
                 <div className="castList">
-                    <h3>Who's Who</h3>
-                    <br></br>
-                    {whosWhoRows}
+                   {whosWhoRows}
                 </div>
            </React.Fragment>
         )
-    }
+}
     
 
 ReactDOM.render(<WhosWho />, document.querySelector('#cast'))

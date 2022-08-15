@@ -35,10 +35,7 @@
             {%endif%}
             {%if 'user' not in session%}
             <li class="nav-item">
-              <a class="nav-link" href="/login">Login</a>
-            </li>
-            <li class="nav-item">
-              <a class="nav-link" href="/register_user">Register</a>
+              <a class="nav-link" href="/login">Login/Register</a>
             </li>
             {%endif%}
         </div>
@@ -46,8 +43,8 @@
       
     <div class="container" id="playbillContainer">
       <a href="/viewplaybill">View Cover</a>
-      <a href="/castlist/{{show.show_id}}">View Cast List</a>
-      <a href="/whoswho/{{show.show_id}}">Whos Who</a>
+      <a href="/castlist">View Cast List</a>
+      <a href="/whoswho">Whos Who</a>
         <div class="playbillBase">
             <div class="pager-prev pager-prev-disabled"></div>
         <div class="slideBase">
