@@ -65,15 +65,14 @@ def search_shows(title):
 
 """All Company Functions"""
 
-def register_new_company(name, city, state, zip_code, website, logo):
+def register_new_company(name, city, state, zip_code):
 
     new_company = model.Company(
                                 name=name,
                                 city=city,
                                 state=state,
-                                zip_code=zip_code,
-                                website=website,
-                                logo=logo)
+                                zip_code=zip_code)
+                                
 
     
     return new_company
@@ -88,6 +87,15 @@ def get_company_by_name_city_state(name, city, state):
 
 
 """All User Functions"""
+
+def create_user(fname, lname, email):
+
+    user = model.User(  
+                    fname=fname,
+                    lname=lname,
+                    email=email)
+    
+    return user
 
 def get_user_by_email(email):
     
@@ -107,9 +115,7 @@ def is_admin(show_id, user):
 def get_role(show, user):
     
     for shows in user.cast:
-        print(shows)
         if shows.show_id == show.show_id:
-            print(shows.role)
             return shows.role
 
 """All Cast Functions"""
@@ -212,13 +218,11 @@ def update_bio(bio, update):
 
     if bio == None:
        new_bio = add_bio(update)
-       print(new_bio)
        db.model.session.add(new_bio)
        return new_bio
        
     bio.bio = update
     bio.pending = True
-    print(bio)
     model.db.session.add(bio)
     return bio
 
@@ -247,11 +251,14 @@ def get_user_bio_for_show(user, show):
 def new_submissions(show):
 
     for headshot in show.headshots:
-        if headshot.pending == True:
-            return True
+        for role in headshot.user.cast:
+            if show.show_id == role.show_id and role.role != "Admin" and headshot.pending == True:
+                return True
+    
     for bio in show.bios:
-        if bio.pending == True:
-            return True
+        for role in bio.user.cast:
+            if show.show_id == role.show_id and role.role != "Admin" and bio.pending == True:
+                return True
     
     return False
 

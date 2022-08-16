@@ -16,7 +16,6 @@ class Show(db.Model):
     closing_night = db.Column(db.Date, nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
     image = db.Column(db.Text, unique=True)
-    tickets = db.Column(db.Text)
     theater_name = db.Column(db.String)
 
     """Relationship to Company Table"""
@@ -87,8 +86,6 @@ class Company(db.Model):
     city = db.Column(db.String(200), nullable=False)
     state = db.Column(db.String(100), nullable=False)
     zip_code = db.Column(db.String(25), nullable=False)
-    website = db.Column(db.Text)
-    logo = db.Column(db.Text)
 
     #shows = an array of Shows associated with Company
 
@@ -106,14 +103,13 @@ class Bio(db.Model):
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'), nullable=False)
     pending = db.Column(db.Boolean, nullable=False, default=True)
     bio = db.Column(db.Text, nullable=False)
-    active = db.Column(db.Boolean, nullable=False, default=False)
     
     """Relationship to User Table"""
     user = db.relationship("User", backref="bios")
 
 
     def __repr__(self):
-        return f'<Bio bio_id={self.bio_id} {self.bio} user_id={self.user_id} show_id = {self.show_id}>'
+        return f'<Bio {self.pending} bio_id={self.bio_id} {self.bio} user_id={self.user_id} show_id = {self.show_id}>'
 
 
 class Headshot(db.Model):
@@ -126,19 +122,18 @@ class Headshot(db.Model):
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'), nullable=False)
     pending = db.Column(db.Boolean, nullable=False, default=True)
     img = db.Column(db.Text, nullable=False, unique=True)
-    active = db.Column(db.Boolean, nullable=False, default=False)
-
+    
     # """Relationship to User Table"""
     user = db.relationship("User", backref="headshots")
 
 
     def __repr__(self):
-        return f'<Headshot headshot_id={self.headshot_id} user_id={self.user_id} show_id={self.show_id}>'
+        return f'<Headshot {self.pending} headshot_id={self.headshot_id} user_id={self.user_id} show_id={self.show_id}>'
 
 
 def connect_to_db(flask_app, db_uri='postgresql:///playbillApp', echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
-    flask_app.config["SQLALCHEMY_ECHO"] = echo
+    flask_app.config["SQLALCHEMY_ECHO"] = False
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
 
     db.app = flask_app

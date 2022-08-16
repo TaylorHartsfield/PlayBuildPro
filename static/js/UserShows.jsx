@@ -26,7 +26,6 @@ function UserShows() {
                         <input type="hidden" name="show_id" value={show_id}/>
                         <input type="submit" placeholder="View/Edit Show Info" />
                     </form>
-                    <a href='/updateshow'>View/Edit Show Info</a>
                 </div> )
                 } else {
                 return (
