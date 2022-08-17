@@ -1,5 +1,9 @@
-
-
+div.row.whoswho {
+    padding: 3px;
+}
+div.col-4.head {
+    align-items: center;
+}
 div{
     display: block;
  

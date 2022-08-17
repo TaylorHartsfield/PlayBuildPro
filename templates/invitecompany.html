@@ -1,0 +1,61 @@
+{%extends 'base.html'%}
+{%block title%} {%endblock%}
+
+{%block head%}
+<script crossorigin src="https://unpkg.com/react@18/umd/react.development.js"></script>
+<script crossorigin src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/6.25.0/babel.min.js"></script>
+{%endblock%}
+
+{%block body%}
+
+<div class="container">
+  <div id="inviteCompany"></div>
+</div>
+<script src="/static/js/InviteCompany.jsx" type="text/jsx"></script>
+<script src="/static/js/editcast.js"></script>
+{%endblock%}
+
+<!-- 
+  <div class="row">
+<div class="col-6">
+  <h3>{{show.title}} Cast List:</h3>
+  <div class="row">
+    <div class="col-4">
+      <h5>Actor</h5>
+    </div>
+    <div class="col-4">
+      <h5>Role</h5>
+    </div>
+  </div>
+{%for member in cast%}
+    <div class="row">
+      <div class="col-4">{{member.user.fname}} {{member.user.lname}}</div>
+      <div class="col-4" id="role">{{member.role}}</div>
+
+    </div>
+    {%endfor%}
+  </div>
+
+<div class="col-6 offset-6">
+
+    <input type="text" class="form-control" id="fname" name="fname" required>
+  </div>
+  <div class="form-group">
+    <label for="lname">Last Name:</label>
+    <input type="text" class="form-control" id="lname" name="lname" required>
+  </div>
+  <div class="form-group">
+    <label for="email">Email:</label>
+    <input type="text" class="form-control" id="email" name="email" required>
+  </div>
+  <div class="form-group">
+    <label for="role">Role:</label>
+    <input type="text" class="form-control" id="role" name="role" required>
+  </div>
+  <input type="submit">
+</form>
+</div>
+</div>
+</div> -->
+

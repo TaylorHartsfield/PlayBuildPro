@@ -23,7 +23,7 @@ function WhosWho() {
                 <React.Fragment>
                 
                 <div className="row whoswho" draggable>
-                    <div className="col-4">
+                    <div className="col-4 head">
                         <img src={headshot}></img>
                     </div>
                     <div className="col-8">
@@ -32,7 +32,7 @@ function WhosWho() {
                                 <h6>{fname} {lname} (<i>{role}</i>)</h6>
                             </div>
                         </div>
-                        <div className="row" style={{textAlign: 'right'}} >
+                        <div className="row" style={{textAlign: 'right'}}>
                             <p>{bio}</p>
                         </div>
                     </div>

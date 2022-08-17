@@ -85,7 +85,7 @@ function UserShowProfile() {
                     </div>
                     <div className="col-6">
                     <form action="/update_bio" id="add_bio" method="POST">
-                        <textarea name="update" maxLength="375" cols="33" required/> 
+                        <textarea name="update" maxLength="275" cols="33" required/> 
                         <input type="submit" />
                     </form>
                     

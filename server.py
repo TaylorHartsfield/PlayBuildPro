@@ -107,13 +107,7 @@ def create_user():
     model.db.session.commit()
   
 
-    return jsonify({
-        'message' : 'Success',
-        'user':{
-                'fname': fname,
-                'lname': lname,
-                'role': role,
-    }})
+    return redirect('/invitecompany')
 
 @app.route('/search', methods=["POST"])
 def search_show():
@@ -143,16 +137,16 @@ def register_show():
     """A route to register a new show"""
 
     """Get Company Information from Form"""
-    company_name = request.json.get('company')
-    city = request.json.get('city')
-    state = request.json.get('state')
-    zip_code = request.json.get('zipcode')
+    company_name = request.form.get('company')
+    city = request.form.get('city')
+    state = request.form.get('state')
+    zip_code = request.form.get('zipcode')
   
     """Get Show Information from Form"""
-    title = request.json.get('title')
-    theater_name = request.json.get('theater')
-    opening_night = date.fromisoformat(request.json.get('openingNight'))
-    closing_night = date.fromisoformat(request.json.get('closingNight'))
+    title = request.form.get('title')
+    theater_name = request.form.get('theater')
+    opening_night = date.fromisoformat(request.form.get('openingNight'))
+    closing_night = date.fromisoformat(request.form.get('closingNight'))
     
     """Check if Company is already registered in DB"""
     company_exists = crud.get_company_by_name_city_state(company_name, city, state)
@@ -420,7 +414,7 @@ def cast():
     cast = crud.get_cast_by_show_id(session['show_id'])
     show = crud.get_show_by_id(session['show_id'])
 
-    return render_template("invitecompany.html", show=show, cast=cast)
+    return render_template("invitecompany.html")
     
 @app.route('/approveheadshot', methods=["POST"])
 def approve_headshot():
@@ -452,12 +446,12 @@ def approve_bio():
 def add_cast():
 
     show = crud.get_show_by_id(session['show_id'])
-    cast = crud.get_cast_by_show_id(sessshow_id)
+    cast = crud.get_cast_by_show_id(show.show_id)
     user = crud.get_user_by_email(request.form.get("email"))
     role = request.form.get("role")
    
     if user == None:
-        return redirect('/createUser')
+        return redirect('/createUser', code=307)
 
     already_added = crud.check_for_user_in_show(user, show_id)
     
@@ -629,9 +623,9 @@ def playbill_headshots():
 def current_cast():
 
     company = []
-    print(company)
 
     current_cast = crud.get_cast_by_show_id(session['show_id'])
+    print(current_cast)
 
     for member in current_cast:
         company.append({
@@ -648,7 +642,6 @@ def get_cast_list():
 
     cast = crud.get_cast_by_show_id(session['show_id'])
     show = crud.get_show_by_id(session['show_id'])
-    
     
     castList = []
 

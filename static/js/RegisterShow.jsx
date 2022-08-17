@@ -22,38 +22,38 @@ function RegisterShow() {
         setState({...state, 'image': URL.createObjectURL(event.target.files[0])})
     }
 
-    function handleSubmission(){
+    // function handleSubmission(){
 
-        const formInputs = {
-            title: `${state.title}`,
-            company: `${state.company}`,
-            openingNight: `${state.openingNight}`,
-            closingNight: `${state.closingNight}`,
-            theater: `${state.theater}`,
-            image: `${state.image}`,
-            city: `${state.city}`,
-            state: `${state.state}`,
-            zipcode: `${state.zipcode}`,
+    //     const formInputs = {
+    //         title: `${state.title}`,
+    //         company: `${state.company}`,
+    //         openingNight: `${state.openingNight}`,
+    //         closingNight: `${state.closingNight}`,
+    //         theater: `${state.theater}`,
+    //         image: `${state.image}`,
+    //         city: `${state.city}`,
+    //         state: `${state.state}`,
+    //         zipcode: `${state.zipcode}`,
 
-        }
+    //     }
 
-        console.log(formInputs)
+    //     console.log(formInputs)
 
-        fetch('/register_show', {
-            method: "POST",
-            body: JSON.stringify(formInputs),
-            headers: {
-                'Content-Type': 'application/json'
-            },
-            redirect: "follow",
-        })
-        .then((response) => response.text())
-        .then((jsonresponse) => {
+    //     fetch('/register_show', {
+    //         method: "POST",
+    //         body: JSON.stringify(formInputs),
+    //         headers: {
+    //             'Content-Type': 'application/json'
+    //         },
+    //         redirect: "follow",
+    //     })
+    //     .then((response) => response.text())
+    //     .then((jsonresponse) => {
             
-            console.log(jsonresponse)
-        })       
+    //         console.log(jsonresponse)
+    //     })       
 
-    }
+    // }
 
     function PlayBillView() {
         return (
@@ -80,8 +80,8 @@ function RegisterShow() {
      <React.Fragment>
         <div className="row">
             <div className="col-6">
-                <form method="POST" encType="multipart/form-data">
                     <h4>Company Information</h4>
+                    <form action='/register_show' method="POST" encType="multipart/form-data">
                         <label for="company">Company Name:</label>
                         <input id="company" className="form-control" type="text" name="company" value={state.company} onChange={handleOnChange}/>
                         <label for="city">City:</label>
@@ -101,9 +101,9 @@ function RegisterShow() {
                         <input id="closingNight" className="form-control" type="date" name="closingNight" value={state.closingNight} onChange={handleOnChange} />
                         <label for="image">Preview Your Playbill Cover Image:<br/><i>You will upload your final image at a later step</i></label>
                         <input id="image" onChange={handleImageChange} className="form-control" type="file" name="image" /><br/>
-                    <button type="button" onClick={handleSubmission}>Looks Good!</button>
+                    <button type="submit">Looks Good!</button>
+                    </form>
                     <p><i>Don't worry! You can edit this information later!</i></p>
-                </form>
             </div>
 
             <div className="col-6">
