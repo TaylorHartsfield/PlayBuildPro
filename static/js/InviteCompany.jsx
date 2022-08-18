@@ -6,6 +6,7 @@ function InviteCompany() {
                                         "lname" : '',
                                         "email" : '',
                                         "role" : ''})
+                                        
     const [show, setShow] = React.useState({})
 
     const [isEditing, setIsEditing] = React.useState(false)
