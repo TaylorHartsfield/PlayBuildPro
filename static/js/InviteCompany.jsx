@@ -8,7 +8,7 @@ function InviteCompany() {
                                         "role" : ''})
                                         
     const [show, setShow] = React.useState({})
-
+        
     const [isEditing, setIsEditing] = React.useState(false)
 
     const castList = []
@@ -36,6 +36,10 @@ function InviteCompany() {
         setAdd({...add, [event.target.name]: event.target.value})
     }
 
+    
+    function handleIsEditing() {
+        setIsEditing(true)
+    }
 
 
     function CurrentCast() {
@@ -43,12 +47,12 @@ function InviteCompany() {
             <React.Fragment>
                         <div className="col-6">
                             <h4>{show.title} Cast List</h4>
-                            {castList}
+                                {castList}
                         </div>
             </React.Fragment>
         )
     }
-
+    
     
 
     function CastList({fname, lname, role}) {
@@ -56,26 +60,27 @@ function InviteCompany() {
             <div className="row">
                 <div className="col-6">
                     <h5>{fname} {lname}</h5>
+                    <h5></h5>
                 </div>
                 <div className="col-6">
                     <h5><i>{role}</i></h5>
                 </div>
-            </div>
+               </div>
         )
     }
 
+
     for (const member of cast) {
+        console.log(member.lname)
 
         castList.push(
             <CastList 
             fname={member.fname}
-            lanme={member.lname}
+            lname={member.lname}
             role={member.role}
             key={member.email} 
-            />
-        )
-    }
-
+            />)
+        }
 
     return (
         <React.Fragment>

@@ -202,7 +202,8 @@ def get_show_info():
         "image": show.image,
         "active": show.active,
         "theater_name": show.theater_name,
-        "show_id": show.show_id}
+        "show_id": show.show_id,
+        "city": show.company.city}
 
     })
 
@@ -473,11 +474,13 @@ def add_cast():
 def udpate_actor():
 
     user_id = request.json["user_id"]
-    updated_role = request.json["updated_role"]
+    updated_role = request.json["role"]
 
-    if crud.update_actor(user_id, updated_role):
+    if crud.update_actor(user_id, role):
    
-        return "Success"
+        return jsonify({'message':"Success"})
+
+    return jsonify({'message': 'Error'})
 
 
 @app.route('/approvesubmits')
@@ -563,16 +566,8 @@ def viewplaybill():
     if show==None:
         flash('Oops, something went wrong here!')
         return redirect('/')
-   
-    return render_template('playbillbase.html', show=show)
-
-@app.route('/editPlaybill')
-def editing_playbill():
-
-    show = crud.get_show_by_id(session['show_id'])
-
-    flash('Editing Playbill Here!')
-    return redirect(f'/updateshow')
+    return render_template('playbill.html')
+    # return render_template('playbillbase.html', show=show)
 
 @app.route('/editplaybillimage', methods=["POST"])
 def edit_playbill():
@@ -632,6 +627,7 @@ def current_cast():
             'fname': member.user.fname,
             'lname': member.user.lname,
             'role': member.role,
+            'id': member.user.user_id
             })
     print(company)
 

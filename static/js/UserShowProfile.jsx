@@ -24,20 +24,17 @@ function UserShowProfile() {
          
         )
     }
-    console.log(user)
+   
     function AdminUser() {
         if (user.submissions){
-            console.log(user.submissions)
+           
            return (
             <React.Fragment>
             <div className="row">
                 <a href="/approvesubmits">New Submissions Need Review!</a>
             </div>
             <div className="row">
-                <a href="/invitecompany">Invite Company Members</a>
-            </div>
-            <div className="row">
-                <a href="/editPlaybill">Edit Playbill</a>
+                <a href="/invitecompany">Invite/Edit Company Members</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
@@ -50,10 +47,7 @@ function UserShowProfile() {
         return (
             <React.Fragment>
             <div className="row">
-                <a href="/invitecompany">Invite Company Members</a>
-            </div>
-            <div className="row">
-                <a href="/editPlaybill">Edit Playbill</a>
+                <a href="/invitecompany">Invite/Edit Company Members</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>

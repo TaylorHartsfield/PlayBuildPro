@@ -1,4 +1,4 @@
-function CastList() {
+export default function CastList() {
 
     const [list, setList] = React.useState([])
 
@@ -51,4 +51,4 @@ function CastList() {
 
 }
 
-ReactDOM.render(<CastList />, document.querySelector("#castlist"))
+// ReactDOM.render(<CastList />, document.querySelector("#castlist"))

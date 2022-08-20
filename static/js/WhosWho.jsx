@@ -67,23 +67,6 @@ function WhosWho() {
         </div>)
     }
 
-
-    // function EndOfCast() {
-    //     if (pageItems.length <= 0) {
-    //         return (
-    //             <div className="row">
-    //                 <h4>ACKNOWLEDGEMENTS</h4>
-    //                 <div className="row">
-    //                     <p>Thank you for coming to our show!</p>
-    //                 </div>  
-    //             </div>
-    //         )
-    //     } else {
-    //         return (
-    //             <div>Hello</div>
-    //         )
-    //     }
-    // }
         return (
             <React.Fragment>
                  <h3>Who's Who</h3>
@@ -104,6 +87,7 @@ function WhosWho() {
            </React.Fragment>
         )
 }
-    
 
-ReactDOM.render(<WhosWho />, document.querySelector('#cast'))
+export default WhosWho;
+
+// ReactDOM.render(<WhosWho />, document.querySelector('#cast'))

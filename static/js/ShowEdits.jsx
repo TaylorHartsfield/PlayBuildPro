@@ -111,7 +111,7 @@ function ShowEdits() {
 
     function editShowInfo() {
         return (
-            <div className="card">
+            <div className="container">
                   <h4>Show Title: <input type="text" placeholer={show.title} name="title" value={show.title} onChange={handleOnChange}/></h4>
                  <div className="slideBase">
                     <div className="cover">
@@ -187,10 +187,10 @@ function UserShowProfile() {
          
         )
     }      
-    console.log(user)
+   
 
     function AdminUser() {
-        console.log(user.submission)
+        
         if (user.submissions){
            return (
             <React.Fragment>
@@ -198,10 +198,7 @@ function UserShowProfile() {
                 <a href="/approvesubmits">New Submissions Need Review!</a>
             </div>
             <div className="row">
-                <a href="/invitecompany">Invite Company Members</a>
-            </div>
-            <div className="row">
-                <a href="/editPlaybill">Edit Playbill</a>
+                <a href="/invitecompany">Invite/Edit Members</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
@@ -214,10 +211,7 @@ function UserShowProfile() {
         return (
             <React.Fragment>
             <div className="row">
-                <a href="/invitecompany">Invite Company Members</a>
-            </div>
-            <div className="row">
-                <a href="/editPlaybill">Edit Playbill</a>
+                <a href="/invitecompany">Invite/Edit Company</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>

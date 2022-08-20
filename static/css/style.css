@@ -62,7 +62,7 @@ div.container.userinfo {
 }
 
 .pager-prev {
-    left: -14px;
+    left: -16px;
     height: 84px;
     width: 22px;
     background: url('/static/img/SliderArrows.png') no-repeat 0 0;
@@ -72,11 +72,14 @@ div.container.userinfo {
     position:absolute;
     top: 345px;
 }
+button {
+    border:none;
+
+}
 
 .pager-next {
-    right: -8px;
-    background-position: right 0;
-    right: -8px;
+
+    right: -10px;
     background-position: right 0;
     height: 84px;
     width: 22px;
@@ -84,6 +87,8 @@ div.container.userinfo {
     text-indent: -4000px;
     position: absolute;
     top: 345px;
+    transform: rotate(180deg);
+    
 }
 
 
