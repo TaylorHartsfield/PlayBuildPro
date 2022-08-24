@@ -13,6 +13,21 @@ function UserShows() {
         });
         }, []);
 
+    function Admin({admin, show_id}){
+        
+        if(admin) {
+            return (
+                <div>
+                    <form action='/archive'>
+                        <input type="hidden" value={show_id} name='show_id'></input>
+                        <button type="submit">Unarchive</button>
+                    </form>
+                </div>
+            )
+        }
+
+
+    }
 
     function ShowInfoCard({title, role, admin, show_id, active}) {
        
@@ -40,12 +55,14 @@ function UserShows() {
                 )
              }
         } else {
-            console.log("Returning falsey")
             return (
                 <div className="notActive">
                     <p>Title: {title}</p>
                     <p>Role: {role}</p>
-                    <a href='/viewplaybill'>View Playbill</a>
+                    <form action='/viewplaybill'>
+                        <input type="hidden" value={show_id} name='show_id'></input>
+                        <button type="submit">View Playbill</button>
+                    </form>
                 </div>
             )
         }
@@ -73,7 +90,8 @@ function UserShows() {
             show_id={show.show_id}
             key={show.show_id}
             active={show.active}
-            />
+            />,
+            <Admin admin={show.is_admin} show_id={show.show_id} />
         )
     }}
     

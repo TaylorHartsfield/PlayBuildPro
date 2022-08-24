@@ -49,10 +49,16 @@ def update_show_image(show_id, image):
 def archive_show(show_id):
 
     show = get_show_by_id(show_id)
-    show.active = False
+    show.active = not show.active
     model.db.session.commit()
     return show
 
+def unarchive_show(show_id):
+
+    show = get_show_by_id(show_id)
+    show.active = True
+    model.db.session.commit()
+    return show
 
 def search_shows(title):
    

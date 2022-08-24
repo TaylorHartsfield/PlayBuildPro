@@ -527,8 +527,10 @@ def viewplaybill():
 
     show_id = request.args.get('show_id')
     
+    
     if not show_id:
         show_id = session['show_id']
+
        
 
     session['show_id'] = show_id
@@ -664,7 +666,12 @@ def all_shows():
 @app.route('/archive')
 def archive():
 
-    crud.archive_show(session['show_id'])
+    show_id = request.args.get('show_id')
+    print(show_id)
+    if not show_id:
+        show_id = session['show_id']
+
+    crud.archive_show(show_id)
 
     return redirect('/user_profile')
 
