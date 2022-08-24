@@ -483,6 +483,7 @@ def udpate_actor():
 def approval():
     return render_template("whoswhoapproval.html")
 
+
 @app.route('/update_headshot', methods=["POST"])
 def update_headshot():
 
@@ -496,19 +497,6 @@ def update_headshot():
 
     flash("Headshot Updated!")
     return redirect(f'/updateshow')
-
-
-@app.route('/deny_headshot', methods=["POST"])
-def deny_headshot():
-
-
-    headshot_id = request.form.get('headshot_id')
-    headshot = model.Headshot.query.get(headshot_id)
-    show_id = headshot.show_id
-    model.db.session.commit()
-
-    flash(f'Headshot not published. Sent back to {headshot.user.fname}{headshot.user.lname} for updating.')
-    return redirect(f'/approvesumbits')
 
 
 
@@ -532,18 +520,6 @@ def update_bio():
     flash('Your Bio has been updated!')
     return redirect(f'/updateshow')
 
-
-@app.route('/deny_bio', methods=["POST"])
-def deny_bio():
-
-    bio_id = request.form.get('bio_id')
-    bio = model.Bio.query.get(bio_id)
-    show_id = bio.show_id
-    bio.show_id = None
-    model.db.session.commit()
-
-    flash(f'Headshot not published. Sent back to {bio.user.fname}{bio.user.lname} for updating.')
-    return redirect(f'/viewheadshots/{show_id}')
 
 
 @app.route('/viewplaybill/')
@@ -684,6 +660,13 @@ def all_shows():
             "id": show.show_id
         })
     return jsonify({'shows': showsInfo})
+
+@app.route('/archive')
+def archive():
+
+    crud.archive_show(session['show_id'])
+
+    return redirect('/user_profile')
 
 
 if __name__ == "__main__":

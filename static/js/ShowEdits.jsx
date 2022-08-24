@@ -196,13 +196,16 @@ function UserShowProfile() {
            return (
             <React.Fragment>
             <div className="row">
-                <a href="/approvesubmits">New Submissions Need Review!</a>
+                <a href="/approvesubmits" style={{fontWeight: "bold", color: "red"}}>New Submissions Need Review!</a>
             </div>
             <div className="row">
                 <a href="/invitecompany">Invite/Edit Members</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
+            </div>
+            <div className="row">
+                <a href="/archive" style={{fontWeight: 'bold', color: 'red'}}>Archive Show</a>
             </div>
             
             </React.Fragment>
@@ -216,6 +219,9 @@ function UserShowProfile() {
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
+            </div>
+            <div className="row">
+            <a href="/archive" style={{fontWeight: 'bold', color: 'red'}}>Archive Show</a>
             </div>
            
             </React.Fragment>

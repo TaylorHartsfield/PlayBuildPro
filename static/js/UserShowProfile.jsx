@@ -39,6 +39,9 @@ function UserShowProfile() {
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
             </div>
+            <div className="row"> 
+                <a href="/archive">Archive Show</a>
+            </div>
             
             </React.Fragment>
            )
@@ -51,6 +54,9 @@ function UserShowProfile() {
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
+            </div>
+            <div className="row"> 
+                <a href="/archive">Archive Show</a>
             </div>
            
             </React.Fragment>

@@ -46,14 +46,12 @@ def update_show_image(show_id, image):
     return show
 
 
-def archive_show(show_id, user_id):
-    
-    if is_admin:
-        show.active = False
-        model.db.session.commit()
-        return show
-    
-    return False
+def archive_show(show_id):
+
+    show = get_show_by_id(show_id)
+    show.active = False
+    model.db.session.commit()
+    return show
 
 
 def search_shows(title):
