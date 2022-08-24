@@ -183,11 +183,7 @@ def register_show():
     session['show_id'] = new_show.show_id
     flash('Show registered!')
     return render_template("invitecompany.html")
-    
-    # jsonify({
-        # "message": "Show Registered!",
-        # "url": '/invitecompany'})
-    
+
 
 @app.route('/api/showInfo')
 def get_show_info():
@@ -454,20 +450,20 @@ def add_cast():
     if user == None:
         return redirect('/createUser', code=307)
 
-    already_added = crud.check_for_user_in_show(user, show_id)
+    already_added = crud.check_for_user_in_show(user, show.show_id)
     
     if already_added:
         flash("You have already added this user to your show. If you do not see your user in this list, please check with the user that they have registered with PlaybillRender")
-        return redirect(f'/invitecompany')
+        return redirect('/invitecompany')
 
     if user:
-        new_cast = crud.add_to_cast(role, admin)
+        new_cast = crud.add_to_cast(role, False)
         new_cast.show_id = show.show_id
         new_cast.user_id = user.user_id
         model.db.session.add(new_cast)
         model.db.session.commit()
         flash(f'{user.fname}, added to cast!')
-        return redirect(f'/invitecompany')
+        return redirect('/invitecompany')
 
 
 @app.route('/update_actor', methods=["POST"])
@@ -563,11 +559,12 @@ def viewplaybill():
     show = crud.get_show_by_id(show_id)
 
     
-    if show==None:
+    if show == None:
         flash('Oops, something went wrong here!')
         return redirect('/')
+        
     return render_template('playbill.html')
-    # return render_template('playbillbase.html', show=show)
+    
 
 @app.route('/editplaybillimage', methods=["POST"])
 def edit_playbill():
@@ -588,31 +585,6 @@ def edit_playbill():
     update = crud.update_show_image(show.show_id, img_url)
 
     return redirect(f'/updateshow')
-    
-@app.route('/castlist')
-def playbill_castlist():
-
-    cast = crud.get_cast_by_show_id(session['show_id'])
-    
-    show = crud.get_show_by_id(session['show_id'])
-    if show==None:
-        flash('Oops, something went wrong here!')
-        return redirect('/')
-   
-
-    return render_template("castlist.html", show=show, cast=cast)
-
-@app.route('/whoswho')
-def playbill_headshots():
-
-    show = crud.get_show_by_id(session['show_id'])
-    cast = crud.get_cast_by_show_id(session['show_id'])
-    
-    if show==None:
-        flash('Oops, something went wrong here!')
-        return redirect('/')
-    
-    return render_template('whoswho.html', show=show, cast=cast)
 
 @app.route('/api/inviteCast')
 def current_cast():
@@ -620,7 +592,6 @@ def current_cast():
     company = []
 
     current_cast = crud.get_cast_by_show_id(session['show_id'])
-    print(current_cast)
 
     for member in current_cast:
         company.append({
@@ -629,7 +600,7 @@ def current_cast():
             'role': member.role,
             'id': member.user.user_id
             })
-    print(company)
+   
 
     return jsonify({'company': company})
 
@@ -697,6 +668,22 @@ def get_cast_list():
                     'cast' : castList, 
                     'pending': pendingApproval})
 
+@app.route('/api/allShows')
+def all_shows():
+
+    showsInfo = []
+    shows = model.Show.query.all()
+
+    for show in shows:
+        showsInfo.append({
+            "title": show.title,
+            "image": show.image,
+            "theater_name": show.theater_name,
+            "company": show.company.name,
+            "city": show.company.city,
+            "id": show.show_id
+        })
+    return jsonify({'shows': showsInfo})
 
 
 if __name__ == "__main__":

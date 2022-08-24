@@ -12,8 +12,7 @@ function WhosWhoApproval () {
         })
     }, [])
 
-    console.log(pending)
-
+   
     function HeadshotPending({ headshot, user_id, hpend }) {
         if (hpend) {
         return (
@@ -98,12 +97,17 @@ function WhosWhoApproval () {
 
     return (
         <React.Fragment>
-             <h3>Who's Who</h3>
-             <div className="castList">
-                <div className="row">
-                    {pendingCastRows}
-                </div>
+            <h3>Who's Who</h3>
+            <div className="playbillBase">
+                <div className="slideBase">
+                    <div className="castList">
+                        <div className="row">
+                            {pendingCastRows}
+                        </div>
+                    </div>  
+                </div>                    
             </div>
+             
         </React.Fragment>
     )
 

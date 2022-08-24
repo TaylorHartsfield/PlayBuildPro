@@ -145,8 +145,9 @@ function ShowEdits() {
         } else {
             return (
                 <div>
-                    {renderShowInfo()} 
                     {IsAdmin()}
+                    {renderShowInfo()} 
+                 
                 </div>)
         }};
 

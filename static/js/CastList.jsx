@@ -3,7 +3,7 @@ export default function CastList() {
     const [list, setList] = React.useState([])
 
     const allCast = []
-
+    
     React.useEffect(()=>{
         fetch('/api/getCast')
         .then((response)=> response.json())

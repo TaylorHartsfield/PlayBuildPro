@@ -122,8 +122,7 @@ function Playbill() {
         )
     }
     function CastList({fname, lname, role}) {
-
-        return (
+       return (
             <React.Fragment>
                 <div className="row"  draggable='true'>
                     <div className="col-4" >
@@ -165,7 +164,7 @@ function Playbill() {
 
 }
 
-
+console.log(cast[2])
     return (
         <React.Fragment>
            

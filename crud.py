@@ -47,7 +47,7 @@ def update_show_image(show_id, image):
 
 
 def archive_show(show_id, user_id):
-
+    
     if is_admin:
         show.active = False
         model.db.session.commit()
