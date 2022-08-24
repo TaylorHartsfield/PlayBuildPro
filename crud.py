@@ -53,16 +53,8 @@ def archive_show(show_id):
     model.db.session.commit()
     return show
 
-def unarchive_show(show_id):
-
-    show = get_show_by_id(show_id)
-    show.active = True
-    model.db.session.commit()
-    return show
-
 def search_shows(title):
    
-
     shows = model.Show.query.filter_by(title=title).all()
 
     return shows
