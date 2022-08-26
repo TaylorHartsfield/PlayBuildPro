@@ -131,16 +131,19 @@ def add_to_cast(role, admin):
     
     return new_cast_member
 
-def update_actor(user_id, new_role):
-
-    actor = get_user_by_id(user_id)
+def update_actor(user_id, new_role, show_id):
     
-    for user in actor.cast:
-        if user.user_id == actor.user_id:   
-            model.db.session.update(user.role, new_role)
+    actor = model.User.query.get(user_id)
+    show = get_show_by_id(show_id)
+    
+    for cast in actor.cast:    
+        if show.show_id == cast.show_id:
+            cast.role = new_role
             model.db.session.commit()
+           
 
-            return True
+    return actor
+
 
 """Headshot Functions"""
 

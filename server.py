@@ -469,14 +469,13 @@ def add_cast():
 @app.route('/update_actor', methods=["POST"])
 def udpate_actor():
 
-    user_id = request.json["user_id"]
-    updated_role = request.json["role"]
+    user_id = request.form.get("id")
+    new_role = request.form.get("role")
+    
+    crud.update_actor(user_id, new_role, session['show_id'])
+ 
 
-    if crud.update_actor(user_id, role):
-   
-        return jsonify({'message':"Success"})
-
-    return jsonify({'message': 'Error'})
+    return redirect('/invitecompany')
 
 
 @app.route('/approvesubmits')

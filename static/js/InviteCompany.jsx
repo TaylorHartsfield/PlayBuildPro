@@ -8,6 +8,11 @@ function InviteCompany() {
                                         "role" : ''})
                                         
     const [show, setShow] = React.useState({})
+
+    const [newRole, setNewRole] = React.useState({
+        "id": '',
+        "role": ''
+    })
         
     const [isEditing, setIsEditing] = React.useState(false)
 
@@ -37,9 +42,10 @@ function InviteCompany() {
     }
 
     
-    function handleIsEditing() {
-        setIsEditing(true)
+    function handleOnClick() {
+        setIsEditing(!isEditing)
     }
+
 
 
     function CurrentCast() {
@@ -55,7 +61,29 @@ function InviteCompany() {
     
     
 
-    function CastList({fname, lname, role}) {
+    function CastList({fname, lname, role, id, isEditing}) {
+
+        if (isEditing){
+            return (
+            <div className="row">
+                <div className="col-6">
+                    <h5>{fname} {lname}</h5>
+                    <h5></h5>
+                </div>
+            <div className="col-6">
+                <h6>
+                <i>{role}</i>
+                <form action='/update_actor' method="POST">
+                    <input type="hidden" value={id} name="id"></input>
+                    <input type="text" name='role' placeholder={role}></input>
+                    <button type="submit">Submit</button>
+                </form>
+                </h6>
+            </div>
+            
+           </div>
+            )
+        } else
         return (
             <div className="row">
                 <div className="col-6">
@@ -63,15 +91,32 @@ function InviteCompany() {
                     <h5></h5>
                 </div>
                 <div className="col-6">
-                    <h5><i>{role}</i></h5>
+                    <h6>
+                    <i>{role}</i>
+                    <button onClick={handleOnClick} type="button" value={id}>Update Role</button>
+                    </h6>
                 </div>
                </div>
         )
     }
 
 
+    function ViewPlaybill() {
+
+        return (
+            <React.Fragment>
+                <div className = "container">
+                    <form action='/viewplaybill'>
+                    <input type="hidden" name="show_id" value={show.show_id}/>
+                    <button type="submit" >View Playbill</button>
+                    </form>
+                </div>
+            </React.Fragment>
+        )
+    }
+
     for (const member of cast) {
-        console.log(member.lname)
+        if (member.role != 'Admin') {
 
         castList.push(
             <CastList 
@@ -79,11 +124,14 @@ function InviteCompany() {
             lname={member.lname}
             role={member.role}
             key={member.email} 
+            id={member.id}
+            isEditing={isEditing}
             />)
-        }
+        }}
 
     return (
         <React.Fragment>
+            <ViewPlaybill />
             <div className='container'>
                     <div className="row">
                         <CurrentCast />
