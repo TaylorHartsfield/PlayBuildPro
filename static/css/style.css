@@ -138,6 +138,18 @@ button {
     left:0;
 }
 
+.userStats {
+    padding:55px 30px 55px 30px;
+    position: relative;
+    background: url('/static/img/Marquee.png') no-repeat scroll 0 0;
+    background-size:cover;
+    height: 450px;
+    width: 450px;
+    margin: auto;
+    align-items: center;
+
+}
+
 .cover-head {
     background: url('/static/img/PBCoverHeader.png') no-repeat scroll 0 0;
     height: 163px;
@@ -175,6 +187,3 @@ ul {
     list-style: none;
 }
 
-/* ul.bios {
-    list-style:
-} */

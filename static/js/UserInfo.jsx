@@ -12,7 +12,7 @@ function ShowUserInfo() {
         });
     }, []);
 
-
+   
 
     function handleSumbission() {
 
@@ -50,18 +50,35 @@ function ShowUserInfo() {
     function renderViewUserInfo(){
 
         return (
-        <div>
-            <h1>User Name: {user.fname} {user.lname}</h1>
-            <h4>User Email: {user.email} </h4>
+            <React.Fragment>
+        <div className="userStats">
+            <div className="marqueetext">
+                <div className="row">
+                    <h2 style={{fontFamily: "showtime", fontSize:"65px"}}>Starring</h2>
+                </div>
+                <div className="row">
+                    <h4><img src='/static/img/download.png' style={{height: "150px", width: "150px"}}></img></h4>
+                </div>
+                <div className="row">
+                    <h4>{user.fname} {user.lname}</h4>
+                </div>
+                <div className="row">
+                    <h5>She/Her</h5>
+                </div>
+            </div>
+        </div>
+        <div className="row">
             <button type="button" onClick={handleOnClick}>Edit User Info</button>
         </div>
+        </React.Fragment>
+     
         )
     }
 
   
     function renderEditUserInfo(){
         return (
-            <div>
+            <div className="card">
                 <input type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
                 <input type="text" placeholder={user.lname} value={user.lname} onChange={handleLNameChange}/>
                 <button type="submit" onClick={handleSumbission}>Submit your Changes!</button>
@@ -71,9 +88,10 @@ function ShowUserInfo() {
     
     function renderUserInfo() {
         if (isEditing){
-            return renderEditUserInfo();
+            return renderEditUserInfo()
+               
         } else {
-            return renderViewUserInfo();
+            return renderViewUserInfo()
         }};
 
    

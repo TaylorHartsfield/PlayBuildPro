@@ -11,6 +11,7 @@ import os
 from sendgrid import SendGridAPIClient
 from sendgrid.helpers.mail import Mail
 import requests
+import random
 
 
 app = Flask(__name__)
@@ -234,11 +235,11 @@ def edit_show_info():
 @app.route('/api/userinfo')
 def get_user_info():
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
-    
+    print(user.fname)
     return jsonify({"user": {
-                "fname": f"{user.fname}",
-                "lname": f"{user.lname}",
-                "email": f"{user.email}"}})
+                "fname": user.fname,
+                "lname": user.lname,
+                "email": user.email}})
 
 
 @app.route('/api/usershowinfo')
@@ -266,7 +267,7 @@ def get_user_show_info():
                 "role": role,
                 "admin": is_admin,
                 "submissions": submissions,
-                "show_id": show.show_id
+                "show_id": show.show_id,
 
     }})
 
@@ -341,7 +342,8 @@ def get_user_shows():
             "title": show.shows.title,
             "role": show.role,
             "is_admin": show.admin,
-            "active": show.shows.active
+            "active": show.shows.active,
+            "image": show.shows.image
         })
 
     return jsonify({'shows': shows})

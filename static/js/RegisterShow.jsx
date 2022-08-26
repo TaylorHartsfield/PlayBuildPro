@@ -22,38 +22,6 @@ function RegisterShow() {
         setState({...state, 'image': URL.createObjectURL(event.target.files[0])})
     }
 
-    // function handleSubmission(){
-
-    //     const formInputs = {
-    //         title: `${state.title}`,
-    //         company: `${state.company}`,
-    //         openingNight: `${state.openingNight}`,
-    //         closingNight: `${state.closingNight}`,
-    //         theater: `${state.theater}`,
-    //         image: `${state.image}`,
-    //         city: `${state.city}`,
-    //         state: `${state.state}`,
-    //         zipcode: `${state.zipcode}`,
-
-    //     }
-
-    //     console.log(formInputs)
-
-    //     fetch('/register_show', {
-    //         method: "POST",
-    //         body: JSON.stringify(formInputs),
-    //         headers: {
-    //             'Content-Type': 'application/json'
-    //         },
-    //         redirect: "follow",
-    //     })
-    //     .then((response) => response.text())
-    //     .then((jsonresponse) => {
-            
-    //         console.log(jsonresponse)
-    //     })       
-
-    // }
 
     function PlayBillView() {
         return (

@@ -13,60 +13,70 @@ function UserShows() {
         });
         }, []);
 
-    function Admin({admin, show_id}){
-        
-        if(admin) {
-            return (
-                <div>
-                    <form action='/archive'>
-                        <input type="hidden" value={show_id} name='show_id'></input>
-                        <button type="submit">Unarchive</button>
-                    </form>
-                </div>
-            )
-        }
 
-
-    }
-
-    function ShowInfoCard({title, role, admin, show_id, active}) {
+    function ShowInfoCard({title, role, admin, show_id, active, image}) {
        
         if (active) {
-            if (admin) {
                 return (
-                <div className="showCard">
-                    <p>Title: {title}</p>
-                    <p>Role: {role}</p>
+                <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
+                    <div className="col-4">
+                        <img src={image} style={{height: "100px", width: "100px"}}/>
+                    </div>
+                    <div className="col-4">
+                        <h6><i>{title}</i></h6>
+                        <p><i>as {role}</i></p>
+                    </div>
+                    <div className="col-4">
                     <form action='/updateshow'>
                         <input type="hidden" name="show_id" value={show_id}/>
-                        <input type="submit" placeholder="View/Edit Show Info" />
+                        <button type="submit">Update Playbill</button>
                     </form>
-                </div> )
-                } else {
-                return (
-                    <div className="showCard">
-                        <p>Title: {title}</p>
-                        <p>Role: {role}</p>
-                        <form action='/updateshow'>
-                            <input type="hidden" name="show_id" value={show_id}/>
-                            <input type="submit" placeholder="View/Edit Show Info" />
-                        </form>
-                    </div>
-                )
-             }
-        } else {
-            return (
-                <div className="notActive">
-                    <p>Title: {title}</p>
-                    <p>Role: {role}</p>
                     <form action='/viewplaybill'>
-                        <input type="hidden" value={show_id} name='show_id'></input>
+                        <input type="hidden" name="show_id" value={show_id}/>
                         <button type="submit">View Playbill</button>
                     </form>
+                    </div>
+                </div> )
+                } else if (admin && !active) {
+            return (
+                <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
+                    <div className="col-4">
+                        <img src={image} style={{height: "100px", width:"100px"}}/>
+                    </div>
+                    <div className="col-4">
+                        <h6><i>{title}</i></h6>
+                        <p><i>as {role}</i></p>
+                    </div>
+                    <div className="col-4">
+                        <form action='/viewplaybill'>
+                            <input type="hidden" value={show_id} name='show_id'></input>
+                            <button type="submit">View Playbill</button>
+                        </form>
+                        <form action='/archive'>
+                            <input type="hidden" value={show_id} name='show_id'></input>
+                        <button type="submit">Unarchive</button>
+                    </form>
+                    </div>
                 </div>
-            )
-        }
-       }  
+                )} else if(!admin && !active) {
+                    return (
+                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
+                            <div className="col-4">
+                                <img src={image} style={{height: "100px", width:"100px"}}/>
+                            </div>
+                            <div className="col-4">
+                                <h6><i>{title}</i></h6>
+                                <p><i>as {role}</i></p>
+                            </div>
+                            <div className="col-4">
+                                <form action='/viewplaybill'>
+                                    <input type="hidden" value={show_id} name='show_id'></input>
+                                    <button type="submit">View Playbill</button>
+                                </form>
+                            </div>
+                        </div>
+                        )}
+                    }  
 
     for (const show of userShows) {
        
@@ -79,6 +89,7 @@ function UserShows() {
             show_id={show.show_id}
             key={show.show_id}
             active={show.active}
+            image={show.image}
             />
         )
     } else {
@@ -90,30 +101,29 @@ function UserShows() {
             show_id={show.show_id}
             key={show.show_id}
             active={show.active}
+            image={show.image}
             />,
-            <Admin admin={show.is_admin} show_id={show.show_id} />
+
         )
     }}
     
     return (
         <React.Fragment>
-            <div className="row">
-           
-                <div className="col-6">
+            <div className="container">
+                <div className="row">
                     <h3>Active Shows:</h3>
                     <div className="showInfoCards">
                         {showInfoCards}
-                        </div>
                     </div>
-                
-            <div className="col-6">
-                <h3>Archived Shows:</h3>
-                <div className="notActive">
-                    {notActive}
                 </div>
-            </div>
-            
-       
+                    
+                
+                <div className="row">
+                    <h3>Archived Shows:</h3>
+                    <div className="notActive">
+                        {notActive}
+                    </div>
+                </div>
             </div>
         </React.Fragment>
    
