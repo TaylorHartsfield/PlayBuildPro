@@ -351,13 +351,15 @@ def get_user_shows():
     shows = []
 
     for show in user.cast:
+        submissions = crud.new_submissions(crud.get_show_by_id(show.show_id))
         shows.append({
             "show_id": show.show_id,
             "title": show.shows.title,
             "role": show.role,
             "is_admin": show.admin,
             "active": show.shows.active,
-            "image": show.shows.image
+            "image": show.shows.image,
+            "submissions": submissions,
         })
 
     return jsonify({'shows': shows})
