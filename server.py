@@ -91,10 +91,10 @@ def logout():
 @app.route('/createUser', methods=['POST'])
 def create_user():
 
-    email = request.form.get('email')
-    fname = request.form.get('fname')
-    lname = request.form.get('lname')
-    role = request.form.get('role')
+    email = request.form.get('email').strip()
+    fname = request.form.get('fname').strip()
+    lname = request.form.get('lname').strip()
+    role = request.form.get('role').strip()
 
     user = crud.create_user(fname, lname, email)
     model.db.session.add(user)
@@ -106,6 +106,20 @@ def create_user():
     add_to_cast.user_id = user.user_id
     model.db.session.add(add_to_cast)
     model.db.session.commit()
+
+    message = Mail(
+        from_email='playbuildpro@gmail.com',
+        to_emails=email,
+        subject = f'Welcome to {crud.get_show_by_id(session["show_id"]).title}!',
+        html_content=f'<strong>Break a leg {fname} {lname}!</strong> <p>Please register to <a href="https://www.playbuildpro.com">PlayBuild Pro</a>\
+            with {email}  to access your show account and upload your Playbill Bio and Headshot for <i>{crud.get_show_by_id(session["show_id"]).title}</i> at {crud.get_show_by_id(session["show_id"]).company.name}! You can edit this information at anytime\
+                during the run of your show and, once approved, see those changes rendered to the virtual Playbill!</p>'
+    )
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+    except:
+        None
   
 
     return redirect('/invitecompany')
@@ -138,14 +152,14 @@ def register_show():
     """A route to register a new show"""
 
     """Get Company Information from Form"""
-    company_name = request.form.get('company')
-    city = request.form.get('city')
-    state = request.form.get('state')
-    zip_code = request.form.get('zipcode')
+    company_name = request.form.get('company').strip()
+    city = request.form.get('city').strip()
+    state = request.form.get('state').strip()
+    zip_code = request.form.get('zipcode').strip()
   
     """Get Show Information from Form"""
-    title = request.form.get('title')
-    theater_name = request.form.get('theater')
+    title = request.form.get('title').strip()
+    theater_name = request.form.get('theater').strip()
     opening_night = date.fromisoformat(request.form.get('openingNight'))
     closing_night = date.fromisoformat(request.form.get('closingNight'))
     
@@ -455,7 +469,7 @@ def add_cast():
     already_added = crud.check_for_user_in_show(user, show.show_id)
     
     if already_added:
-        flash("You have already added this user to your show. If you do not see your user in this list, please check with the user that they have registered with PlaybillRender")
+        flash("You have already added this user to your show. If you do not see your user in this list, please check with the user that they have registered with PlayBuild Pro!")
         return redirect('/invitecompany')
 
     if user:
@@ -464,8 +478,22 @@ def add_cast():
         new_cast.user_id = user.user_id
         model.db.session.add(new_cast)
         model.db.session.commit()
-        flash(f'{user.fname}, added to cast!')
-        return redirect('/invitecompany')
+        message = Mail(
+        from_email='playbuildpro@gmail.com',
+        to_emails= user.email,
+        subject = f'Welcome to {show.title}!',
+        html_content=f'<strong>Break a leg {user.fname} {user.lname}!</strong> <p>Please login to <a href="https://www.playbuildpro.com">PlayBuild Pro</a>\
+            to access your show account and upload your Playbill Bio and Headshot for <i>{show.title}</i> at {show.company.name}! You can edit this information at anytime\
+                during the run of your show and, once approved, see those changes rendered to the live playbill!</p>'
+    )
+    try:
+        sg = SendGridAPIClient(os.environ.get('SENDGRID_API_KEY'))
+        response = sg.send(message)
+    except:
+        None
+  
+    flash(f'{user.fname}, added to cast!')
+    return redirect('/invitecompany')
 
 
 @app.route('/update_actor', methods=["POST"])
@@ -675,6 +703,7 @@ def archive():
     crud.archive_show(show_id)
 
     return redirect('/user_profile')
+
 
 
 if __name__ == "__main__":

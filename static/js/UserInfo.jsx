@@ -56,10 +56,7 @@ function ShowUserInfo() {
                 <div className="row">
                     <h2 style={{fontFamily: "showtime", fontSize:"65px"}}>Starring</h2>
                 </div>
-                <div className="row">
-                    <h4><img src='/static/img/download.png' style={{height: "150px", width: "150px"}}></img></h4>
-                </div>
-                <div className="row">
+                <div className="row" style={{paddingTop: "20px"}}>
                     <h4>{user.fname} {user.lname}</h4>
                 </div>
                 <div className="row">

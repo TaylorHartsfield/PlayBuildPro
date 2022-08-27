@@ -143,13 +143,13 @@ function InviteCompany() {
                             <div className="col">
                                 <form action="/addcast" method="POST">
                                     <label for="fname">First Name:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="fname" value={add.fname}/></label>
+                                    <input type="text" onChange={handleOnChange} className="form-control" name="fname" value={add.fname} required/></label>
                                     <label for="lname">Last Name:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="lname" value={add.lname}/></label>
+                                    <input type="text" onChange={handleOnChange} className="form-control" name="lname" value={add.lname} required/></label>
                                     <label for="email">Email:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="email" value={add.email}/></label>
+                                    <input type="text" onChange={handleOnChange} className="form-control" name="email" value={add.email} required/></label>
                                     <label for="role">Role:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="role" value={add.role}/></label>
+                                    <input type="text" onChange={handleOnChange} className="form-control" name="role" value={add.role} required/></label>
                                     <button className="form-control" type="submit" >Add {add.fname} to {show.title} </button>
                                 </form>
                             </div>

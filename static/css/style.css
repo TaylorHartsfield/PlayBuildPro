@@ -143,8 +143,8 @@ button {
     position: relative;
     background: url('/static/img/Marquee.png') no-repeat scroll 0 0;
     background-size:cover;
-    height: 450px;
-    width: 450px;
+    height: 350px;
+    width: 350px;
     margin: auto;
     align-items: center;
 
