@@ -164,7 +164,8 @@ function Playbill() {
 
 }
 
-console.log(cast[2])
+    console.log(cast)
+
     return (
         <React.Fragment>
            

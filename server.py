@@ -140,9 +140,9 @@ def search_show():
 @app.route('/register_show')
 def register_show_form():
 
-    if not session:
-        flash("Please login to register a show!")
-        return redirect('/login')
+    if session.get('user') == None:
+        flash('Please Login!')
+        return redirect('/')
    
     return render_template("register_show.html")
 
@@ -197,7 +197,7 @@ def register_show():
 
     session['show_id'] = new_show.show_id
     flash('Show registered!')
-    return render_template("invitecompany.html")
+    return redirect("/invitecompany")
 
 
 @app.route('/api/showInfo')
@@ -370,9 +370,9 @@ def user_profile():
 
     # Check that a session has been created from
     # login or register user routes
-    if not session:
-        flash('Please Login')
-        return redirect('/login')
+    if session.get('user') == None:
+        flash('Please Login!')
+        return redirect('/')
 
     user_email = session['user']['userinfo']['email']
     # user_id = session['user']
@@ -417,9 +417,10 @@ def update_show():
 @app.route('/invitecompany')
 def cast():
     
-    if not session['user']:
-        flash('Please Login')
-        return redirect('/login')
+  
+    if session.get('user') == None:
+        flash('Please Login!')
+        return redirect('/')
 
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
     if not crud.is_admin(session['show_id'], user):
@@ -617,47 +618,55 @@ def current_cast():
 def get_cast_list():
 
     cast = crud.get_cast_by_show_id(session['show_id'])
+
     show = crud.get_show_by_id(session['show_id'])
     
     castList = []
+    print(castList)
 
     pendingApproval = []
    
-
     for member in cast:
-      
-    
-        headshot = member.user.headshots
-        for headshots in headshot:
-            if headshots.show_id == show.show_id:
-                headshot = headshots.img
-                hpend = headshots.pending
-  
-        if headshot == []:
-            headshot = "/static/img/download.png"
-            hpend = False
+
+        headshot = crud.get_user_headshot_for_show(member.user, show)
+
+        if headshot == None:
+            headshot = crud.add_new_headshot("/static/img/download.png")
+            model.db.session.add(headshot)
+            headshot.show_id = show.show_id
+            headshot.user_id = member.user_id
+            headshot.pending = True
+            model.db.session.commit()
+
+            headshot = crud.get_user_headshot_for_show(member.user, show)
+            hpend = headshot.pending
 
         bio = crud.get_user_bio_for_show(member.user, show)
 
         if bio == None:
-            bio = 'No Bio Submitted'
-            bpend = False
-        else:
-            bpend = bio.pending
-            bio = bio.bio
-           
+            bio = crud.add_bio('No Bio Submitted')
+            model.db.session.add(bio)
+            bio.show_id = show.show_id
+            bio.user_id = member.show_id
+            bio.pending = True
+            model.db.session.commit()
+
+            bio = crud.get_user_bio_for_show(member.user, show)
+       
+    
+        
         if member.role == "Admin":
             continue
 
-        if (hpend == False and bpend == False):
+        if (headshot.pending == False and bio.pending == False):
             castList.append({
                 "fname": member.user.fname,
                 "lname": member.user.lname,
                 "role": member.role,
-                "headshot": headshot,
-                "hpend": hpend,
-                "bio" : bio,
-                "bpend": bpend,
+                "headshot": headshot.img,
+                "hpend": headshot.pending,
+                "bio" : bio.bio,
+                "bpend": bio.pending,
                 "id" : member.user.user_id
             })
         else:
@@ -665,14 +674,14 @@ def get_cast_list():
                 "fname": member.user.fname,
                 "lname": member.user.lname,
                 "role": member.role,
-                "headshot": headshot,
-                "hpend": hpend,
-                "bio" : bio,
-                "bpend": bpend,
+                "headshot": headshot.img,
+                "hpend": headshot.pending,
+                "bio" : bio.bio,
+                "bpend": bio.pending,
                 "id" : member.user.user_id
             })
 
-
+   
     return jsonify({
                     'cast' : castList, 
                     'pending': pendingApproval})
@@ -698,7 +707,7 @@ def all_shows():
 def archive():
 
     show_id = request.args.get('show_id')
-    print(show_id)
+
     if not show_id:
         show_id = session['show_id']
 
@@ -706,6 +715,14 @@ def archive():
 
     return redirect('/user_profile')
 
+
+@app.route('/delete_from_cast', methods=["POST"])
+def delete_from_cast():
+
+    user_id = request.form.get('id')
+    crud.remove_from_cast(user_id, session['show_id'])
+
+    return redirect('/invitecompany')
 
 
 if __name__ == "__main__":

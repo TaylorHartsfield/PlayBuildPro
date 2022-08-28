@@ -9,11 +9,6 @@ function InviteCompany() {
                                         
     const [show, setShow] = React.useState({})
 
-    const [newRole, setNewRole] = React.useState({
-        "id": '',
-        "role": ''
-    })
-        
     const [isEditing, setIsEditing] = React.useState(false)
 
     const castList = []
@@ -47,7 +42,6 @@ function InviteCompany() {
     }
 
 
-
     function CurrentCast() {
         return (
             <React.Fragment>
@@ -61,42 +55,55 @@ function InviteCompany() {
     
     
 
-    function CastList({fname, lname, role, id, isEditing}) {
+    function CastList({fname, lname, role, email, id, isEditing}) {
 
         if (isEditing){
             return (
-            <div className="row">
-                <div className="col-6">
-                    <h5>{fname} {lname}</h5>
-                    <h5></h5>
+            <React.Fragment>
+               <div className="card">
+                <div className="row">
+                    <div className="col-6">
+                        <h5>{fname} {lname}</h5>
+                        <h5></h5>
+                    </div>
+                    <div className="col-6">
+                        <h6>
+                        <i>{role}</i>
+                        <form action='/update_actor' method="POST">
+                            <input type="hidden" value={id} name="id"></input>
+                            <input type="text" name="role" placeholder={role} required></input>
+                            <button type="submit">Submit</button>
+                        </form>
+                        </h6>
+                    </div>
                 </div>
-            <div className="col-6">
-                <h6>
-                <i>{role}</i>
-                <form action='/update_actor' method="POST">
-                    <input type="hidden" value={id} name="id"></input>
-                    <input type="text" name='role' placeholder={role}></input>
-                    <button type="submit">Submit</button>
-                </form>
-                </h6>
-            </div>
-            
-           </div>
+                </div>
+              
+            </React.Fragment>
             )
         } else
         return (
-            <div className="row">
-                <div className="col-6">
-                    <h5>{fname} {lname}</h5>
-                    <h5></h5>
+           <React.Fragment>
+            <div className="card">
+                <div className="row">
+                    <div className="col-4">
+                        <p><strong>{fname} {lname}</strong></p>
+                        <p>{email}</p>
+                    </div>
+                    <div className="col-4">
+                        <p><i>{role}</i></p> 
+                    </div>
+                    <div className="col-4">
+                        <button onClick={handleOnClick} type="button" value={id}>Update Role</button>
+                        <form action='/delete_from_cast' method="POST">
+                            <input type="hidden" value={id} name="id"></input>
+                            <button type="submit">Remove From Cast</button>
+                        </form>
+                    </div>
                 </div>
-                <div className="col-6">
-                    <h6>
-                    <i>{role}</i>
-                    <button onClick={handleOnClick} type="button" value={id}>Update Role</button>
-                    </h6>
-                </div>
-               </div>
+            </div>
+            </React.Fragment>
+            
         )
     }
 
@@ -123,6 +130,7 @@ function InviteCompany() {
             fname={member.fname}
             lname={member.lname}
             role={member.role}
+            email={member.email}
             key={member.email} 
             id={member.id}
             isEditing={isEditing}
@@ -134,7 +142,9 @@ function InviteCompany() {
             <ViewPlaybill />
             <div className='container'>
                     <div className="row">
+
                         <CurrentCast />
+                        
                         <div className="col-6">
                         <div className="row">
                             <h4>Invite Company</h4>
@@ -155,6 +165,7 @@ function InviteCompany() {
                             </div>
                         </div>
                     </div>
+                   
                     </div>
             </div>
         </React.Fragment>

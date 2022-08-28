@@ -15,7 +15,7 @@ class Show(db.Model):
     opening_night = db.Column(db.Date, nullable=False)
     closing_night = db.Column(db.Date, nullable=False)
     active = db.Column(db.Boolean, nullable=False, default=True)
-    image = db.Column(db.Text, unique=True)
+    image = db.Column(db.Text)
     theater_name = db.Column(db.String)
 
     """Relationship to Company Table"""
@@ -39,7 +39,7 @@ class User(db.Model):
     user_id = db.Column(db.Integer, primary_key=True, autoincrement=True)
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
-    email = db.Column(db.String(100), nullable=False, unique=True)
+    email = db.Column(db.String(100), nullable=False)
     # password_hash = db.Column(db.String(200))
 
     # """Function to hash user password for DB"""
@@ -121,7 +121,7 @@ class Headshot(db.Model):
     user_id = db.Column(db.Integer, db.ForeignKey('users.user_id'), nullable=False)
     show_id = db.Column(db.Integer, db.ForeignKey('shows.show_id'), nullable=False)
     pending = db.Column(db.Boolean, nullable=False, default=True)
-    img = db.Column(db.Text, nullable=False, unique=True)
+    img = db.Column(db.Text, nullable=False)
     
     # """Relationship to User Table"""
     user = db.relationship("User", backref="headshots")

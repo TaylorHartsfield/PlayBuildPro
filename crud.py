@@ -145,6 +145,17 @@ def update_actor(user_id, new_role, show_id):
     return actor
 
 
+def remove_from_cast(user_id, show_id):
+
+    actor = model.Cast.query.filter_by(user_id=user_id, show_id=show_id).first()
+    headshot = model.Headshot.query.filter_by(user_id=user_id, show_id=show_id).first()
+    bio = model.Bio.query.filter_by(user_id=user_id, show_id=show_id).first()
+    model.db.session.delete(actor)
+    model.db.session.delete(headshot)
+    model.db.session.delete(bio)
+    model.db.session.commit()
+    
+    return
 """Headshot Functions"""
 
 def add_new_headshot(img):
