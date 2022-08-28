@@ -263,15 +263,33 @@ def new_submissions(show):
 
     for headshot in show.headshots:
         for role in headshot.user.cast:
-            if show.show_id == role.show_id and role.role != "Admin" and headshot.pending == True:
+            if show.show_id == role.show_id and role.role != "Admin" and headshot.pending == True and headshot.img != "/static/img/download.png":
                 return True
     
     for bio in show.bios:
         for role in bio.user.cast:
-            if show.show_id == role.show_id and role.role != "Admin" and bio.pending == True:
+            if show.show_id == role.show_id and role.role != "Admin" and bio.pending == True and bio.bio != "No Bio Submitted":
                 return True
     
     return False
+
+
+def waiting_on_submissions(show):
+
+    for headshot in show.headshots:
+        for role in headshot.user.cast:
+            if show.show_id == role.show_id and role.role != "Admin" and headshot.pending == True and headshot.img == "/static/img/download.png":
+                return True
+    
+    for bio in show.bios:
+        for role in bio.user.cast:
+            if show.show_id == role.show_id and role.role != "Admin" and bio.pending == True and bio.bio == "No Bio Submitted":
+                return True
+    
+    return False
+
+
+
 
 
 

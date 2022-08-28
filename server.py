@@ -68,7 +68,6 @@ def callback():
         model.db.session.add(new_user)
         model.db.session.commit()
 
-    flash(f'Break a leg, {new_user.fname} ')
     return redirect('/user_profile')
 
 
@@ -249,7 +248,7 @@ def edit_show_info():
 @app.route('/api/userinfo')
 def get_user_info():
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
-    print(user.fname)
+    
     return jsonify({"user": {
                 "fname": user.fname,
                 "lname": user.lname,
@@ -348,10 +347,15 @@ def get_user_shows():
 
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
 
+
     shows = []
 
     for show in user.cast:
         submissions = crud.new_submissions(crud.get_show_by_id(show.show_id))
+        waiting_on_submits = crud.waiting_on_submissions(crud.get_show_by_id(show.show_id))
+        headshot = crud.get_user_headshot_for_show(user, show.shows)
+        bio = crud.get_user_bio_for_show(user, show.shows)
+        
         shows.append({
             "show_id": show.show_id,
             "title": show.shows.title,
@@ -360,6 +364,9 @@ def get_user_shows():
             "active": show.shows.active,
             "image": show.shows.image,
             "submissions": submissions,
+            "waiting": waiting_on_submits,
+            "headshot": headshot.img,
+            "bio": bio.bio,   
         })
 
     return jsonify({'shows': shows})
@@ -622,14 +629,14 @@ def get_cast_list():
     show = crud.get_show_by_id(session['show_id'])
     
     castList = []
-    print(castList)
 
     pendingApproval = []
    
     for member in cast:
-
+    
         headshot = crud.get_user_headshot_for_show(member.user, show)
-
+        bio = crud.get_user_bio_for_show(member.user, show)
+       
         if headshot == None:
             headshot = crud.add_new_headshot("/static/img/download.png")
             model.db.session.add(headshot)
@@ -641,19 +648,18 @@ def get_cast_list():
             headshot = crud.get_user_headshot_for_show(member.user, show)
             hpend = headshot.pending
 
-        bio = crud.get_user_bio_for_show(member.user, show)
-
         if bio == None:
-            bio = crud.add_bio('No Bio Submitted')
-            model.db.session.add(bio)
-            bio.show_id = show.show_id
-            bio.user_id = member.show_id
-            bio.pending = True
+           
+            new_bio = crud.add_bio('No Bio Submitted')
+            model.db.session.add(new_bio)
+            new_bio.show_id = show.show_id
+            new_bio.user_id = member.user_id
+            new_bio.pending = True
             model.db.session.commit()
 
-            bio = crud.get_user_bio_for_show(member.user, show)
+        bio = crud.get_user_bio_for_show(member.user, show)
+        print(bio)
        
-    
         
         if member.role == "Admin":
             continue

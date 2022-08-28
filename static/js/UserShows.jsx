@@ -13,8 +13,8 @@ function UserShows() {
         });
         }, []);
 
-
-    function ShowInfoCard({title, role, admin, show_id, active, image, submissions}) {
+    
+    function ShowInfoCard({title, role, admin, show_id, active, image, submissions, headshot, bio, waiting}) {
        
         if (active && admin && submissions) {
                 return (
@@ -35,10 +35,59 @@ function UserShows() {
                         <input type="hidden" name="show_id" value={show_id}/>
                         <button type="submit">View Playbill</button>
                     </form>
+                    <Waiting waiting={waiting} />
                     <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
                     </div>
                 </div> )
-                } else if (active && !submissions) {
+                } else if (active && !submissions && admin) {
+                    return (
+                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
+                            <div className="col-4">
+                                <img src={image} style={{height: "100px", width: "100px"}}/>
+                            </div>
+                            <div className="col-4">
+                                <h6><i>{title}</i></h6>
+                                <p><i>as {role}</i></p>
+                            </div>
+                            <div className="col-4">
+                            <form action='/updateshow'>
+                                <input type="hidden" name="show_id" value={show_id}/>
+                                <button type="submit">Update Playbill</button>
+                            </form>
+                            <form action='/viewplaybill'>
+                                <input type="hidden" name="show_id" value={show_id}/>
+                                <button type="submit">View Playbill</button>
+                            </form>
+                            <Waiting waiting={waiting} />
+                            </div>
+                        </div>) 
+                } else if (active && !admin && (bio==="No Bio Sumbitted" | headshot === "/static/img/download.png")) {
+                    return (
+                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
+                            <div className="col-4">
+                                <img src={image} style={{height: "100px", width: "100px"}}/>
+                            </div>
+                            <div className="col-4">
+                                <h6><i>{title}</i></h6>
+                                <p><i>as {role}</i></p>
+                            </div>
+                            <div className="col-4">
+                            <h5>  
+                            <form action='/updateshow'>
+                                <input type="hidden" name="show_id" value={show_id}/>
+                                <button type="submit">Update Playbill</button>
+                            </form>
+                            </h5>  
+                            <h5> 
+                            <form action='/viewplaybill'>
+                                <input type="hidden" name="show_id" value={show_id}/>
+                                <button type="submit">View Playbill</button>
+                            </form>
+                            </h5> 
+                            <p style={{color: "red"}}><strong>Please submit your headshot and bio!</strong></p>
+                            </div>
+                        </div>) 
+                } else if (active && !admin) {
                     return (
                         <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
                             <div className="col-4">
@@ -113,7 +162,10 @@ function UserShows() {
             active={show.active}
             image={show.image}
             submissions={show.submissions}
-            />
+            bio={show.bio}
+            headshot={show.headshot}
+            waiting={show.waiting}
+            />,
         )
     } else {
         notActive.push(
@@ -126,11 +178,26 @@ function UserShows() {
             active={show.active}
             image={show.image}
             submissions={show.submissions}
+            bio={show.bio}
+            headshot={show.headshot}
+            waiting={show.waiting}
             />,
 
         )
     }}
-    
+   
+    function Waiting({waiting}) {
+        if (waiting) {
+            return (
+                <div>
+                    <p><i>Still waiting on some cast submissions!</i></p>
+                </div>
+            )
+
+        }
+
+    }
+
     return (
         <React.Fragment>
             <div className="container">

@@ -14,7 +14,7 @@ function WhosWhoApproval () {
 
    
     function HeadshotPending({ headshot, user_id, hpend }) {
-        if (hpend) {
+        if (hpend && headshot != '/static/img/download.png') {
         return (
                 <div className="col-4">
                     <img src={headshot}></img>
@@ -37,7 +37,7 @@ function WhosWhoApproval () {
     function BioPending({fname, lname, role, bio, user_id, bpend}) {
         console.log(user_id)
 
-        if (bpend) {
+        if (bpend && bio != 'No Bio Submitted') {
             return (
                 <div className="col-8">
                     <div className="row">
