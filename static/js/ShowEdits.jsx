@@ -196,10 +196,10 @@ function UserShowProfile() {
            return (
             <React.Fragment>
             <div className="row">
-                <a href="/approvesubmits" style={{fontWeight: "bold", color: "red"}}>New Submissions Need Review!</a>
+                <a href="/invitecompany">Invite/Edit Members</a>
             </div>
             <div className="row">
-                <a href="/invitecompany">Invite/Edit Members</a>
+                <a href="/approvesubmits" style={{fontWeight: "bold", color: "red"}}>New Submissions Need Review!</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>
@@ -215,7 +215,10 @@ function UserShowProfile() {
         return (
             <React.Fragment>
             <div className="row">
-                <a href="/invitecompany">Invite/Edit Company</a>
+                <a href="/invitecompany">Invite and Edit Company</a>
+            </div>
+            <div className="row">
+                <a href="/approvesubmits">View Pending Playbill Submissions</a>
             </div>
             <div className="row">
                 <a href="/viewplaybill">View Playbill</a>

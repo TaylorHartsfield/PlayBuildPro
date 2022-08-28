@@ -174,9 +174,7 @@ def register_show():
             if show.title == title and show.opening_night == opening_night:   
                 flash(f'This show is already registered with {company_exists.name}!')
                 return render_template("register_show.html")
-                # jsonify({
-                    # "message": f"This show is already registered with {company_exists.name}",
-                    # "url":"/registershow"})
+               
 
     new_show = crud.register_new_show(title, opening_night, closing_night, theater_name)
     new_show.company_id = company_exists.company_id

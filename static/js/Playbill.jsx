@@ -124,15 +124,15 @@ function Playbill() {
     function CastList({fname, lname, role}) {
        return (
             <React.Fragment>
-                <div className="row"  draggable='true'>
+                <div className="row">
                     <div className="col-4" >
-                        <strong><p>{role}</p></strong>
+                        <strong><p style={{float: "center"}}>{role}</p></strong>
                     </div>
                     <div className="col-4">
-                        <p>..........................................</p> 
+                        <p>............................................</p> 
                     </div>
                     <div className="col-4">
-                        <strong><p>{fname} {lname}</p></strong>
+                        <strong><p style={{float: "center"}}>{fname} {lname}</p></strong>
                     </div>
                 </div>
             </React.Fragment>
@@ -143,7 +143,7 @@ function Playbill() {
         return (
             <React.Fragment>
             
-            <div className="row whoswho" draggable>
+            <div className="row whoswho">
                 <div className="col-4 head">
                     <img src={headshot}></img>
                 </div>

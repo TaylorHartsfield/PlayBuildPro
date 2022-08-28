@@ -97,7 +97,9 @@ function WhosWhoApproval () {
 
     return (
         <React.Fragment>
-            <h3>Who's Who</h3>
+           <div className="row">
+            <h3 style={{marginBottom: "2px", marginTop: "10px"}}>Who's Who</h3>
+            </div>
             <div className="playbillBase">
                 <div className="slideBase">
                     <div className="castList">
@@ -105,8 +107,18 @@ function WhosWhoApproval () {
                             {pendingCastRows}
                         </div>
                     </div>  
-                </div>                    
+                   
+                </div>  
+                <div>
+                    <a href="/updateshow" style={{color: "black", fontFamily: "Broadway", paddingRight: "10px"}}>Back to Show Profile</a>
+                    <a href="/viewplaybill"  style={{color: "black", fontFamily: "Broadway"}}>View Playbill</a>
+                </div>                  
             </div>
+
+          
+            
+            
+         
              
         </React.Fragment>
     )
