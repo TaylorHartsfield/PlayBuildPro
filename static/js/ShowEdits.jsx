@@ -378,14 +378,15 @@ function UserShowProfile() {
     }
     return (
         <React.Fragment>
-            
+            <div className="container" style={{paddingTop: "30px"}}>
             <div className="row">
-            <div className="col-6">
-                <UserInformation />
-            </div>
-            <div className='col-6'>
-                <ShowEdits />
+                <div className="col-6" >
+                    <UserInformation />
                 </div>
+                <div className='col-6'>
+                    <ShowEdits />
+                </div>
+            </div>
             </div>
       
         </React.Fragment>

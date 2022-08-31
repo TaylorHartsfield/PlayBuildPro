@@ -91,10 +91,22 @@ function ShowUserInfo() {
                     </div>
                     <div className="row" style={{paddingTop: "50px"}}>
                     <div className="card">
-                <input type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
-                <input type="text" placeholder={user.lname} value={user.lname} onChange={handleLNameChange}/>
-                <button type="submit" onClick={handleSumbission}>Submit your Changes!</button>
-            </div>
+                        <input type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
+                        <input type="text" placeholder={user.lname} value={user.lname} onChange={handleLNameChange}/>
+                        <div style={{paddingTop: "5px", paddingLeft: "10px"}}>
+                        <button type="submit" onClick={handleSumbission} style={{
+                            backgroundColor: "transparent", 
+                            fontFamily: "broadway", 
+                            boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                            borderRadius: "8px", 
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100px"}}>
+                            Submit your Changes!
+                            </button>
+                            </div>
+                    </div>
                     </div>
                 
                 </div>
@@ -117,7 +129,7 @@ function ShowUserInfo() {
    
 
     return (
-    <div style={{paddingTop: "200px"}}>
+    <div style={{paddingTop: "100px"}}>
         {renderUserInfo()}
     </div>)
 }
