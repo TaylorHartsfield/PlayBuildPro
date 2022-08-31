@@ -72,10 +72,13 @@ function ShowEdits() {
                                 {show.theater_name}<br/>
                                 {show.opening_night} - {show.opening_night}</p>
                             </div>
+                            <IsAdmin /> 
+                            <UpdatePlaybillPhoto />
                         </div>
                     </div>
                     <div className="body_base">
                     </div>
+
                 </div>
             </div>)
                
@@ -90,11 +93,15 @@ function ShowEdits() {
                                 {show.theater_name}<br/>
                                 {show.opening_night} - {show.opening_night}</p>
                             </div>
+                            <IsAdmin /> 
+                            <UpdatePlaybillPhoto />
                         </div>
                     </div>
+                   
                     <div className="body_base">
-                    <img id="playBillImg" src={show.image}></img>
+                        <img id="playBillImg" src={show.image}></img>
                     </div>
+            
                 </div>
             </div>)
                 }
@@ -104,9 +111,43 @@ function ShowEdits() {
     function IsAdmin() {
         if (admin) {
             return (
-                <button type="button" onClick={handleEditInfo}>Update Show Info</button>
+                <React.Fragment>
+                <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
+                <button type="button" style={{ 
+                backgroundColor: "transparent", 
+                fontFamily: "broadway", 
+                boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                borderRadius: "8px", 
+                display: "inline-flex",
+                alignItems: "center",
+                justifyContent: "center",
+                width: "100px"}} onClick={handleEditInfo}>Update Show Info</button>
+                </div>
+                </React.Fragment>
             )
         }
+    }
+
+    function UpdatePlaybillPhoto() {
+        if (admin) {
+        return (
+            <React.Fragment>
+           <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
+            <button type="button" style={{
+            backgroundColor: "transparent", 
+            fontFamily: "broadway", 
+            boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+            borderRadius: "8px", 
+            display: "inline-flex",
+            alignItems: "center",
+            justifyContent: "center",
+            width: "100px"}} onClick={handleEditInfo}>
+            Update Playbill Cover Photo
+            </button>
+            </div>
+            </React.Fragment>
+            
+        )}
     }
 
     function editShowInfo() {
@@ -145,9 +186,8 @@ function ShowEdits() {
         } else {
             return (
                 <div>
-                    {IsAdmin()}
+                   
                     {renderShowInfo()} 
-                 
                 </div>)
         }};
 
