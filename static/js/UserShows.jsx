@@ -19,21 +19,43 @@ function UserShows() {
         if (active && admin && submissions) {
                 return (
                 <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                    <div className="col-4">
-                        <img src={image} style={{height: "100px", width: "100px"}}/>
-                    </div>
-                    <div className="col-4">
-                        <h6><i>{title}</i></h6>
-                        <p><i>as {role}</i></p>
-                    </div>
-                    <div className="col-4">
+                    <div className="col-4" style={{paddingTop: "10px"}}>
+                                <img src={image} style={{height: "100px", width: "100px"}}/>
+                            </div>
+                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
+                                <h6><i><strong>{title}</strong></i></h6>
+                                <p><i>as {role}</i></p>
+                            </div>
+                            <div className="col-4" style={{paddingTop: "10px"}}>
                     <form action='/updateshow'>
                         <input type="hidden" name="show_id" value={show_id}/>
-                        <button type="submit">Update Playbill</button>
+                        <button type="submit" 
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    Update Playbill
+                                </button>
                     </form>
                     <form action='/viewplaybill'>
                         <input type="hidden" name="show_id" value={show_id}/>
-                        <button type="submit">View Playbill</button>
+                        <button type="submit" 
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    Update Playbill
+                                </button>
                     </form>
                     <Waiting waiting={waiting} />
                     <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
@@ -42,21 +64,43 @@ function UserShows() {
                 } else if (active && !submissions && admin) {
                     return (
                         <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4">
+                            <div className="col-4" style={{paddingTop: "10px"}}>
                                 <img src={image} style={{height: "100px", width: "100px"}}/>
                             </div>
-                            <div className="col-4">
-                                <h6><i>{title}</i></h6>
+                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
+                                <h6><i><strong>{title}</strong></i></h6>
                                 <p><i>as {role}</i></p>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4" style={{paddingTop: "10px"}}>
                             <form action='/updateshow'>
                                 <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit">Update Playbill</button>
-                            </form>
+                                <button type="submit" 
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    Update Playbill
+                                </button>
+                                </form>
                             <form action='/viewplaybill'>
                                 <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit">View Playbill</button>
+                                <button type="submit"
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    View Playbill
+                                </button>
                             </form>
                             <Waiting waiting={waiting} />
                             </div>
@@ -64,24 +108,47 @@ function UserShows() {
                 } else if (active && !admin && (bio==="No Bio Sumbitted" | headshot === "/static/img/download.png")) {
                     return (
                         <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4">
+                           <div className="col-4" style={{paddingTop: "10px"}}>
                                 <img src={image} style={{height: "100px", width: "100px"}}/>
                             </div>
-                            <div className="col-4">
-                                <h6><i>{title}</i></h6>
+                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
+                                <h6><i><strong>{title}</strong></i></h6>
                                 <p><i>as {role}</i></p>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4" style={{paddingTop: "10px"}}>
+                         
                             <h5>  
                             <form action='/updateshow'>
                                 <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit">Update Playbill</button>
+                                <button type="submit" 
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    Update Playbill
+                                </button>
                             </form>
                             </h5>  
                             <h5> 
                             <form action='/viewplaybill'>
                                 <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit">View Playbill</button>
+                                <button type="submit"
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    View Playbill
+                                </button>
                             </form>
                             </h5> 
                             <p style={{color: "red"}}><strong>Please submit your headshot and bio!</strong></p>
@@ -90,21 +157,43 @@ function UserShows() {
                 } else if (active && !admin) {
                     return (
                         <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4">
+                             <div className="col-4" style={{paddingTop: "10px"}}>
                                 <img src={image} style={{height: "100px", width: "100px"}}/>
                             </div>
-                            <div className="col-4">
-                                <h6><i>{title}</i></h6>
+                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
+                                <h6><i><strong>{title}</strong></i></h6>
                                 <p><i>as {role}</i></p>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4" style={{paddingTop: "10px"}}>
                             <form action='/updateshow'>
                                 <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit">Update Playbill</button>
+                                <button type="submit" 
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    Update Playbill
+                                </button>
                             </form>
                             <form action='/viewplaybill'>
                                 <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit">View Playbill</button>
+                                <button type="submit"
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    View Playbill
+                                </button>
                             </form>
                             </div>
                         </div>) 
@@ -118,31 +207,64 @@ function UserShows() {
                                     <h6><i>{title}</i></h6>
                                     <p><i>as {role}</i></p>
                                 </div>
-                                <div className="col-4">
+                                <div className="col-4" style={{paddingTop: "20px"}}>
                                     <form action='/viewplaybill'>
                                         <input type="hidden" value={show_id} name='show_id'></input>
-                                        <button type="submit">View Playbill</button>
+                                        <button type="submit"
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    View Playbill
+                                </button>
                                     </form>
                                     <form action='/archive'>
                                         <input type="hidden" value={show_id} name='show_id'></input>
-                                    <button type="submit">Unarchive</button>
+                                        <button type="submit"
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    Unarchive
+                                </button>
                                 </form>
                                 </div>
                             </div>)
                 } else if(!admin && !active) {
                     return (
                         <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4">
-                                <img src={image} style={{height: "100px", width:"100px"}}/>
+                            <div className="col-4" style={{paddingTop: "10px"}}>
+                                <img src={image} style={{height: "100px", width: "100px"}}/>
                             </div>
-                            <div className="col-4">
-                                <h6><i>{title}</i></h6>
+                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
+                                <h6><i><strong>{title}</strong></i></h6>
                                 <p><i>as {role}</i></p>
                             </div>
-                            <div className="col-4">
+                            <div className="col-4" style={{paddingTop: "10px"}}>
                                 <form action='/viewplaybill'>
                                     <input type="hidden" value={show_id} name='show_id'></input>
-                                    <button type="submit">View Playbill</button>
+                                    <button type="submit"
+                                    style={{
+                                    backgroundColor: "transparent", 
+                                    fontFamily: "broadway", 
+                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                    borderRadius: "8px", 
+                                    display: "inline-flex",
+                                    alignItems: "center",
+                                    justifyContent: "center",
+                                    width: "100px"}}>
+                                    View Playbill
+                                </button>
                                 </form>
                             </div>
                         </div>)
@@ -189,7 +311,7 @@ function UserShows() {
     function Waiting({waiting}) {
         if (waiting) {
             return (
-                <div>
+                <div style={{paddingTop: "5px"}}>
                     <p><i>Still waiting on some cast submissions!</i></p>
                 </div>
             )
@@ -200,7 +322,7 @@ function UserShows() {
 
     return (
         <React.Fragment>
-            <div className="container">
+            <div className="container" style={{paddingTop: "100px"}}>
                 <div className="row">
                     <h3>Active Shows:</h3>
                     <div className="showInfoCards">

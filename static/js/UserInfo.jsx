@@ -67,7 +67,7 @@ function ShowUserInfo() {
                             display: "inline-flex",
                             alignItems: "center",
                             justifyContent: "center",
-                            width: "100px",}}>
+                            width: "100px"}}>
                             Edit Info
                         </button>
                     </div>
