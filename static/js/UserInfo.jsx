@@ -58,19 +58,29 @@ function ShowUserInfo() {
                 </div>
                 <div className="row" style={{paddingTop: "50px"}}>
                     <h3>{user.fname} {user.lname}</h3>
+                    <div style={{paddingTop: "30px", paddingLeft: "190px"}}>
+                        <button type="button" onClick={handleOnClick} style={{
+                            backgroundColor: "transparent", 
+                            fontFamily: "broadway", 
+                            boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                            borderRadius: "8px", 
+                            display: "inline-flex",
+                            alignItems: "center",
+                            justifyContent: "center",
+                            width: "100px",}}>
+                            Edit Info
+                        </button>
+                    </div>
                 </div>
             
             </div>
         </div>
-        <div className="row">
-            <button type="button" onClick={handleOnClick}>Edit User Info</button>
-        </div>
+       
         </React.Fragment>
      
         )
     }
 
-  
     function renderEditUserInfo(){
         return (
        <React.Fragment>
@@ -89,9 +99,6 @@ function ShowUserInfo() {
                 
                 </div>
             </div>
-            <div className="row">
-                <button type="button" onClick={handleOnClick}>Edit User Info</button>
-            </div>
             </React.Fragment>
          
             )
@@ -109,9 +116,10 @@ function ShowUserInfo() {
 
    
 
-    return <div>
+    return (
+    <div style={{paddingTop: "200px"}}>
         {renderUserInfo()}
-    </div>
+    </div>)
 }
 
 
