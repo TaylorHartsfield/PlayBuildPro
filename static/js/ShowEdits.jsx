@@ -2,6 +2,7 @@ function ShowEdits() {
 
     const[show, setShow] = React.useState({})
     const[isEditingShow, setIsEditingShow] = React.useState(false)
+    const [updatePhoto, setUpdatePhoto] = React.useState(false)
     const[admin, setAdmin] = React.useState('')
 
     
@@ -29,6 +30,10 @@ function ShowEdits() {
 
     function handleOnChange(event) {
         setShow({...show, [event.target.name]: event.target.value})
+    }
+
+    function handleChangePhoto() {
+        setUpdatePhoto(!updatePhoto)
     }
        
 
@@ -141,7 +146,7 @@ function ShowEdits() {
             display: "inline-flex",
             alignItems: "center",
             justifyContent: "center",
-            width: "100px"}} onClick={handleEditInfo}>
+            width: "100px"}} onClick={handleChangePhoto}>
             Update Playbill Cover Photo
             </button>
             </div>
@@ -167,26 +172,74 @@ function ShowEdits() {
                         </div>
                     </div>
                     <div className="body_base">
-                    <img id="playBillImg" src={show.image}></img>
-                    <label for="updateShowImage">Update Show Image:</label>
-                <form id="updateShowImage" action="/editplaybillimage" method="POST" encType="multipart/form-data">
-                    <input id="image" type="file" name="image" required/>
-                    <input type="submit"/>
-                </form>  
+                        <img id="playBillImg" src={show.image}></img>
                     </div>
-                </div>              
-            </div>
+                </div>
+            </div>              
+          
         )
 
     }
+    function updateShowPhoto() {
+        return (
+            <div className="container">
+                <div className="slideBase">
+                    <div className="cover">
+                        <div className="cover-head">
+                            <div className="cover_head_text">
+                                <p><strong>{show.company}</strong><br/>
+                                {show.theater_name}<br/>
+                                {show.opening_night} - {show.opening_night}</p>
+                            </div>
+                            
+                            <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
+                            <label for="updateShowImage" style={{backgroundColor: "transparent", 
+                                fontFamily: "broadway", 
+                                boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                borderRadius: "8px", 
+                               
+                                alignItems: "center",
+                                justifyContent: "center",
+                                width: "100px"}}>Update Show Image:</label>
+                            <form id="updateShowImage" action="/editplaybillimage" method="POST" encType="multipart/form-data" style={{
+                                fontFamily: "broadway", 
+                                boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                borderRadius: "8px", 
+                                alignItems: "center",
+                                justifyContent: "center",
+                               
+                                marginpadding: "20px"
+                            }}>
+                                <input id="image" type="file" name="image" required/><br/>
+                                <input type="submit" />
+                            </form>
+                                    </div>
+                           
+                            
+                        </div>
+                     <div className="body_base">
+                        <img id="playBillImg" src={show.image}></img>
+                    </div>
+                </div>
+            </div>
+            </div>
+
+        )
+    }
+  
 
     function renderShowCard() {
         if (isEditingShow) {
+
             return editShowInfo();
+
+        } else if (updatePhoto) {
+
+            return updateShowPhoto();
+
         } else {
             return (
                 <div>
-                   
                     {renderShowInfo()} 
                 </div>)
         }};
