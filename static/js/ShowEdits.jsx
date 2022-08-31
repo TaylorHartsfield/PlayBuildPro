@@ -167,7 +167,15 @@ function ShowEdits() {
                                 Theater Name:<input type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
                                 Opening Night: <input type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/> - 
                                 Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/></p>
-                                <button type="button" onClick={handleSubmission}>Submit Changes</button>
+                                <button type="button" onClick={handleSubmission} style={{
+                                 backgroundColor: "#ffffff", 
+                                 fontFamily: "broadway", 
+                                 boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                                 borderRadius: "8px", 
+                                 alignItems: "center",
+                                 justifyContent: "center",
+                                 width: "100px"}}>
+                                Submit Changes</button>
                             </div>
                         </div>
                     </div>
@@ -193,24 +201,24 @@ function ShowEdits() {
                             </div>
                             
                             <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
-                            <label for="updateShowImage" style={{backgroundColor: "transparent", 
+                            <label for="updateShowImage" style={{
+                                backgroundColor: "transparent", 
                                 fontFamily: "broadway", 
                                 boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
                                 borderRadius: "8px", 
-                               
                                 alignItems: "center",
                                 justifyContent: "center",
                                 width: "100px"}}>Update Show Image:</label>
+
                             <form id="updateShowImage" action="/editplaybillimage" method="POST" encType="multipart/form-data" style={{
                                 fontFamily: "broadway", 
                                 boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
                                 borderRadius: "8px", 
                                 alignItems: "center",
                                 justifyContent: "center",
-                               
                                 marginpadding: "20px"
                             }}>
-                                <input id="image" type="file" name="image" required/><br/>
+                                <input id="image" type="file" name="image" required/>
                                 <input type="submit" />
                             </form>
                                     </div>
