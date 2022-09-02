@@ -279,6 +279,7 @@ def get_user_show_info():
                 "admin": is_admin,
                 "submissions": submissions,
                 "show_id": show.show_id,
+                "show": show.title
 
     }})
 

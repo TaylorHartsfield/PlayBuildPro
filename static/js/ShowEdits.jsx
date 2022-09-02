@@ -62,13 +62,12 @@ function ShowEdits() {
     
     }
 
-
-
     function renderShowInfo() {
         
         if (show.image === "None"){
             return(
                 <div>
+                    
                 <div className="slideBase">
                     <div className="cover">
                         <div className="cover-head">
@@ -90,6 +89,7 @@ function ShowEdits() {
             } else {
                 return (
                     <div>
+                         
                 <div className="slideBase">
                     <div className="cover">
                         <div className="cover-head">
@@ -235,7 +235,6 @@ function ShowEdits() {
         )
     }
   
-
     function renderShowCard() {
         if (isEditingShow) {
 
@@ -276,10 +275,11 @@ function UserShowProfile() {
         .then((result) => {
             setUser(result.user)
         });
-    }, [user.headshot, user.bio]);
+    }, [user.headshot, user.bio, user.show]);
 
 
     function UserInformation() {
+        if (!user.admin) {
         return (
             <div className="card">
                 <h3>{user.fname} {user.lname}</h3>
@@ -287,9 +287,19 @@ function UserShowProfile() {
                 {isAdmin()}
             </div>    
          
+        )} else {
+            return <AdminView />
+        }
+    }
+    
+    function AdminView() {
+        return (
+            <div className="card">
+                <h3>{user.show}</h3>
+                {isAdmin()}
+            </div>  
         )
-    }      
-   
+    }
 
     function AdminUser() {
         
