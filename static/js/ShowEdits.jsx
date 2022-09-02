@@ -279,9 +279,10 @@ function UserShowProfile() {
 
 
     function UserInformation() {
+   
         if (!user.admin) {
         return (
-            <div className="card">
+            <div className="card" style={{marginTop: "25px"}}>
                 <h3>{user.fname} {user.lname}</h3>
                 <h5>Role: {user.role}</h5>
                 {isAdmin()}
@@ -294,10 +295,12 @@ function UserShowProfile() {
     
     function AdminView() {
         return (
-            <div className="card">
+           
+            <div className="card" style={{marginTop: "25px"}}>
                 <h3>{user.show}</h3>
                 {isAdmin()}
             </div>  
+            
         )
     }
 
@@ -306,17 +309,54 @@ function UserShowProfile() {
         if (user.submissions){
            return (
             <React.Fragment>
-            <div className="row">
-                <a href="/invitecompany">Invite/Edit Members</a>
-            </div>
-            <div className="row">
-                <a href="/approvesubmits" style={{fontWeight: "bold", color: "red"}}>New Submissions Need Review!</a>
-            </div>
-            <div className="row">
-                <a href="/viewplaybill">View Playbill</a>
-            </div>
-            <div className="row">
-                <a href="/archive" style={{fontWeight: 'bold', color: 'red'}}>Archive Show</a>
+            <div className="row" style={{justifyContent: "center"}}>
+                <a style={{
+                    color: "black",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }} href="/invitecompany">Invite/Edit Members</a>
+           
+           <a style={{
+                    color: "blue",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}  href="/approvesubmits">New Submissions Need Review!</a>
+           
+           <a style={{
+                    color: "black",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}  href="/viewplaybill">View Playbill</a>
+          <br/>
+          <a style={{
+                     color: "red",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}  href="/archive">Archive Show</a>
             </div>
             
             </React.Fragment>
@@ -325,17 +365,55 @@ function UserShowProfile() {
 
         return (
             <React.Fragment>
-            <div className="row">
-                <a href="/invitecompany">Invite and Edit Company</a>
-            </div>
-            <div className="row">
-                <a href="/approvesubmits">View Pending Playbill Submissions</a>
-            </div>
-            <div className="row">
-                <a href="/viewplaybill">View Playbill</a>
-            </div>
-            <div className="row">
-            <a href="/archive" style={{fontWeight: 'bold', color: 'red'}}>Archive Show</a>
+              <div className="row" style={{justifyContent: "center"}}>
+                <a style={{
+                    color: "black",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}href="/invitecompany">Invite and Edit Company</a>
+           
+           
+                <a style={{
+                    color: "black",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}href="/approvesubmits">View Pending Playbill Submissions</a>
+          
+                <a style={{
+                    color: "black",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}href="/viewplaybill">View Playbill</a>
+            <br/>
+            <a style={{
+                    color: "red",
+                     backgroundColor: "transparent", 
+                     fontFamily: "broadway", 
+                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                     borderRadius: "8px", 
+                     display: "inline-flex",
+                     alignItems: "center",
+                     justifyContent: "center",
+                     width: "100px"
+                }}href="/archive" >Archive Show</a>
             </div>
            
             </React.Fragment>

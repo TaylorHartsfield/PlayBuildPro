@@ -54,7 +54,7 @@ function UserShows() {
                                     alignItems: "center",
                                     justifyContent: "center",
                                     width: "100px"}}>
-                                    Update Playbill
+                                    View Playbill
                                 </button>
                     </form>
                     <Waiting waiting={waiting} />
