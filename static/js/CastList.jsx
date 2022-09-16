@@ -15,7 +15,7 @@ export default function CastList() {
     function CastList({fname, lname, role}) {
         return (
             <React.Fragment>
-                <div className="row"  draggable='true'>
+                <div className="row">
                     <div className="col-4" >
                     <strong><p>{role}</p></strong>
                     </div>
