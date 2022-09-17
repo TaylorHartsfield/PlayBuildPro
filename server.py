@@ -132,7 +132,7 @@ def search_show():
     if not shows:
         flash("No show by that title! Search again.")
         return redirect('/')
-
+    
     return render_template("homepage.html", shows=shows)
 
 

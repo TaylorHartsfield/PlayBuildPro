@@ -4,6 +4,7 @@ function ShowEdits() {
     const[isEditingShow, setIsEditingShow] = React.useState(false)
     const [updatePhoto, setUpdatePhoto] = React.useState(false)
     const[admin, setAdmin] = React.useState('')
+    const opening = {year: 'numeric', month: 'long', day: 'numeric'};
 
     
     React.useEffect(() => {
@@ -74,7 +75,7 @@ function ShowEdits() {
                             <div className="cover_head_text">
                                 <p><strong>{show.company}</strong><br/>
                                 {show.theater_name}<br/>
-                                {show.opening_night} - {show.opening_night}</p>
+                                {new Date(show.opening_night).toLocaleDateString("us-EN",opening)} - {new Date(show.closing_night).toLocaleDateString("us-EN",opening)}</p>
                             </div>
                             <IsAdmin /> 
                             <UpdatePlaybillPhoto />
@@ -96,7 +97,7 @@ function ShowEdits() {
                             <div className="cover_head_text">
                                 <p><strong>{show.company}</strong><br/>
                                 {show.theater_name}<br/>
-                                {show.opening_night} - {show.opening_night}</p>
+                                {new Date(show.opening_night).toLocaleDateString("us-EN",opening)} - {new Date(show.closing_night).toLocaleDateString("us-EN",opening)}</p>
                             </div>
                             <IsAdmin /> 
                             <UpdatePlaybillPhoto />
