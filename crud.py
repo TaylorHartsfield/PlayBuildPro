@@ -2,6 +2,7 @@ import model
 from cloudinary import CloudinaryImage
 import cloudinary.uploader
 import os
+from datetime import datetime
 CLOUDINARY_KEY = os.environ['API_KEY']
 CLOUDINARY_SECRET = os.environ['API_SECRET']
 CLOUD_NAME = os.environ['CLOUD_NAME']
@@ -17,7 +18,7 @@ def register_new_show(title, opening_night, closing_night, theater_name):
                         opening_night=opening_night,
                         closing_night=closing_night,
                         theater_name=theater_name)
-    
+
     return new_show
 
 def get_show_by_id(show_id):

@@ -40,7 +40,11 @@ div.container.userinfo {
     width: 700px;
     border-radius: 5px;
 }
-  
+
+.container.home {
+    align-items: center;
+    margin-left: 250px;
+}
 
 .castList {
     padding: .5rem;
