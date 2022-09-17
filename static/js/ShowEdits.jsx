@@ -73,9 +73,9 @@ function ShowEdits() {
                     <div className="cover">
                         <div className="cover-head">
                             <div className="cover_head_text">
-                                <p><strong>{show.company}</strong><br/>
+                                <p style={{fontSize: "16px"}}><strong>{show.company}</strong><br/>
                                 {show.theater_name}<br/>
-                                {new Date(show.opening_night).toLocaleDateString("us-EN",opening)} - {new Date(show.closing_night).toLocaleDateString("us-EN",opening)}</p>
+                                </p>
                             </div>
                             <IsAdmin /> 
                             <UpdatePlaybillPhoto />
@@ -95,9 +95,9 @@ function ShowEdits() {
                     <div className="cover">
                         <div className="cover-head">
                             <div className="cover_head_text">
-                                <p><strong>{show.company}</strong><br/>
+                                <p style={{fontSize: "16px"}}><strong>{show.company}</strong><br/>
                                 {show.theater_name}<br/>
-                                {new Date(show.opening_night).toLocaleDateString("us-EN",opening)} - {new Date(show.closing_night).toLocaleDateString("us-EN",opening)}</p>
+                                </p>
                             </div>
                             <IsAdmin /> 
                             <UpdatePlaybillPhoto />

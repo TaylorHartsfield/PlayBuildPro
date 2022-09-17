@@ -1,5 +1,6 @@
 function RegisterShow() {
 
+    const opening = {year: 'numeric', month: 'long', day: 'numeric'};
     const [state, setState] = React.useState({
         "title": '',
         "company": '',
@@ -14,7 +15,8 @@ function RegisterShow() {
    
    
     function handleOnChange(event) {
-        setState({...state, [event.target.name]:event.target.value})
+        setState({...state, [event.target.name]:event.target.value}) 
+        
     }
 
 
@@ -31,9 +33,8 @@ function RegisterShow() {
                     <div className="cover">
                         <div className="cover-head">
                             <div className="cover_head_text">
-                                <p><strong>{state.company}</strong><br/>
-                                {state.theater}<br/>
-                                {state.openingNight} - {state.closingNight}</p>
+                                <p style={{fontSize: "16px"}}><strong>{state.company}</strong><br/>
+                                {state.theater}<br/></p>
                             </div>
                         </div>
                     </div>
@@ -63,10 +64,13 @@ function RegisterShow() {
                         <input id="title" className="form-control" type="text" name="title" value={state.title} onChange={handleOnChange}/>
                         <label for="theater">Performances at: <i>(Theater Name)</i></label>
                         <input type="text" id="theater" className="form-control" name="theater" value={state.theater} onChange={handleOnChange} />
+
                         <label for="openingNight">Opening Night:</label>
                         <input id="openingNight" className="form-control" type="date" name="openingNight" value={state.openingNight} onChange={handleOnChange} />
                         <label for="closingNight">Closing Night:</label>
                         <input id="closingNight" className="form-control" type="date" name="closingNight" value={state.closingNight} onChange={handleOnChange} />
+
+
                         <label for="image">Preview Your Playbill Cover Image:<br/><i>You will upload your final image at a later step</i></label>
                         <input id="image" onChange={handleImageChange} className="form-control" type="file" name="image" /><br/>
                     <button type="submit">Looks Good!</button>
