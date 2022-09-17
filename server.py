@@ -132,7 +132,7 @@ def search_show():
     if not shows:
         flash("No show by that title! Search again.")
         return redirect('/')
-    
+
     return render_template("homepage.html", shows=shows)
 
 
@@ -346,14 +346,23 @@ def get_user_shows():
 
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
 
-
     shows = []
 
     for show in user.cast:
         submissions = crud.new_submissions(crud.get_show_by_id(show.show_id))
         waiting_on_submits = crud.waiting_on_submissions(crud.get_show_by_id(show.show_id))
         headshot = crud.get_user_headshot_for_show(user, show.shows)
+
+        if headshot:
+            headshot = headshot.img
+        else:
+            headshot = "/static/img/download.png"
+
         bio = crud.get_user_bio_for_show(user, show.shows)
+        if bio:
+            bio = bio.bio
+        else:
+            bio = "No Bio Submitted"
         
         shows.append({
             "show_id": show.show_id,
@@ -364,8 +373,8 @@ def get_user_shows():
             "image": show.shows.image,
             "submissions": submissions,
             "waiting": waiting_on_submits,
-            "headshot": headshot.img,
-            "bio": bio.bio,   
+            "headshot": headshot,
+            "bio": bio,   
         })
 
     return jsonify({'shows': shows})
