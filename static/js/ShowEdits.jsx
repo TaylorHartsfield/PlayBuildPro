@@ -1,5 +1,7 @@
-function ShowEdits() {
+function UserShowProfile() {
 
+
+    const [user, setUser] = React.useState({})
     const[show, setShow] = React.useState({})
     const[isEditingShow, setIsEditingShow] = React.useState(false)
     const [updatePhoto, setUpdatePhoto] = React.useState(false)
@@ -21,8 +23,18 @@ function ShowEdits() {
         .then((response) => response.json())
         .then((result) => {
             setAdmin(result.user.admin)
+            setUser(result.user)
         });
-    }, []);
+    }, [user.headshot, user.bio, user.show]);
+
+
+    // React.useEffect(()=> {
+    //     fetch('/api/usershowinfo')
+    //     .then((response) => response.json())
+    //     .then((result) => {
+    //         setUser(result.user)
+    //     });
+    // }, [user.headshot, user.bio, user.show]);
     
 
     function handleEditInfo() {
@@ -68,7 +80,6 @@ function ShowEdits() {
         if (show.image === "None"){
             return(
                 <div>
-                    
                 <div className="slideBase">
                     <div className="cover">
                         <div className="cover-head">
@@ -77,8 +88,7 @@ function ShowEdits() {
                                 {show.theater_name}<br/>
                                 </p>
                             </div>
-                            <IsAdmin /> 
-                            <UpdatePlaybillPhoto />
+                    
                         </div>
                     </div>
                     <div className="body_base">
@@ -90,7 +100,7 @@ function ShowEdits() {
             } else {
                 return (
                     <div>
-                         
+                     
                 <div className="slideBase">
                     <div className="cover">
                         <div className="cover-head">
@@ -99,8 +109,7 @@ function ShowEdits() {
                                 {show.theater_name}<br/>
                                 </p>
                             </div>
-                            <IsAdmin /> 
-                            <UpdatePlaybillPhoto />
+                       
                         </div>
                     </div>
                    
@@ -118,7 +127,7 @@ function ShowEdits() {
         if (admin) {
             return (
                 <React.Fragment>
-                <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
+               
                 <button type="button" style={{ 
                 backgroundColor: "transparent", 
                 fontFamily: "broadway", 
@@ -128,7 +137,7 @@ function ShowEdits() {
                 alignItems: "center",
                 justifyContent: "center",
                 width: "100px"}} onClick={handleEditInfo}>Update Show Info</button>
-                </div>
+              
                 </React.Fragment>
             )
         }
@@ -138,7 +147,7 @@ function ShowEdits() {
         if (admin) {
         return (
             <React.Fragment>
-           <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
+           
             <button type="button" style={{
             backgroundColor: "transparent", 
             fontFamily: "broadway", 
@@ -150,7 +159,7 @@ function ShowEdits() {
             width: "100px"}} onClick={handleChangePhoto}>
             Update Playbill Cover Photo
             </button>
-            </div>
+           
             </React.Fragment>
             
         )}
@@ -198,10 +207,9 @@ function ShowEdits() {
                             <div className="cover_head_text">
                                 <p><strong>{show.company}</strong><br/>
                                 {show.theater_name}<br/>
-                                {show.opening_night} - {show.opening_night}</p>
+                                </p>
                             </div>
                             
-                            <div style={{paddingLeft: "540px", paddingBottom: "100px"}}>
                             <label for="updateShowImage" style={{
                                 backgroundColor: "transparent", 
                                 fontFamily: "broadway", 
@@ -222,7 +230,7 @@ function ShowEdits() {
                                 <input id="image" type="file" name="image" required/>
                                 <input type="submit" />
                             </form>
-                                    </div>
+                                    
                            
                             
                         </div>
@@ -253,32 +261,6 @@ function ShowEdits() {
         }};
 
 
-    return (
-        <React.Fragment>
-        
-            {renderShowCard()}  
-       
-        </React.Fragment>
-    )
-
-
-}
-
-
-function UserShowProfile() {
-
-
-    const [user, setUser] = React.useState({})
-
-    React.useEffect(()=> {
-        fetch('/api/usershowinfo')
-        .then((response) => response.json())
-        .then((result) => {
-            setUser(result.user)
-        });
-    }, [user.headshot, user.bio, user.show]);
-
-
     function UserInformation() {
    
         if (!user.admin) {
@@ -297,7 +279,7 @@ function UserShowProfile() {
     function AdminView() {
         return (
            
-            <div className="card" style={{marginTop: "25px"}}>
+            <div style={{marginTop: "25px"}}>
                 <h3>{user.show}</h3>
                 {isAdmin()}
             </div>  
@@ -322,7 +304,9 @@ function UserShowProfile() {
                      justifyContent: "center",
                      width: "100px"
                 }} href="/invitecompany">Invite/Edit Members</a>
-           
+                </div>
+                <br/>
+                <div className="row" style={{justifyContent: "center"}}>
            <a style={{
                     color: "blue",
                      backgroundColor: "transparent", 
@@ -334,7 +318,9 @@ function UserShowProfile() {
                      justifyContent: "center",
                      width: "100px"
                 }}  href="/approvesubmits">New Submissions Need Review!</a>
-           
+                <br/>
+                </div>
+                <div className="row" style={{justifyContent: "center"}}>
            <a style={{
                     color: "black",
                      backgroundColor: "transparent", 
@@ -347,6 +333,8 @@ function UserShowProfile() {
                      width: "100px"
                 }}  href="/viewplaybill">View Playbill</a>
           <br/>
+          </div>
+          <div className="row" style={{justifyContent: "center"}}>
           <a style={{
                      color: "red",
                      backgroundColor: "transparent", 
@@ -358,6 +346,12 @@ function UserShowProfile() {
                      justifyContent: "center",
                      width: "100px"
                 }}  href="/archive">Archive Show</a>
+            </div>
+            <div className="row" style={{justifyContent: "center"}}>
+            <IsAdmin /> 
+            </div>
+            <div className="row" style={{justifyContent: "center"}}>
+            <UpdatePlaybillPhoto />
             </div>
             
             </React.Fragment>
@@ -378,7 +372,9 @@ function UserShowProfile() {
                      justifyContent: "center",
                      width: "100px"
                 }}href="/invitecompany">Invite and Edit Company</a>
-           
+                <br/>
+                </div>
+                <div className="row" style={{justifyContent: "center"}}>
            
                 <a style={{
                     color: "black",
@@ -391,30 +387,41 @@ function UserShowProfile() {
                      justifyContent: "center",
                      width: "100px"
                 }}href="/approvesubmits">View Pending Playbill Submissions</a>
+                <br/>
+                </div>
+                <div className="row" style={{justifyContent: "center"}}>
           
                 <a style={{
                     color: "black",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
+                    backgroundColor: "transparent", 
+                    fontFamily: "broadway", 
+                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                    borderRadius: "8px", 
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100px"
                 }}href="/viewplaybill">View Playbill</a>
             <br/>
+            </div>
+            <div className="row" style={{justifyContent: "center"}}>
             <a style={{
                     color: "red",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
+                    backgroundColor: "transparent", 
+                    fontFamily: "broadway", 
+                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
+                    borderRadius: "8px", 
+                    display: "inline-flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    width: "100px"
                 }}href="/archive" >Archive Show</a>
+            </div>
+            <div className="row" style={{justifyContent: "center"}}>
+            <IsAdmin /> 
+            </div>
+            <div className="row" style={{justifyContent: "center"}}>
+            <UpdatePlaybillPhoto />
             </div>
            
             </React.Fragment>
@@ -473,7 +480,7 @@ function UserShowProfile() {
                     <UserInformation />
                 </div>
                 <div className='col-6'>
-                    <ShowEdits />
+                    {renderShowCard()}
                 </div>
             </div>
             </div>
