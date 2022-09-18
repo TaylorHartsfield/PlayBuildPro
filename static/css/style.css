@@ -170,6 +170,30 @@ div.container.userinfo {
     border-color: #333333;
 }
 
+.viewPlaybill{
+    font-family: Raleway;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    color: black;
+    background: #FEFEFC;
+    padding: 5px;
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    width:100px;
+    box-shadow: 2px 3px 5px black;
+    margin: 8px;
+    text-decoration: none;
+ 
+}
+
+.viewPlaybill:hover{
+    background: #f9eb0d;
+    color:#242424;
+    cursor: pointer;
+}
+
 .cast{
     border-radius: 5px;
 }

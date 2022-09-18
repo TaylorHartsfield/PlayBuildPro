@@ -6,15 +6,12 @@ function UserShowProfile() {
     const[isEditingShow, setIsEditingShow] = React.useState(false)
     const [updatePhoto, setUpdatePhoto] = React.useState(false)
     const[admin, setAdmin] = React.useState('')
-    const opening = {year: 'numeric', month: 'long', day: 'numeric'};
-
-    
+  
     React.useEffect(() => {
         fetch('/api/showInfo')
         .then((response) => response.json())
         .then((result) => {
-            setShow(result.show)
-            
+            setShow(result.show)    
         });
     }, []);
 
@@ -68,50 +65,29 @@ function UserShowProfile() {
     }
 
     function renderShowInfo() {
-        
-        if (show.image === "None"){
-            return(
-                <div>
-                <div className="slideBase">
-                    <div className="cover">
-                        <div className="cover-head">
-                            <div className="cover_head_text">
-                                <p style={{fontSize: "16px"}}><strong>{show.company}</strong><br/>
-                                {show.theater_name}<br/>
-                                </p>
+        return (
+            <React.Fragment>
+               
+                
+                    <div className="row" style={{fontFamily: "broadway", marginTop: "10px"}}>
+                        <div className="col-6" style={{marginTop: "30px", textAlign: "left"}}>
+                            <h5>{show.company}</h5>
+                            <div className="row" style={{fontFamily: "Raleway", marginTop: "5px"}}>
+                                <h6>{show.theater_name}</h6>
                             </div>
-                    
+                            <div className="row" style={{justifyContent:"center", marginTop: "5px"}}>
+                        <a id="viewPlaybill" href="/viewplaybill">View Playbill</a>
+                    </div> 
                         </div>
-                    </div>
-                    <div className="body_base">
+                        <div className="col-6" style={{justifyContent:"center", marginTop: "5px", marginBottom: "10px"}}>
+                            <img src={show.image} style={{height:"150px", width:"190px", borderRadius:"4px"}}></img>
+                        </div>
                     </div>
 
-                </div>
-            </div>)
-               
-            } else {
-                return (
-                    <div>
-                     
-                <div className="slideBase">
-                    <div className="cover">
-                        <div className="cover-head">
-                            <div className="cover_head_text">
-                                <p style={{fontSize: "16px"}}><strong>{show.company}</strong><br/>
-                                {show.theater_name}<br/>
-                                </p>
-                            </div>
-                       
-                        </div>
-                    </div>
-                   
-                    <div className="body_base">
-                        <img id="playBillImg" src={show.image}></img>
-                    </div>
-            
-                </div>
-            </div>)
-                }
+                    
+           
+            </React.Fragment>)
+        
     }
 
 
@@ -257,7 +233,11 @@ function UserShowProfile() {
    
         if (!user.admin) {
         return (
-            <div className="card" style={{marginTop: "25px"}}>
+            <div className="card" style={{
+                boxShadow: "2px 2px 3px black",
+                marginTop: "25px",
+                maxWidth: "600px"
+               }}>
                 {isAdmin()}
             </div>    
          
@@ -427,27 +407,54 @@ function UserShowProfile() {
     function NotAdminUser() {
         return (
             <React.Fragment>
+                    
                 <div className="row" style={{marginTop: "10px"}}>
-                    <div className="col-4" style={{paddingLeft: "25px"}}>
-                        <img src={user.headshot}></img>
-                    </div>
-                    <div className="col-8">
                         <h2 style={{fontFamily: "broadway"}}>{user.fname} {user.lname}</h2>
                         <hr style={{width: "90%", margin: "0 auto", marginBottom: "7px"}}/>
-                        <div className="row" style={{marginTop: "38px"}}>
-                            <h4>Role:  {user.role}</h4>  
+                        <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "broadway", textAlign: "center"}}>
+                            <h4>Role: {user.role}</h4>
+                        </div>
+                        <div className="col-6">
+                        <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "Raleway", textAlign: "left"}}>
+                            <h5 style={{fontSize: "15px"}}>Company:  {show.company}</h5>  
+                        </div>
+                        
+                        <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "Raleway", textAlign: "left"}}>
+                            <h5 style={{fontSize: "15px"}}>Theater: {show.theater_name}</h5>  
+                        </div>
+
+                        </div>
+                        <div className="col-6" style={{paddingTop: "15px"}}>
+                        
+                        <a class="viewPlaybill" href="/viewplaybill" >View Playbill</a>
+                        <a class="viewPlaybill" href="/user_profile">Back to Profile</a>
+                 
+                        </div>
+                </div>
+                <div className="row" style={{marginTop: "5px", marginBottom: "8px"}}>
+                    <div className="col-6">
+                    <div className="row"> <h4 style={{float:"left", marginBottom: "8px"}}>Headshot</h4></div>
+                        <img src={user.headshot}></img>
+                    </div>
+                    
+                    <div className="col-6" style={{float:"left"}}>
+                        <div className="row"> <h4 style={{float:"left", marginBottom: "8px"}}>Bio</h4></div>
+                        <div className="row">
+                    
+                        <p style={{
+                        fontSize: "14px", 
+                        fontWeight: "normal", 
+                        fontFamily: "Raleway", 
+                        textAlign:"left", 
+                        
+                        }}>
+                            {user.bio}
+                        </p>
                         </div>
                     </div>
-                </div>
-                <div className="row" style={{justifyContent: "center", marginTop: "10px"}}>
-                    <div className="col-4" style={{paddingLeft: "74px"}}>
-                        <h4 style={{float:"left"}}>Bio:</h4>
                     </div>
-                    <div className="col-8" style={{float:"left"}}>
-                        <p style={{fontSize: "14px", fontWeight: "normal", fontFamily: "Raleway", textAlign:"left", paddingRight: "10px", paddingLeft: "12px"}}>{user.bio}</p>
-                    </div>
-                    <hr style={{width: "90%", margin: "0 auto", marginBottom: "7px"}}/>
-                </div>
+                    <hr style={{width: "90%", margin: "0 auto", marginBottom: "3px"}}/>
+                
                 
                 <div className="row">
                     <div className="col-6">
@@ -459,7 +466,7 @@ function UserShowProfile() {
                                 fontFamily:"Raleway",
                                 fontSize: "16px"}}>Update Headshot</label><br/>
                             <input id="upload_box" type="file" name="headshot" required /><br/>
-                            <input class="submitShot" type="submit" />
+                            <input className="submitShot" type="submit" />
                         </form>
                     </div>
                     <div className="col-6">
@@ -469,15 +476,13 @@ function UserShowProfile() {
                     <form action="/update_bio" id="add_bio" method="POST">
                         <textarea id="update_bio" name="update" maxLength="375" placeholder="Update Bio..." required/> 
                         <br/>
-                        <input class="submitBio" type="submit" />
+                        <input className="submitBio" type="submit" />
                     </form>
                     
                     </div>
                     
                 </div>
-                {/* <div className="row">
-                        <a href="/viewplaybill">View Playbill</a>
-                    </div> */}
+          
 
             </React.Fragment>
         )
@@ -493,18 +498,20 @@ function UserShowProfile() {
     }
     return (
         <React.Fragment>
-            <div className="container" style={{paddingTop: "30px"}}>
-            <div className="row">
-                <div className="col-6" >
-                    <UserInformation />
+            <div className="container" style={{paddingTop: "30px", justifyContent: "center"}}>
+                <h1 style={{textDecoration: "underline"}}>{show.title}</h1>
+                <div className="row" style={{justifyContent: "center"}}>
+                <UserInformation />
                 </div>
-                <div className='col-6'>
-                    {renderShowCard()}
-                </div>
-            </div>
+            
+           
+              
+           
+               
+           
             </div>
       
         </React.Fragment>
-    )
-}
+    )}
+
 ReactDOM.render(<UserShowProfile />, document.querySelector("#showEdits"))
