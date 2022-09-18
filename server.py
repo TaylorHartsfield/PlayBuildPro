@@ -201,12 +201,15 @@ def register_show():
 def get_show_info():
 
     show = crud.get_show_by_id(session['show_id'])
+ 
+    opening = show.opening_night.strftime("%b %d, '%y")
+    closing = show.closing_night.strftime("%b %d, '%y")
 
     return jsonify({"show": {
         "title": show.title,
         "company": show.company.name,
-        "opening_night": show.opening_night,
-        "closing_night": show.closing_night,
+        "opening_night": opening,
+        "closing_night": closing,
         "image": show.image,
         "active": show.active,
         "theater_name": show.theater_name,

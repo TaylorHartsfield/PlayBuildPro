@@ -6,6 +6,7 @@ function UserShowProfile() {
     const[isEditingShow, setIsEditingShow] = React.useState(false)
     const [updatePhoto, setUpdatePhoto] = React.useState(false)
     const[admin, setAdmin] = React.useState('')
+    const [submit, setSubmit] = React.useState(false)
   
     React.useEffect(() => {
         fetch('/api/showInfo')
@@ -13,7 +14,7 @@ function UserShowProfile() {
         .then((result) => {
             setShow(result.show)    
         });
-    }, []);
+    }, [submit]);
 
     React.useEffect(()=> {
         fetch('/api/usershowinfo')
@@ -60,6 +61,7 @@ function UserShowProfile() {
         .then((response) => response.json())
         .then((responseJson) => {
             setIsEditingShow(false)
+            setSubmit(!submit)
         })
     
     }
@@ -67,16 +69,22 @@ function UserShowProfile() {
     function renderShowInfo() {
         return (
             <React.Fragment>
-                    <div className="container" style={{fontFamily: "broadway", marginTop: "10px", justifyContent:"center"}}>
+                    <div className="container" style={{fontFamily: "Raleway", marginTop: "10px", textAlign:"center"}}>
                         <div className="row">
-                       <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img></div>
+                       <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", marginBottom: "8px",borderRadius:"4px"}}></img></div>
                            <div className="col-6" style={{marginTop: "40px", justifyContent: "center"}}> 
-                            <h5>{show.company}</h5>
-                            <div className="row" style={{fontFamily: "Raleway", marginTop: "5px"}}>
-                                <h6>{show.theater_name}</h6>
+                                <h5 style={{fontFamily: "broadway"}}>{show.company}</h5>
+                                <div className="row" style={{fontFamily: "Raleway", marginTop: "5px"}}>
+                                    <h6>{show.theater_name}</h6>
+                                </div>
+                                <div className="row">
+                                    <h6>Opening: {show.opening_night}</h6>
+                                </div>
+                                <div className="row">
+                                    <h6>Closing: {show.closing_night}</h6>
+                                </div>
                             </div>
-                            </div>
-                            </div>
+                        </div>
                     </div>
 
             </React.Fragment>)
@@ -112,16 +120,16 @@ function UserShowProfile() {
         return (
 
             <div className="row" style={{fontFamily: "Raleway", marginTop: "10px"}}>
-                <div className="col-6" style={{justifyContent:"left", marginTop: "5px", marginBottom: "10px"}}>
-                    <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img>
-                </div>
-                <div className="col-6" style={{marginTop: "10px", textAlign: "left", fontSize: "12px"}}>
+               
+                <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", marginBottom: "8px",borderRadius:"4px"}}></img></div>
+               
+                <div className="col-6" style={{marginTop: "10px", textAlign: "center", fontSize: "12px"}}>
                     <p>Company:<input type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/><br/>
                     Theater Name:<input type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
                     Opening Night: <input type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br />
                     Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/></p>
-                    <input className="adminButton" style={{height: "40px", width: "100px"}} type="submit" onClick={handleSubmission}></input>
-                    </div>
+                    <input className="adminButton" style={{height: "38px", width: "100px"}} type="submit" onClick={handleSubmission}></input>
+                </div>
                     
                 </div>
                                   
@@ -135,7 +143,7 @@ function UserShowProfile() {
                     <div className="col-6" style={{justifyContent:"center", marginTop: "5px", marginBottom: "10px"}}>
                             <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img>
                         </div>
-                        <div className="col-6" style={{marginTop: "60px", textAlign: "left"}}>
+                        <div className="col-6" style={{marginTop: "60px", textAlign: "center"}}>
                             <form action="/editplaybillimage" id="update_headshot" 
                           method="POST" 
                           encType="multipart/form-data">
@@ -218,29 +226,29 @@ function UserShowProfile() {
 
            return (
             <React.Fragment>
-                <div className="container" style={{maxWidth: "800px"}}>
-                    <div className="row" >
-                        <div className="col-6"> 
+                
+               
+                    <div className="row" style={{maxWidth: "auto", maxHeight: "auto"}}>
+                        <div className="col-4 offset-2"> 
                             {renderShowCard()} 
-
                             </div>
-                        <div className="col-6">
+                        <div className="col-5" style={{marginTop: "38px"}}>
                             <div className="row"  style={{alignItems: "left"}}>
-                                <div className="col-6"  style={{alignItems: "left"}}><a className="adminButton" href="/invitecompany">Invite/Edit<br/> Cast Members</a></div>
-                                <div className="col-6"  style={{alignItems: "left"}}>{NewSubmissions()}</div>
-                            </div>
-                            <div className="row"  style={{alignItems: "left"}}>
-                                <div className="col-6"><UpdatePlaybillPhoto /></div>
-                                <div className="col-6"><IsAdmin /></div>
+                                <div className="col-5"  ><a className="adminButton" href="/invitecompany">Invite/Edit<br/> Cast Members</a></div>
+                                <div className="col-5"  >{NewSubmissions()}</div>
                             </div>
                             <div className="row"  style={{alignItems: "left"}}>
-                                <div className="col-6"><a className="adminButton" href="/viewplaybill">View Playbill</a></div>
-                                <div className="col-6"> <a className="adminButton" style={{color:"red"}} href="/archive">Archive Show</a></div>
+                                <div className="col-5"><UpdatePlaybillPhoto /></div>
+                                <div className="col-5"><IsAdmin /></div>
+                            </div>
+                            <div className="row"  style={{alignItems: "left"}}>
+                                <div className="col-5"><a className="adminButton" href="/viewplaybill">View Playbill</a></div>
+                                <div className="col-5"> <a className="adminButton" style={{color:"red"}} href="/archive">Archive Show</a></div>
                             </div>
                      
-                        </div>
-                    </div>
-                </div>        
+                        
+                </div>     
+                </div>   
             
             </React.Fragment>
            )
