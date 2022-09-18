@@ -67,25 +67,18 @@ function UserShowProfile() {
     function renderShowInfo() {
         return (
             <React.Fragment>
-               
-                
-                    <div className="row" style={{fontFamily: "broadway", marginTop: "10px"}}>
-                        <div className="col-6" style={{marginTop: "30px", textAlign: "left"}}>
+                    <div className="container" style={{fontFamily: "broadway", marginTop: "10px", justifyContent:"center"}}>
+                        <div className="row">
+                       <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img></div>
+                           <div className="col-6" style={{marginTop: "40px", justifyContent: "center"}}> 
                             <h5>{show.company}</h5>
                             <div className="row" style={{fontFamily: "Raleway", marginTop: "5px"}}>
                                 <h6>{show.theater_name}</h6>
                             </div>
-                            <div className="row" style={{justifyContent:"center", marginTop: "5px"}}>
-                        <a id="viewPlaybill" href="/viewplaybill">View Playbill</a>
-                    </div> 
-                        </div>
-                        <div className="col-6" style={{justifyContent:"center", marginTop: "5px", marginBottom: "10px"}}>
-                            <img src={show.image} style={{height:"150px", width:"190px", borderRadius:"4px"}}></img>
-                        </div>
+                            </div>
+                            </div>
                     </div>
 
-                    
-           
             </React.Fragment>)
         
     }
@@ -95,17 +88,7 @@ function UserShowProfile() {
         if (admin) {
             return (
                 <React.Fragment>
-               
-                <button type="button" style={{ 
-                backgroundColor: "transparent", 
-                fontFamily: "broadway", 
-                boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                borderRadius: "8px", 
-                display: "inline-flex",
-                alignItems: "center",
-                justifyContent: "center",
-                width: "100px"}} onClick={handleEditInfo}>Update Show Info</button>
-              
+                    <button className="adminButton" onClick={handleEditInfo}>Update Show Info</button>
                 </React.Fragment>
             )
         }
@@ -116,15 +99,7 @@ function UserShowProfile() {
         return (
             <React.Fragment>
            
-            <button type="button" style={{
-            backgroundColor: "transparent", 
-            fontFamily: "broadway", 
-            boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-            borderRadius: "8px", 
-            display: "inline-flex",
-            alignItems: "center",
-            justifyContent: "center",
-            width: "100px"}} onClick={handleChangePhoto}>
+            <button className="adminButton" onClick={handleChangePhoto}>
             Update Playbill Cover Photo
             </button>
            
@@ -135,79 +110,47 @@ function UserShowProfile() {
 
     function editShowInfo() {
         return (
-            <div className="container">
-                  <h4>Show Title: <input type="text" placeholer={show.title} name="title" value={show.title} onChange={handleOnChange}/></h4>
-                 <div className="slideBase">
-                    <div className="cover">
-                        <div className="cover-head">
-                            <div className="cover_head_text">
-                                <p><strong>Company: <input type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/></strong><br/>
-                                Theater Name:<input type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
-                                Opening Night: <input type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/> - 
-                                Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/></p>
-                                <button type="button" onClick={handleSubmission} style={{
-                                 backgroundColor: "#ffffff", 
-                                 fontFamily: "broadway", 
-                                 boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                 borderRadius: "8px", 
-                                 alignItems: "center",
-                                 justifyContent: "center",
-                                 width: "100px"}}>
-                                Submit Changes</button>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="body_base">
-                        <img id="playBillImg" src={show.image}></img>
-                    </div>
+
+            <div className="row" style={{fontFamily: "Raleway", marginTop: "10px"}}>
+                <div className="col-6" style={{justifyContent:"left", marginTop: "5px", marginBottom: "10px"}}>
+                    <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img>
                 </div>
-            </div>              
+                <div className="col-6" style={{marginTop: "10px", textAlign: "left", fontSize: "12px"}}>
+                    <p>Company:<input type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/><br/>
+                    Theater Name:<input type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
+                    Opening Night: <input type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br />
+                    Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/></p>
+                    <input className="adminButton" style={{height: "40px", width: "100px"}} type="submit" onClick={handleSubmission}></input>
+                    </div>
+                    
+                </div>
+                                  
           
         )
 
     }
     function updateShowPhoto() {
         return (
-            <div className="container">
-                <div className="slideBase">
-                    <div className="cover">
-                        <div className="cover-head">
-                            <div className="cover_head_text">
-                                <p><strong>{show.company}</strong><br/>
-                                {show.theater_name}<br/>
-                                </p>
+                <div className="row" style={{fontFamily: "broadway", marginTop: "10px"}}>
+                    <div className="col-6" style={{justifyContent:"center", marginTop: "5px", marginBottom: "10px"}}>
+                            <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img>
+                        </div>
+                        <div className="col-6" style={{marginTop: "60px", textAlign: "left"}}>
+                            <form action="/editplaybillimage" id="update_headshot" 
+                          method="POST" 
+                          encType="multipart/form-data">
+                    <label for="upload_box" style={{
+                        fontFamily:"Raleway",
+                        fontSize: "16px"}}>
+                        Update Cover Photo</label>
+                        <br/>
+                            <input id="upload_box" type="file" name="image" required /><br/>
+                            <input className="submitShot" type="submit" />
+                        </form>
                             </div>
                             
-                            <label for="updateShowImage" style={{
-                                backgroundColor: "transparent", 
-                                fontFamily: "broadway", 
-                                boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                borderRadius: "8px", 
-                                alignItems: "center",
-                                justifyContent: "center",
-                                width: "100px"}}>Update Show Image:</label>
-
-                            <form id="updateShowImage" action="/editplaybillimage" method="POST" encType="multipart/form-data" style={{
-                                fontFamily: "broadway", 
-                                boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                borderRadius: "8px", 
-                                alignItems: "center",
-                                justifyContent: "center",
-                                marginpadding: "20px"
-                            }}>
-                                <input id="image" type="file" name="image" required/>
-                                <input type="submit" />
-                            </form>
-                                    
-                           
-                            
                         </div>
-                     <div className="body_base">
-                        <img id="playBillImg" src={show.image}></img>
-                    </div>
-                </div>
-            </div>
-            </div>
+              
 
         )
     }
@@ -236,7 +179,8 @@ function UserShowProfile() {
             <div className="card" style={{
                 boxShadow: "2px 2px 3px black",
                 marginTop: "25px",
-                maxWidth: "600px"
+                maxWidth: "800px",
+                
                }}>
                 {isAdmin()}
             </div>    
@@ -250,159 +194,59 @@ function UserShowProfile() {
         return (
            
             <div style={{marginTop: "25px"}}>
-                <h3>{user.show}</h3>
                 {isAdmin()}
             </div>  
             
         )
     }
 
+
+    function NewSubmissions(){
+        if (user.submissions) {
+            return (
+               
+                    <a className="adminButton" style={{color: "blue"}}  href="/approvesubmits">New Submissions Need Review!</a>
+                
+            )
+        } else {
+            return (
+               <a className="adminButton" href="/approvesubmits">View Pending Submissions</a>
+            )
+        }
+    }
     function AdminUser() {
-        
-        if (user.submissions){
+
            return (
             <React.Fragment>
-                <div>
-                <h3>{user.fname} {user.lname}</h3>
-                <h5>Role: {user.role}</h5>
-                </div>
-            <div className="row" style={{justifyContent: "center"}}>
-                <a style={{
-                    color: "black",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
-                }} href="/invitecompany">Invite/Edit Members</a>
-                </div>
-                <br/>
-                <div className="row" style={{justifyContent: "center"}}>
-           <a style={{
-                    color: "blue",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
-                }}  href="/approvesubmits">New Submissions Need Review!</a>
-                <br/>
-                </div>
-                <div className="row" style={{justifyContent: "center"}}>
-           <a style={{
-                    color: "black",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
-                }}  href="/viewplaybill">View Playbill</a>
-          <br/>
-          </div>
-          <div className="row" style={{justifyContent: "center"}}>
-          <a style={{
-                     color: "red",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
-                }}  href="/archive">Archive Show</a>
-            </div>
-            <div className="row" style={{justifyContent: "center"}}>
-            <IsAdmin /> 
-            </div>
-            <div className="row" style={{justifyContent: "center"}}>
-            <UpdatePlaybillPhoto />
-            </div>
+                <div className="container" style={{maxWidth: "800px"}}>
+                    <div className="row" >
+                        <div className="col-6"> 
+                            {renderShowCard()} 
+
+                            </div>
+                        <div className="col-6">
+                            <div className="row"  style={{alignItems: "left"}}>
+                                <div className="col-6"  style={{alignItems: "left"}}><a className="adminButton" href="/invitecompany">Invite/Edit<br/> Cast Members</a></div>
+                                <div className="col-6"  style={{alignItems: "left"}}>{NewSubmissions()}</div>
+                            </div>
+                            <div className="row"  style={{alignItems: "left"}}>
+                                <div className="col-6"><UpdatePlaybillPhoto /></div>
+                                <div className="col-6"><IsAdmin /></div>
+                            </div>
+                            <div className="row"  style={{alignItems: "left"}}>
+                                <div className="col-6"><a className="adminButton" href="/viewplaybill">View Playbill</a></div>
+                                <div className="col-6"> <a className="adminButton" style={{color:"red"}} href="/archive">Archive Show</a></div>
+                            </div>
+                     
+                        </div>
+                    </div>
+                </div>        
             
             </React.Fragment>
            )
-        } else {
-
-        return (
-            <React.Fragment>
-              <div className="row" style={{justifyContent: "center"}}>
-                <a style={{
-                    color: "black",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
-                }}href="/invitecompany">Invite and Edit Company</a>
-                <br/>
-                </div>
-                <div className="row" style={{justifyContent: "center"}}>
+        } 
            
-                <a style={{
-                    color: "black",
-                     backgroundColor: "transparent", 
-                     fontFamily: "broadway", 
-                     boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                     borderRadius: "8px", 
-                     display: "inline-flex",
-                     alignItems: "center",
-                     justifyContent: "center",
-                     width: "100px"
-                }}href="/approvesubmits">View Pending Playbill Submissions</a>
-                <br/>
-                </div>
-                <div className="row" style={{justifyContent: "center"}}>
-          
-                <a style={{
-                    color: "black",
-                    backgroundColor: "transparent", 
-                    fontFamily: "broadway", 
-                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                    borderRadius: "8px", 
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100px"
-                }}href="/viewplaybill">View Playbill</a>
-            <br/>
-            </div>
-            <div className="row" style={{justifyContent: "center"}}>
-            <a style={{
-                    color: "red",
-                    backgroundColor: "transparent", 
-                    fontFamily: "broadway", 
-                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                    borderRadius: "8px", 
-                    display: "inline-flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    width: "100px"
-                }}href="/archive" >Archive Show</a>
-            </div>
-            <div className="row" style={{justifyContent: "center"}}>
-            <IsAdmin /> 
-            </div>
-            <div className="row" style={{justifyContent: "center"}}>
-            <UpdatePlaybillPhoto />
-            </div>
-           
-            </React.Fragment>
-          
-        )
-    }
-    }
+   
 
     function NotAdminUser() {
         return (
@@ -453,7 +297,7 @@ function UserShowProfile() {
                         </div>
                     </div>
                     </div>
-                    <hr style={{width: "90%", margin: "0 auto", marginBottom: "3px"}}/>
+                    <hr style={{width: "90%", margin: "0 auto", marginBottom: "8px"}}/>
                 
                 
                 <div className="row">
@@ -501,14 +345,8 @@ function UserShowProfile() {
             <div className="container" style={{paddingTop: "30px", justifyContent: "center"}}>
                 <h1 style={{textDecoration: "underline"}}>{show.title}</h1>
                 <div className="row" style={{justifyContent: "center"}}>
-                <UserInformation />
+                    <UserInformation />
                 </div>
-            
-           
-              
-           
-               
-           
             </div>
       
         </React.Fragment>

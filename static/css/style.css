@@ -194,6 +194,30 @@ div.container.userinfo {
     cursor: pointer;
 }
 
+.adminButton{
+    color: black;
+    background-color: transparent;
+    font-family: Raleway; 
+    box-shadow: 0 3px 5px rgba(0,0,0,0.18);
+    border-radius: 8px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+   
+    margin: 9px 2px;
+   
+    text-decoration: none;
+    width: 150px;
+    height: 50px;
+    padding: 10px;
+}
+.adminButton:hover{
+    background: #f9eb0d;
+    color:#242424;
+    cursor: pointer;
+}
+
+
 .cast{
     border-radius: 5px;
 }
