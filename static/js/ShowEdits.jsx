@@ -28,14 +28,6 @@ function UserShowProfile() {
     }, [user.headshot, user.bio, user.show]);
 
 
-    // React.useEffect(()=> {
-    //     fetch('/api/usershowinfo')
-    //     .then((response) => response.json())
-    //     .then((result) => {
-    //         setUser(result.user)
-    //     });
-    // }, [user.headshot, user.bio, user.show]);
-    
 
     function handleEditInfo() {
         setIsEditingShow(!isEditingShow)
@@ -266,8 +258,6 @@ function UserShowProfile() {
         if (!user.admin) {
         return (
             <div className="card" style={{marginTop: "25px"}}>
-                <h3>{user.fname} {user.lname}</h3>
-                <h5>Role: {user.role}</h5>
                 {isAdmin()}
             </div>    
          
@@ -292,6 +282,10 @@ function UserShowProfile() {
         if (user.submissions){
            return (
             <React.Fragment>
+                <div>
+                <h3>{user.fname} {user.lname}</h3>
+                <h5>Role: {user.role}</h5>
+                </div>
             <div className="row" style={{justifyContent: "center"}}>
                 <a style={{
                     color: "black",
@@ -433,32 +427,57 @@ function UserShowProfile() {
     function NotAdminUser() {
         return (
             <React.Fragment>
-                <div className="row">
-                    <div className="col-4">
+                <div className="row" style={{marginTop: "10px"}}>
+                    <div className="col-4" style={{paddingLeft: "25px"}}>
                         <img src={user.headshot}></img>
                     </div>
-                    <div className="col-4">
-                        <p>{user.bio}</p>
+                    <div className="col-8">
+                        <h2 style={{fontFamily: "broadway"}}>{user.fname} {user.lname}</h2>
+                        <hr style={{width: "90%", margin: "0 auto", marginBottom: "7px"}}/>
+                        <div className="row" style={{marginTop: "38px"}}>
+                            <h4>Role:  {user.role}</h4>  
+                        </div>
                     </div>
                 </div>
+                <div className="row" style={{justifyContent: "center", marginTop: "10px"}}>
+                    <div className="col-4" style={{paddingLeft: "74px"}}>
+                        <h4 style={{float:"left"}}>Bio:</h4>
+                    </div>
+                    <div className="col-8" style={{float:"left"}}>
+                        <p style={{fontSize: "14px", fontWeight: "normal", fontFamily: "Raleway", textAlign:"left", paddingRight: "10px", paddingLeft: "12px"}}>{user.bio}</p>
+                    </div>
+                    <hr style={{width: "90%", margin: "0 auto", marginBottom: "7px"}}/>
+                </div>
+                
                 <div className="row">
-                    <div className="col-4">
-                        <form action="/update_headshot" id="update_headshot" method="POST" encType="multipart/form-data">
-                            <input id="add_headshot" type="file" name="headshot" required />
-                            <input type="submit" />
+                    <div className="col-6">
+                        <form 
+                        action="/update_headshot" id="update_headshot" 
+                        method="POST" 
+                        encType="multipart/form-data">
+                            <label for="upload_box" style={{
+                                fontFamily:"Raleway",
+                                fontSize: "16px"}}>Update Headshot</label><br/>
+                            <input id="upload_box" type="file" name="headshot" required /><br/>
+                            <input class="submitShot" type="submit" />
                         </form>
                     </div>
                     <div className="col-6">
+                    <label for="update_bio" style={{
+                                fontFamily:"Raleway",
+                                fontSize: "16px"}}>Update Bio</label><br/>
                     <form action="/update_bio" id="add_bio" method="POST">
-                        <textarea name="update" maxLength="375" cols="33" required/> 
-                        <input type="submit" />
+                        <textarea id="update_bio" name="update" maxLength="375" placeholder="Update Bio..." required/> 
+                        <br/>
+                        <input class="submitBio" type="submit" />
                     </form>
                     
                     </div>
-                    <div className="row">
-                        <a href="/viewplaybill">View Playbill</a>
-                    </div>
+                    
                 </div>
+                {/* <div className="row">
+                        <a href="/viewplaybill">View Playbill</a>
+                    </div> */}
 
             </React.Fragment>
         )
