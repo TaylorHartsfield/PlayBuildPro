@@ -2,8 +2,8 @@
 
 {%block body%} 
 <div class="container home">
-  <div class="row">
-    <div class="col-6">
+  <div class="row align-items-center">
+    <div class="col order-last">
     <div id="carousel" class="carousel slide" data-interval="3000" data-ride="carousel">
         <div class="carousel-inner">
           <div class="carousel-item active">
@@ -23,51 +23,78 @@
     </div>
   
    
-        <div class="col-6">
-                {%if shows%}
-<h3>View Playbills</h3>
-
+    <div class="col order-first" justify-content="center">
+{%if shows%}
+      <h3>View Playbills</h3>
 {%for show in shows%}
-<div class="row">
-    <div class="col-4">
-        <form action='/viewplaybill'>
-            <input type="hidden" name="show_id" value="{{show.show_id}}"/>
-            <button class="submitBio" type="submit">{{show.title}}</button>
-    </form>
-    </div>
-    <div class="col-4">
-        {{show.company.name}}<br>
-        {{show.company.city}}
-    </div>
-    <div class="col-4">
-        {{show.opening_night.strftime("%B %d, %Y")}} - {{show.closing_night.strftime("%B %d, %Y")}}
-    </div>
-</div>
-
+        <div class="row">
+          <div class="col">
+            <form action='/viewplaybill'>
+              <input type="hidden" name="show_id" value="{{show.show_id}}"/>
+              <button class="submitBio" type="submit">{{show.title}}</button>
+            </form>
+          </div>
+          <div class="col-4">
+            {{show.company.name}}
+            <br>
+            {{show.company.city}}
+          </div>
+          <div class="col-4">
+            {{show.opening_night.strftime("%B %d, %Y")}} - {{show.closing_night.strftime("%B %d, %Y")}}
+          </div>
+        </div>
 {%endfor%}
-
-
-{%else%}
-        
-        <label for="search"><h3>Search for a Playbill!</h3></label>
-        <form action="/search" method="POST">
-            <input id="search" type="input" name="show_title" placeholder="Search by show title"/> 
-        </form>
-        {%endif%}
+        <hr/>
+    <div class="row">
+      <div class="col order-first">
+        <label for="searchAgain" class="searchAgain"><h6>Find Another Show</h6></label>
+          <form action="/search"  method="POST">
+            <input  id="searchAgain" class="searchAgain" type="input" name="show_title" placeholder="Search by show title"/> 
+            <button type="submit" class="submitBio">Search</button>
+          </form>
+      </div>
+      <div class="col order-last">
+        <div class="card search">
+          <div class="front">
+            <h4>Create Your Own Playbill</h4>
+          </div>
+          <div class="back">
+            <div class="back-content">
+              <a class="submitBio" href="/login">Login</a>
+              <a class="submitBio" href="/login">Register</a>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
-    
-
-
-
-  </div>
-
- 
-    </div>
-       
-     
+{%else%}
+    <div class="card search">
+      <div class="front">
+        <h4>Create Your Own Playbill!</h4>
+      </div>
+      <div class="back">
+        <div class="back-content">
+          <a class="submitBio" href="/login">Login</a>
+          <a class="submitBio" href="/login">Register</a>
         </div>
+      </div>
     </div>
-
+    <div class="card search">  
+      <div class="front">
+        <h4 align-text="center">Search for a Playbill!</h4>
+      </div>        
+      <div class="back">
+        <div class="back-content">
+          <form action="/search" method="POST">
+            <input class="searchAgain" id="search" type="input" name="show_title" placeholder="Search by show title"/>
+            <button type="submit" class="submitBio">Search</button>
+          </form>
+        </div>
+      </div>
+    </div>     
+{%endif%}  
+    </div>
+  </div>
+</div>
 
 {%endblock%}

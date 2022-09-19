@@ -18,6 +18,7 @@
     src: url('/static/css/fonts/Raleway-Italic-VariableFont_wght.ttf')
 }
 
+
 h3{
     font-family: 'Broadway';
 }
@@ -44,7 +45,6 @@ div.container {
 }
 
 div.container.userinfo {
- 
     align-items: center;
     align-self: auto;
     height: 500px;
@@ -54,15 +54,78 @@ div.container.userinfo {
 
 .container.home {
     align-items: center;
-    margin-top:5px;
+    height: auto;
+    padding: 2rem;
+    justify-content: center;
+    display: flex;
 }
+
 #carousel {
-    margin-top: 2rem;
-    margin-left: 5rem;
+    height: 33rem;
+    width: 25rem;
+   
 }
+
 .d-block {
-    height: 650px;
-    width: 450px;
+    height: 33rem;
+    width: 25rem;
+}
+
+.card.search{
+    height:5rem;
+    width: 15rem;
+    padding: 0.5rem;
+    box-shadow: 1px 3px 3px #242424;
+    cursor: pointer;
+    margin: 1rem;
+    align-items: center;
+    
+}
+.front,.back{
+    width: 100%;
+    height: 100%;
+    text-align: center;
+    overflow: hidden;
+    backface-visibility: hidden;
+    transition: transform .4s linear;
+    position: absolute;
+}
+.front{
+    align-items: center;
+    justify-content: center;
+    font-family: broadway;
+    transform: perspective(600px) rotateY(0deg);
+}
+.back{
+    transform: perspective(600px) rotateY(180deg);
+}
+.back-content{
+    text-align: center;
+    width: 100%;
+    top: 0;
+    padding: 1rem;
+    margin: none;
+
+}
+.back-content a{
+    margin: 5px;
+}
+.card.search:hover > .front {
+    transform: perspective(600px) rotateY(-180deg);
+}
+
+.card.search:hover > .back {
+    transform: perspective(600px) rotateY(0deg);
+}
+label.searchAgain{
+    font-family: broadway;
+}
+
+.searchAgain{
+    font-family: Raleway;
+    border-radius: 4px;
+    margin-bottom: 5px;
+    margin-top: 0;
 }
 
 .castList {
@@ -267,7 +330,6 @@ div.container.userinfo {
 }
 button {
     border:none;
-
 }
 
 .pager-next {
@@ -324,15 +386,11 @@ button {
     width: 100%;
     height: 63px;
 }
-
-.body_base {
+body{
+    max-width: 100%;
+    max-height: 100%;
    
-    border: 1px;
-    border-style: solid;
-    width: 530px;
-    height:590px;
 }
-
 #playBillImg{
     width: 528px;
     height:588px;
