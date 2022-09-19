@@ -2,17 +2,37 @@
 
 {%block body%} 
 <div class="container home">
-    <div class="row">
+  <div class="row">
+    <div class="col-6">
+    <div id="carousel" class="carousel slide" data-interval="3000" data-ride="carousel">
+        <div class="carousel-inner">
+          <div class="carousel-item active">
+            <img class="d-block"src="static/img/Hairspray.png" alt="First slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block" src="static/img/Wizard.png" alt="Second slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block" src="static/img/MamaMia.png" alt="Third slide">
+          </div>
+          <div class="carousel-item">
+            <img class="d-block" src="static/img/Annie.png" alt="Fourth slide">
+          </div>
+        </div>
+      </div>
+    </div>
+  
+   
         <div class="col-6">
                 {%if shows%}
 <h3>View Playbills</h3>
-<div class="container">
+
 {%for show in shows%}
 <div class="row">
     <div class="col-4">
         <form action='/viewplaybill'>
             <input type="hidden" name="show_id" value="{{show.show_id}}"/>
-            <button type="submit">{{show.title}}</button>
+            <button class="submitBio" type="submit">{{show.title}}</button>
     </form>
     </div>
     <div class="col-4">
@@ -26,7 +46,7 @@
 
 {%endfor%}
 
-</div>
+
 {%else%}
         
         <label for="search"><h3>Search for a Playbill!</h3></label>
@@ -36,26 +56,10 @@
         {%endif%}
       </div>
     </div>
+    
 
 
-    <div class="row">
-    <div id="carousel" class="carousel slide" data-interval="3000" data-ride="carousel">
-        <div class="carousel-inner">
-          <div class="carousel-item active">
-            <img class="d-block w-50" src="static/img/Hairspray.png" alt="First slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-50" src="static/img/Wizard.png" alt="Second slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-50" src="static/img/MamaMia.png" alt="Third slide">
-          </div>
-          <div class="carousel-item">
-            <img class="d-block w-50" src="static/img/Annie.png" alt="Fourth slide">
-          </div>
-        </div>
-      </div>
-    </div>
+
   </div>
 
  

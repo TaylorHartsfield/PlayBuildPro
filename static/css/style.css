@@ -54,7 +54,15 @@ div.container.userinfo {
 
 .container.home {
     align-items: center;
-    margin-left: 250px;
+    margin-top:5px;
+}
+#carousel {
+    margin-top: 2rem;
+    margin-left: 5rem;
+}
+.d-block {
+    height: 650px;
+    width: 450px;
 }
 
 .castList {
