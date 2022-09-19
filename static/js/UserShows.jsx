@@ -15,6 +15,27 @@ function UserShows() {
 
     
     function ShowInfoCard({title, role, admin, show_id, active, image, submissions, headshot, bio, waiting}) {
+
+        return(
+            <div className="card show" >
+                <div className="card content">
+                    <div className="row">
+                    <img className="card-img" src={image}></img>
+                    </div>
+                    <h2 className="card-title show">{title}</h2>
+                    <p className="card-body show">{role}</p>
+                    <form action='/updateshow'>
+                        <input type="hidden" name="show_id" value={show_id}/>
+                        <button type="submit" class="submitBio">Update Show</button>
+                    </form>
+                    <form action='/viewplaybill'>
+                        <input type="hidden" name="show_id" value={show_id}/>
+                        <button type="submit" class="submitBio">View Playbill</button>
+                    </form>
+                    <Waiting waiting={waiting} submissions={submissions} />
+                </div>
+            </div>
+        )
        
         if (active && admin && submissions) {
                 return (
@@ -308,14 +329,19 @@ function UserShows() {
         )
     }}
    
-    function Waiting({waiting}) {
-        if (waiting) {
+    function Waiting({waiting, submissions}) {
+        if (submissions) {
             return (
                 <div style={{paddingTop: "5px"}}>
-                    <p><i>Still waiting on some cast submissions!</i></p>
-                </div>
+                <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
+            </div>
             )
 
+        } else  if (waiting) {
+            <div style={{paddingTop: "5px"}}>
+            <p><i>Still waiting on some cast submissions!</i></p>
+        </div>
+           
         }
 
     }

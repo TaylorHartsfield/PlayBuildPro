@@ -28,6 +28,16 @@ h1{
 h4{
     font-family: 'Broadway';
 }
+body{
+    max-width: 100%;
+    max-height: 100%;
+    margin: 0;
+    border: 1px solid transparent;
+    
+}
+nav{
+    background-color: #12344D;
+}
 
 div.row.whoswho {
     padding: 3px;
@@ -65,12 +75,30 @@ div.container.userinfo {
     width: 25rem;
    
 }
-
+.card-img{
+    height: 100px;
+    width: 100px;
+}
 .d-block {
     height: 33rem;
     width: 25rem;
 }
-
+.card.show{
+    font-family: Raleway;
+    background-color: #D9d9d9;
+    background-size: cover;
+    max-width: 35ch;
+    max-height: 30ch;
+    margin: 50px;
+}
+.card.content {
+    padding: 1.5em;
+    background: linear-gradient(
+    hsl(0 0% 0% / 0),
+    hsl(0 0% 0% / .2) 20%,
+    hsl(0 0% 0% /1));
+  
+}
 .card.search{
     height:5rem;
     width: 15rem;
@@ -313,6 +341,7 @@ label.searchAgain{
 }
 
 
+
 .pager-prev-disabled{
     opacity: 0.3;
 }
@@ -386,14 +415,10 @@ button {
     width: 100%;
     height: 63px;
 }
-body{
-    max-width: 100%;
-    max-height: 100%;
-   
-}
+
 #playBillImg{
-    width: 528px;
-    height:588px;
+    width: 530px;
+    height:550px;
 }
 .playbill-img {
     width: 525px;

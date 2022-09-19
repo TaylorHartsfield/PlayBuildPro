@@ -159,8 +159,8 @@ def register_show():
     """Get Show Information from Form"""
     title = request.form.get('title').strip()
     theater_name = request.form.get('theater').strip()
-    opening_night = date.fromisoformat(request.form.get('openingNight'))
-    closing_night = date.fromisoformat(request.form.get('closingNight'))
+    opening_night = request.form.get('openingNight')
+    closing_night = request.form.get('closingNight')
     
     """Check if Company is already registered in DB"""
     company_exists = crud.get_company_by_name_city_state(company_name, city, state)

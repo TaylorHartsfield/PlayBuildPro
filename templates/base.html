@@ -20,21 +20,21 @@
         </button>
       
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
-          <ul class="navbar-nav">
+          <ul class="navbar-nav active">
             {%if 'user' in session%}
             <li class="nav-item">
-              <a class="nav-link" href="/user_profile" style="font-family: Broadway;">Profile</a>
+              <a class="nav-link active" href="/user_profile" style="font-family: Broadway;">Profile</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/register_show" style="font-family: Broadway;">Register Show</a>
+              <a class="nav-link active" href="/register_show" style="font-family: Broadway;">Register Show</a>
             </li>
             <li class="nav-item">
-              <a class="nav-link" href="/logout" style="font-family: Broadway;">Logout</a>
+              <a class="nav-link active" href="/logout" style="font-family: Broadway;">Logout</a>
             </li>
             {%endif%}
             {%if 'user' not in session%}
             <li class="nav-item">
-              <a class="nav-link" href="/login" style="font-family: Broadway;">Login/Register</a>
+              <a class="nav-link active" href="/login" style="font-family: Broadway;">Login/Register</a>
             </li>
             {%endif%}
         </div>
