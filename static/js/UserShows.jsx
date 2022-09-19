@@ -17,13 +17,23 @@ function UserShows() {
     function ShowInfoCard({title, role, admin, show_id, active, image, submissions, headshot, bio, waiting}) {
 
         return(
-            <div className="card show" >
-                <div className="card content">
+            <div className="card search" style={{width: "250px", height: "250px"}}>
+                <div className="front">
                     <div className="row">
-                    <img className="card-img" src={image}></img>
+                        {/* /<Notification /> */}
                     </div>
+                    <div className="row">
+                        <img className="card-img" src={image}></img>
+                    </div>
+                    <div className="row">
                     <h2 className="card-title show">{title}</h2>
+                    </div>
+                    <div className="row">
                     <p className="card-body show">{role}</p>
+                    </div>
+                    </div>
+                    <div className="back">
+                    <div className="back-content">
                     <form action='/updateshow'>
                         <input type="hidden" name="show_id" value={show_id}/>
                         <button type="submit" class="submitBio">Update Show</button>
@@ -32,8 +42,14 @@ function UserShows() {
                         <input type="hidden" name="show_id" value={show_id}/>
                         <button type="submit" class="submitBio">View Playbill</button>
                     </form>
-                    <Waiting waiting={waiting} submissions={submissions} />
+                    <form className="archive" action='/archive'>
+                        <input type="hidden" value={show_id} name='show_id'></input>
+                        <button type="submit" className="submitBio"> Archive</button>
+                    </form>
+                    <Waiting waiting={waiting} submission={submissions} />
                 </div>
+                </div>
+                
             </div>
         )
        
@@ -329,19 +345,26 @@ function UserShows() {
         )
     }}
    
-    function Waiting({waiting, submissions}) {
-        if (submissions) {
+    function Waiting({waiting, submission}) {
+
+        if (submission) {
             return (
                 <div style={{paddingTop: "5px"}}>
                 <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
             </div>
             )
 
-        } else  if (waiting) {
+        } else if (waiting) {
+            return (
             <div style={{paddingTop: "5px"}}>
-            <p><i>Still waiting on some cast submissions!</i></p>
-        </div>
-           
+                <p><i>Still waiting on cast submissions!</i></p>
+             </div>)
+        } else {
+            return (
+                <div style={{paddingTop: "5px"}}>
+                <p><i>All Submissions Recieved!</i></p>
+             </div>
+            )
         }
 
     }
