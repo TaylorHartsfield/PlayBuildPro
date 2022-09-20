@@ -4,6 +4,9 @@ function UserShows() {
     const[user, setUser] = React.useState({})
     const [isEditing, setIsEditing] = React.useState(false);
     const [archive, setArchive] = React.useState(false);
+    const [viewActive, setViewActive] = React.useState(true);
+
+
 
     const showInfoCards = [];
     const notActive = [];
@@ -51,11 +54,18 @@ function UserShows() {
     };
 
     function handleFNameChange(event){
+        event.preventDefault();
         setUser({...user, "fname": event.target.value})
     }
 
     function handleLNameChange(event) {
+        event.preventDefault();
         setUser({...user, "lname": event.target.value})
+    }
+
+    function handleViewActive(event){
+        event.preventDefault();
+        setViewActive(!viewActive)
     }
 
 
@@ -81,85 +91,42 @@ function UserShows() {
 
     }
 
-    function renderEditUserInfo(){
-        return (
-       <React.Fragment>
-            <div className="userStats">
-                <div className="marqueetext">
-                    <div className="row">
-                        <h2 style={{fontFamily: "showtime", fontSize:"65px"}}>Starring</h2>
-                    </div>
-                    <div className="row" style={{paddingTop: "50px"}}>
-                    <div className="card">
-                        <input type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
-                        <input type="text" placeholder={user.lname} value={user.lname} onChange={handleLNameChange}/>
-                        <div style={{paddingTop: "5px", paddingLeft: "10px"}}>
-                        <button type="submit" onClick={handleSumbission} style={{
-                            backgroundColor: "transparent", 
-                            fontFamily: "broadway", 
-                            boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                            borderRadius: "8px", 
-                            display: "inline-flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            width: "100px"}}>
-                            Submit your Changes!
-                            </button>
-                            </div>
-                    </div>
-                    </div>
-                
-                </div>
-            </div>
-            </React.Fragment>
-         
-            )
 
-    }
+    function Waiting({waiting, submission, admin, headshot, bio}) {
+        if (admin){
+            if (submission) {
+                return (
+                    <div style={{paddingTop: "5px"}}>
+                    <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
+                </div>
+                )
     
-    function Welcome({fname, lname}){
-
-        return(
-            <React.Fragment>
-                <div className="header profile">
-                    <div className="row">
-                        <div className="col-6 offset-6">
-                            <h4 className="header message">Break a leg, {fname} {lname}</h4>
-                            <div className="header line"></div>
-                        </div>
-                    </div>
-                    <div className="header actions">
-                        <button type="button" className="submitBio" onClick={handleOnClick}>Edit Profile</button>
-                    </div>
-                </div>
-            </React.Fragment>
-        )
-
-    }
-    function Waiting({waiting, submission}) {
-
-        if (submission) {
-            return (
+            } else if (waiting) {
+                return (
                 <div style={{paddingTop: "5px"}}>
-                <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
-            </div>
-            )
+                    <p><i>Still waiting on cast submissions!</i></p>
+                    </div>)
+            } else {
+                return (
+                    <div style={{paddingTop: "5px"}}>
+                    <p><i>All Submissions Recieved!</i></p>
+                    </div>
+                )
+            }
 
-        } else if (waiting) {
-            return (
-            <div style={{paddingTop: "5px"}}>
-                <p><i>Still waiting on cast submissions!</i></p>
-                </div>)
         } else {
-            return (
+            if (headshot==="/static/img/download.png" | bio==="No Bio Submitted") {
+                return(
                 <div style={{paddingTop: "5px"}}>
-                <p><i>All Submissions Recieved!</i></p>
+                    <h6 style={{color: "blue"}}>Headshot or Bio Needed!</h6>
                 </div>
-            )
+                )
+            }
         }
-
+       
     }
 
+ 
 
     function ShowImage({image, title}){
         if(image){
@@ -212,23 +179,67 @@ function UserShows() {
                 <button type="submit" className="submitBio">View Playbill</button>
             </form>
     )}
-    function ShowInfoCard({title, role, admin, show_id, active, image, submissions, headshot, bio, waiting}) {
+
+    function ViewActive({view}){
+        if (view) {
+            return (
+                <React.Fragment>
+                    <div className="row show">
+                        <div className="col-6 show">
+                        <h3 className="active show">Active Shows:</h3>
+                        <div className="header line active">
+                        </div>
+                        <div className="view action">
+                        <button type="button" className="submitBio" onClick={handleViewActive}>View Archived</button>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="row shows">
+                        {showInfoCards}
+                    </div>
+                </React.Fragment>
+            )
+        } else {
+            return(
+                <React.Fragment>
+                    <div className="row show">
+                        <div className="col-6 show">
+                        <h3 className="active show">Archived Shows:</h3>
+                        <div className="header line active">
+                        </div>
+                        <div className="view action">
+                        <button type="button" className="submitBio" onClick={handleViewActive}>View Active</button>
+                        </div>
+                        </div>
+                    </div>
+                    <div className="row shows">
+                        {notActive}
+                    </div>
+                    
+
+                </React.Fragment>
+                
+            )
+        }
+    }
+    function ShowInfoCard({title, admin, show_id, active, image, submissions, waiting, headshot, bio}) {
 
         return(
             <div className="col-3">
             <div className="card show">
                 <div className="front">
-                    <ShowImage image={image} title={title}/>
+                    <ShowImage image={image} title={title}/> 
                 </div>
-                    <div className="back show">
+                <div className="back show">
+
                     <div className="back-content show">
                         <UpdateShow active={active} show_id={show_id} admin={admin} />
                         <ViewPlaybill show_id={show_id}/>
                         <Unarchive active={active} show_id={show_id} admin={admin}/>
-                        <Waiting waiting={waiting} submission={submissions} />
+                        <Waiting admin={admin} waiting={waiting} submission={submissions} headshot={headshot} bio={bio}/>
                     </div>
                 </div>
-                
+            
             </div>
             </div>
         )
@@ -272,35 +283,51 @@ function UserShows() {
         )
     }}
    
-   
-    return (
-        <React.Fragment>
-            <Welcome fname={user.fname} lname={user.lname} />
-            <div className="row">
-                {/* {renderUserInfo()} */}
-            </div>
-            
-                <div className="row">
-                    <h3 className="active show">Active Shows:</h3>
-                </div>
-                    <div className="row shows">
-                        {showInfoCards}
+    if(!isEditing) {
+        return(
+            <React.Fragment>
+                <div className="header profile">
+                        <div className="row">
+                            <div className="col-6 offset-6">
+                                <h4 className="header message">Break a leg, {user.fname} {user.lname}</h4>
+                                <div className="header line"></div>
+                            </div>
+                        </div>
+                        <div className="header actions">
+                            <button type="button" className="submitBio" onClick={handleOnClick}>Edit Profile</button>
+                        </div>
                     </div>
-                
-                    
-                
-                <div className="row">
-                    <h3 className="active show">Archived Shows:</h3>
-                    <div className="row shows">
-                        {notActive}
+                 <ViewActive view={viewActive} />
+                 </React.Fragment>
+        )
+    } else {
+        return(
+            <React.Fragment>
+                 <div className="header profile">
+                        <div className="row">
+                            <div className="col-6 offset-6">
+                                <label  for="firstName" style={{transition:"none", fontFamily: "Raleway", fontSize: "14px"}}>First Name: </label>
+                            <input style={{margin: "3px", fontFamily: "Raleway", fontSize: "14px"}} id="firstName" type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
+                            <label style={{fontFamily: "Raleway", fontSize: "14px"}}for="lastName">Last Name: </label>
+                            <input style={{margin: "3px", fontFamily: "Raleway", fontSize: "14px"}} id="lastName" type="text" placeholder={user.name} value={user.lname} onChange={handleLNameChange}/>
+                                <div className="header line"></div>
+                                
+            <button type="submit" onClick={handleSumbission} className="submitBio">
+                Submit your Changes!
+                </button>
+              
+                            </div>
+                        </div>
+                        
                     </div>
-                </div>
+               
             
-        </React.Fragment>
-   
-    )
+            
+            <ViewActive view={viewActive} />
+            </React.Fragment>
+        )
+    }}
 
-}
 
 
 ReactDOM.render(<UserShows />, document.querySelector('#userShows'))

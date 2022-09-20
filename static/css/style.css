@@ -26,7 +26,15 @@
         transform: translateX(0)
     }
 }
+@keyframes active-load {
+    0% {
+        transform: translateX(-200%)
+    };
+    100% {
+        transform: translateX(0)
+    }
 
+}
 h3{
     font-family: 'Broadway';
 }
@@ -55,14 +63,14 @@ nav{
 .header.profile{
     margin-top: 20px;
     margin-bottom: 0;
-    text-align: left;
+    text-align: right;
 }
 
 .header.message{
     margin-bottom: 0px;
     padding-right: 0;
     padding-left: 1em;
-    animation: welcome-load 1800ms ease;  
+    animation: welcome-load 1200ms ease;  
     font-size: 22px;
 
 }
@@ -72,22 +80,38 @@ nav{
     border: 0;
     margin-top: 0;
     margin-bottom: .5em;
-    width: 113%;
+    width: 100%;
     size: 10px;
     animation: welcome-load 1000ms ease;  
 }
 .active.show{
+    margin-bottom: 0;
+    text-align: left;
     font-size: 22px;
     margin-top: 1em;
+    animation: active-load 1200ms ease;
+   
 }
 .header.actions{
     text-align: right;
 }
 
+.view.action{
+    text-align: left;
+    margin-bottom: .3em;
+}
+.header.line.active{
+    margin-bottom: .5em;
+    animation: active-load 1000ms ease; 
+    width:100%;
+    size: 10px;
+    background:linear-gradient(90deg, #0840a5,  transparent);
+}
+
+
 .noImage{
     text-align: center;
     padding-top: 6em;
-
 }
 
 .container.nav{
@@ -141,7 +165,13 @@ div.container.userinfo {
 }
 .row.shows{
     justify-content: center;
-   
+}
+.row.show{
+    margin-top:0;
+    margin-bottom: 0;
+}
+.col-6.show{
+    margin-bottom: 0;
 }
 .card.show{
     border:none;
