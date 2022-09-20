@@ -164,7 +164,7 @@ function UserShows() {
         )
     } else if (active && !admin){
         return(
-            <form action='/updateshow'>
+        <form action='/updateshow'>
             <input type="hidden" name="show_id" value={show_id}/>
             <button type="submit" className="submitBio">Update Headshot/Bio</button>
         </form>
@@ -225,7 +225,7 @@ function UserShows() {
     function ShowInfoCard({title, admin, show_id, active, image, submissions, waiting, headshot, bio}) {
 
         return(
-            <div className="col-3">
+            <div className="col-12 col-sm-12 col-md-6 col-lg-4 col-xl-3">
             <div className="card show">
                 <div className="front">
                     <ShowImage image={image} title={title}/> 
