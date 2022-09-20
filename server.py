@@ -282,7 +282,8 @@ def get_user_show_info():
                 "admin": is_admin,
                 "submissions": submissions,
                 "show_id": show.show_id,
-                "show": show.title
+                "show": show.title,
+                "company": show.company
 
     }})
 
@@ -377,7 +378,7 @@ def get_user_shows():
             "submissions": submissions,
             "waiting": waiting_on_submits,
             "headshot": headshot,
-            "bio": bio,   
+            "bio": bio
         })
 
     return jsonify({'shows': shows})

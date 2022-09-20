@@ -44,7 +44,8 @@ function UserShows() {
         })
     }
     
-    function handleOnClick(){
+    function handleOnClick(event){
+        event.preventDefault();
         setIsEditing(!isEditing)
 
     };
@@ -56,6 +57,7 @@ function UserShows() {
     function handleLNameChange(event) {
         setUser({...user, "lname": event.target.value})
     }
+
 
     function handlearchive(event){
         event.preventDefault();
@@ -115,13 +117,6 @@ function UserShows() {
 
     }
     
-    function renderUserInfo() {
-        if (isEditing){
-            return renderEditUserInfo()
-               
-        } else {
-            return renderViewUserInfo()
-        }};
     function Welcome({fname, lname}){
 
         return(
@@ -129,12 +124,13 @@ function UserShows() {
                 <div className="header profile">
                     <div className="row">
                         <div className="col-6 offset-6">
-                        <h4 className="header message">Break a leg, {fname} {lname}</h4>
-                    <div className="header line"/>
-                    <button type="button" className="submitBio" onClick={handleOnClick}>Edit Info</button>
+                            <h4 className="header message">Break a leg, {fname} {lname}</h4>
+                            <div className="header line"></div>
                         </div>
                     </div>
-                    
+                    <div className="header actions">
+                        <button type="button" className="submitBio" onClick={handleOnClick}>Edit Profile</button>
+                    </div>
                 </div>
             </React.Fragment>
         )
@@ -164,290 +160,79 @@ function UserShows() {
 
     }
 
-    
+
+    function ShowImage({image, title}){
+        if(image){
+            return (
+                <img className="card-img" src={image}></img>  
+            )
+        } else {
+            return(
+                <div>
+                    <h4 className="noImage">{title}</h4>
+                </div>
+            )
+        }
+    }
+
+    function Unarchive({active, show_id, admin}){
+        if(active && admin){
+            return(
+                <button className="submitBio archive" type="button" onClick={handlearchive} value={show_id}>Archive</button>
+            )
+        } else if (admin && !active) {
+            return(
+            <button className="submitBio unarchive" type="button" onClick={handlearchive} value={show_id}>Unarchive</button>
+            )
+        }
+    }
+
+   function UpdateShow({active, show_id, admin}){
+    if (active && admin){
+        return(
+            <form action='/updateshow'>
+                <input type="hidden" name="show_id" value={show_id}/>
+                <button type="submit" className="submitBio">Update Show</button>
+            </form>
+        )
+    } else if (active && !admin){
+        return(
+            <form action='/updateshow'>
+            <input type="hidden" name="show_id" value={show_id}/>
+            <button type="submit" className="submitBio">Update Headshot/Bio</button>
+        </form>
+        )
+    }
+   }
+   function ViewPlaybill({show_id}){
+    return(
+   
+            <form action='/viewplaybill'>
+                <input type="hidden" name="show_id" value={show_id}/>
+                <button type="submit" className="submitBio">View Playbill</button>
+            </form>
+    )}
     function ShowInfoCard({title, role, admin, show_id, active, image, submissions, headshot, bio, waiting}) {
 
         return(
             <div className="col-3">
             <div className="card show">
                 <div className="front">
-                    <img className="card-img" src={image}></img>  
+                    <ShowImage image={image} title={title}/>
                 </div>
-                    <div className="back">
-                    <div className="back-content">
-                    <form action='/updateshow'>
-                        <input type="hidden" name="show_id" value={show_id}/>
-                        <button type="submit" className="submitBio">Update Show</button>
-                    </form>
-                    <form action='/viewplaybill'>
-                        <input type="hidden" name="show_id" value={show_id}/>
-                        <button type="submit" className="submitBio">View Playbill</button>
-                    </form>
-                        <button className="submitBio archive" type="button" onClick={handlearchive} value={show_id}>Archive</button>
-                        
-           
-                    <Waiting waiting={waiting} submission={submissions} />
-                </div>
+                    <div className="back show">
+                    <div className="back-content show">
+                        <UpdateShow active={active} show_id={show_id} admin={admin} />
+                        <ViewPlaybill show_id={show_id}/>
+                        <Unarchive active={active} show_id={show_id} admin={admin}/>
+                        <Waiting waiting={waiting} submission={submissions} />
+                    </div>
                 </div>
                 
             </div>
             </div>
         )
-       
-        if (active && admin && submissions) {
-                return (
-                <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                    <div className="col-4" style={{paddingTop: "10px"}}>
-                                <img src={image} style={{height: "100px", width: "100px"}}/>
-                            </div>
-                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
-                                <h6><i><strong>{title}</strong></i></h6>
-                                <p><i>as {role}</i></p>
-                            </div>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                    <form action='/updateshow'>
-                        <input type="hidden" name="show_id" value={show_id}/>
-                        <button type="submit" 
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    Update Playbill
-                                </button>
-                    </form>
-                    <form action='/viewplaybill'>
-                        <input type="hidden" name="show_id" value={show_id}/>
-                        <button type="submit" 
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    View Playbill
-                                </button>
-                    </form>
-                    <Waiting waiting={waiting} />
-                    <h6 style={{color: "blue"}}>New Submissions to Approve!</h6>
-                    </div>
-                </div> )
-                } else if (active && !submissions && admin) {
-                    return (
-                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                                <img src={image} style={{height: "100px", width: "100px"}}/>
-                            </div>
-                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
-                                <h6><i><strong>{title}</strong></i></h6>
-                                <p><i>as {role}</i></p>
-                            </div>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                            <form action='/updateshow'>
-                                <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit" 
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    Update Playbill
-                                </button>
-                                </form>
-                            <form action='/viewplaybill'>
-                                <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit"
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    View Playbill
-                                </button>
-                            </form>
-                            <Waiting waiting={waiting} />
-                            </div>
-                        </div>) 
-                } else if (active && !admin && (bio==="No Bio Sumbitted" | headshot === "/static/img/download.png")) {
-                    return (
-                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                           <div className="col-4" style={{paddingTop: "10px"}}>
-                                <img src={image} style={{height: "100px", width: "100px"}}/>
-                            </div>
-                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
-                                <h6><i><strong>{title}</strong></i></h6>
-                                <p><i>as {role}</i></p>
-                            </div>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                         
-                            <h5>  
-                            <form action='/updateshow'>
-                                <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit" 
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    Update Playbill
-                                </button>
-                            </form>
-                            </h5>  
-                            <h5> 
-                            <form action='/viewplaybill'>
-                                <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit"
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    View Playbill
-                                </button>
-                            </form>
-                            </h5> 
-                            <p style={{color: "red"}}><strong>Please submit your headshot and bio!</strong></p>
-                            </div>
-                        </div>) 
-                } else if (active && !admin) {
-                    return (
-                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                             <div className="col-4" style={{paddingTop: "10px"}}>
-                                <img src={image} style={{height: "100px", width: "100px"}}/>
-                            </div>
-                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
-                                <h6><i><strong>{title}</strong></i></h6>
-                                <p><i>as {role}</i></p>
-                            </div>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                            <form action='/updateshow'>
-                                <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit" 
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    Update Playbill
-                                </button>
-                            </form>
-                            <form action='/viewplaybill'>
-                                <input type="hidden" name="show_id" value={show_id}/>
-                                <button type="submit"
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    View Playbill
-                                </button>
-                            </form>
-                            </div>
-                        </div>) 
-                } else if (admin && !active) {
-                    return (
-                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4">
-                                <img src={image} style={{height: "100px", width:"100px"}}/>
-                            </div>
-                        <div className="col-4">
-                                    <h6><i>{title}</i></h6>
-                                    <p><i>as {role}</i></p>
-                                </div>
-                                <div className="col-4" style={{paddingTop: "20px"}}>
-                                    <form action='/viewplaybill'>
-                                        <input type="hidden" value={show_id} name='show_id'></input>
-                                        <button type="submit"
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    View Playbill
-                                </button>
-                                    </form>
-                                    <form action='/archive'>
-                                        <input type="hidden" value={show_id} name='show_id'></input>
-                                        <button type="submit"
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    Unarchive
-                                </button>
-                                </form>
-                                </div>
-                            </div>)
-                } else if(!admin && !active) {
-                    return (
-                        <div className="row" style={{borderStyle: "solid", borderRadius:"5px", padding: "5px", margin: "5px"}}>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                                <img src={image} style={{height: "100px", width: "100px"}}/>
-                            </div>
-                            <div className="col-4" style={{fontFamily: "broadway", paddingTop: "20px"}}>
-                                <h6><i><strong>{title}</strong></i></h6>
-                                <p><i>as {role}</i></p>
-                            </div>
-                            <div className="col-4" style={{paddingTop: "10px"}}>
-                                <form action='/viewplaybill'>
-                                    <input type="hidden" value={show_id} name='show_id'></input>
-                                    <button type="submit"
-                                    style={{
-                                    backgroundColor: "transparent", 
-                                    fontFamily: "broadway", 
-                                    boxShadow: "0 3px 5px rgba(0,0,0,0.18)", 
-                                    borderRadius: "8px", 
-                                    display: "inline-flex",
-                                    alignItems: "center",
-                                    justifyContent: "center",
-                                    width: "100px"}}>
-                                    View Playbill
-                                </button>
-                                </form>
-                            </div>
-                        </div>)
-                }}
-                    
+        }  
 
     for (const show of userShows) {
        
@@ -465,6 +250,7 @@ function UserShows() {
             bio={show.bio}
             headshot={show.headshot}
             waiting={show.waiting}
+           
             />,
         )
     } else {

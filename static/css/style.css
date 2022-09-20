@@ -71,13 +71,22 @@ nav{
     background:linear-gradient(90deg, transparent, #0840a5 99%);
     border: 0;
     margin-top: 0;
-    margin-bottom: 3rem;
+    margin-bottom: .5em;
     width: 113%;
     size: 10px;
     animation: welcome-load 1000ms ease;  
 }
 .active.show{
     font-size: 22px;
+    margin-top: 1em;
+}
+.header.actions{
+    text-align: right;
+}
+
+.noImage{
+    text-align: center;
+    padding-top: 6em;
 
 }
 
@@ -153,6 +162,20 @@ div.container.userinfo {
 .card.show:hover > .back {
     transform: perspective(600px) rotateY(0deg);
 }
+.back-content.show {    
+    align-items: center;
+    margin-top: 6.5em;
+    justify-content: center;
+    background-color: #fffdc4;
+   
+}
+.back.show {
+    background-color: #fffdc4;
+}
+.card.back{
+    align-items: center;
+    justify-content: center;
+}
 .card.search{
     height:5rem;
     width: 15rem;
@@ -212,6 +235,10 @@ label.searchAgain{
 
 button.submitBio.archive:hover{
     background-color: red;
+}
+button.submitBio.unarchive:hover{
+    background-color: #1C4BAA;
+    color: white;
 }
 
 .castList {
