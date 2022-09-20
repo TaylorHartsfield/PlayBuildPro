@@ -20,7 +20,7 @@ function WhosWhoApproval () {
                     <img src={headshot}></img>
                     <form action='/approveheadshot' method="POST">
                         <input type="hidden" name="user_id" value={user_id}></input>
-                        <button type="submit">Approve</button>
+                        <button className="submitBio"style={{marginTop: "5px"}} type="submit">Approve</button>
                     </form>
                 </div>
        
@@ -50,7 +50,7 @@ function WhosWhoApproval () {
                     </div>
                     <form action='/approvebio' method="POST">
                         <input type="hidden" name="user_id" value={user_id}></input>
-                        <button type="submit">Approve</button>
+                        <button className="submitBio" style={{bottom: "0"}}type="submit">Approve</button>
                     </form>
                 </div>
             )
@@ -99,6 +99,10 @@ function WhosWhoApproval () {
         <React.Fragment>
            <div className="row">
             <h3 style={{marginBottom: "2px", marginTop: "10px"}}>Who's Who</h3>
+            <div className="row" style={{justifyContent:"center", alignContent:"center"}}>
+                    <a href="/updateshow"  style={{margin: "2px", width:"fit-content", textAlign:"center", display: "flex", alignContent: "center",justifyContent:"center"}}className="submitBio">Back to Show Profile</a>
+                    <a href="/viewplaybill"  style={{margin: "2px", width:"fit-content"}} className="submitBio">View Playbill</a>
+                </div> 
             </div>
             <div className="playbillBase">
                 <div className="slideBase">
@@ -108,11 +112,7 @@ function WhosWhoApproval () {
                         </div>
                     </div>  
                    
-                </div>  
-                <div>
-                    <a href="/updateshow" style={{color: "black", fontFamily: "Broadway", paddingRight: "10px"}}>Back to Show Profile</a>
-                    <a href="/viewplaybill"  style={{color: "black", fontFamily: "Broadway"}}>View Playbill</a>
-                </div>                  
+                </div>                   
             </div>
 
           

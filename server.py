@@ -283,7 +283,7 @@ def get_user_show_info():
                 "submissions": submissions,
                 "show_id": show.show_id,
                 "show": show.title,
-                "company": show.company
+               
 
     }})
 
