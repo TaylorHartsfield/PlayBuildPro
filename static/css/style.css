@@ -18,6 +18,14 @@
     src: url('/static/css/fonts/Raleway-Italic-VariableFont_wght.ttf')
 }
 
+@keyframes welcome-load{
+    0% {
+        transform: translateX(200%)
+    };
+    100% {
+        transform: translateX(0)
+    }
+}
 
 h3{
     font-family: 'Broadway';
@@ -32,11 +40,50 @@ body{
     max-width: 100%;
     max-height: 100%;
     margin: 0;
+    padding: 0;
     border: 1px solid transparent;
     
 }
 nav{
     background-color: #12344D;
+    width: 100%;
+    padding: 0;
+}
+.profile.base{
+    overflow:hidden;
+}
+.header.profile{
+    margin-top: 20px;
+    margin-bottom: 0;
+    text-align: left;
+}
+
+.header.message{
+    margin-bottom: 0px;
+    padding-right: 0;
+    padding-left: 1em;
+    animation: welcome-load 1800ms ease;  
+    font-size: 22px;
+
+}
+.header.line{
+    height: 3Px;
+    background:linear-gradient(90deg, transparent, #0840a5 99%);
+    border: 0;
+    margin-top: 0;
+    margin-bottom: 3rem;
+    width: 113%;
+    size: 10px;
+    animation: welcome-load 1000ms ease;  
+}
+.active.show{
+    font-size: 22px;
+
+}
+
+.container.nav{
+    padding-left: 2rem;
+    width: 1256px;
 }
 
 div.row.whoswho {
@@ -76,30 +123,35 @@ div.container.userinfo {
    
 }
 .card-img{
-    padding-left: 50%;
-    padding-right: 0;
-    height: 150px;
-    width: 150px;
+    height: 350px;
+    width: 250px;
 }
 .d-block {
     height: 33rem;
     width: 25rem;
 }
-.card.show{
-    font-family: Raleway;
-    background-color: #D9d9d9;
-    background-size: cover;
-    max-width: 35ch;
-    max-height: 30ch;
-    margin: 50px;
+.row.shows{
+    justify-content: center;
+   
 }
-.card.content {
-    padding: 1.5em;
-    background: linear-gradient(
-    hsl(0 0% 0% / 0),
-    hsl(0 0% 0% / .2) 20%,
-    hsl(0 0% 0% /1));
-  
+.card.show{
+    border:none;
+    height: 350px;
+    width: 250px;
+    box-shadow: 1px 3px 3px #242424;
+    cursor: pointer;
+    border:#242424;
+    border-style: 1px solid;
+    justify-content: center;
+    align-items: center;
+    margin: 5px;
+}
+.card.show:hover > .front {
+    transform: perspective(600px) rotateY(-180deg);
+}
+
+.card.show:hover > .back {
+    transform: perspective(600px) rotateY(0deg);
 }
 .card.search{
     height:5rem;
@@ -158,7 +210,7 @@ label.searchAgain{
     margin-top: 0;
 }
 
-.archive button:hover{
+button.submitBio.archive:hover{
     background-color: red;
 }
 

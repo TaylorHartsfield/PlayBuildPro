@@ -720,10 +720,10 @@ def all_shows():
         })
     return jsonify({'shows': showsInfo})
 
-@app.route('/archive')
+@app.route('/archive', methods=["POST"])
 def archive():
 
-    show_id = request.args.get('show_id')
+    show_id = request.json.get('show')
 
     if not show_id:
         show_id = session['show_id']
