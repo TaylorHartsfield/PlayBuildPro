@@ -262,7 +262,8 @@ function UserShowProfile() {
                     
                 <div className="row" style={{marginTop: "10px"}}>
                         <h2 style={{fontFamily: "broadway"}}>{user.fname} {user.lname}</h2>
-                        <hr style={{width: "90%", margin: "0 auto", marginBottom: "7px"}}/>
+                        <div style={{height:"1.5px"}}className="line company"></div>
+                        
                         <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "broadway", textAlign: "center"}}>
                             <h4>Role: {user.role}</h4>
                         </div>
@@ -305,7 +306,7 @@ function UserShowProfile() {
                         </div>
                     </div>
                     </div>
-                    <hr style={{width: "90%", margin: "0 auto", marginBottom: "8px"}}/>
+                    <div style={{height:"1.5px"}}className="line company"></div>
                 
                 
                 <div className="row">
@@ -350,8 +351,9 @@ function UserShowProfile() {
     }
     return (
         <React.Fragment>
-            <div className="container" style={{paddingTop: "30px", justifyContent: "center"}}>
-                <h1 style={{textDecoration: "underline"}}>{show.title}</h1>
+            <div className="container" style={{paddingTop: "1rem", justifyContent: "center"}}>
+                <h1 className="show-title">{show.title}</h1>
+                <div className="line company"></div>
                 <div className="row" style={{justifyContent: "center"}}>
                     <UserInformation />
                 </div>

@@ -41,13 +41,23 @@ function InviteCompany() {
         setIsEditing(!isEditing)
     }
 
-
+    function Title(){
+        return(
+            <div>
+                <h2 className="show-title">{show.title}</h2>
+                <div className="line company"></div>
+            </div>
+        )
+    }
     function CurrentCast() {
         return (
             <React.Fragment>
                         <div className="col-6">
-                            <h4>{show.title} Cast List</h4>
+                            <div className="card cast">
+                            <h4 className="show-title">Cast List</h4>
+                            <div style={{height:"1.5px"}}className="line company"></div>
                                 {castList}
+                        </div>
                         </div>
             </React.Fragment>
         )
@@ -56,6 +66,19 @@ function InviteCompany() {
     
 
     function CastList({fname, lname, role, email, id, isEditing}) {
+
+        return(
+            <React.Fragment>
+                <div className="row castlist">
+                    <div className="col-4 offset-2" >
+                        <strong><p style={{fontFamily: "Raleway", float: "center", fontStyle: "italic"}}>{role}</p></strong>
+                    </div>
+                    <div className="col-4">
+                        <strong><p style={{fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
+                    </div>
+                </div>
+            </React.Fragment>
+        )
 
         if (isEditing){
             return (
@@ -108,16 +131,28 @@ function InviteCompany() {
     }
 
 
-    function ViewPlaybill() {
+    function BackOrView() {
 
         return (
             <React.Fragment>
-                <div className = "container">
-                    <form action='/viewplaybill'>
-                    <input type="hidden" name="show_id" value={show.show_id}/>
-                    <button type="submit" >View Playbill</button>
+                
+                    <div className="row" style={{justifyContent: "center", display: "flex", marginTop: ".5rem"}}>
+                        <div className="col" style={{justifyContent: "right", textAlign:"right"}}>
+                    <form action='/updateshow'>
+                        <input type="hidden" name="show_id" value={show.show_id}/>
+                        <button style={{width: "fit-content"}}className="submitBio" type="submit" >Back to Show Profile</button>
                     </form>
+                    </div>
+                    <div className="col" style={{justifyContent: "left", textAlign:"left"}}>
+                    <form action='/viewplaybill'>
+                        <input type="hidden" name="show_id" value={show.show_id}/>
+                        <button style={{width: "fit-content"}}className="submitBio" type="submit" >View Playbill</button>
+                    </form>
+                    </div>
+                    
                 </div>
+             
+                
             </React.Fragment>
         )
     }
@@ -139,31 +174,36 @@ function InviteCompany() {
 
     return (
         <React.Fragment>
-            <ViewPlaybill />
+            <Title />
+            <BackOrView />
             <div className='container'>
                     <div className="row">
 
                         <CurrentCast />
                         
                         <div className="col-6">
+                            <div className="card invite">
                         <div className="row">
-                            <h4>Invite Company</h4>
+                            <h4 className="show-title">Invite Company</h4>
+                            <div style={{height:"1.5px"}}className="line company"></div>
                         </div>
-                        <div className="row">
-                            <div className="col">
-                                <form action="/addcast" method="POST">
-                                    <label for="fname">First Name:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="fname" value={add.fname} required/></label>
-                                    <label for="lname">Last Name:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="lname" value={add.lname} required/></label>
-                                    <label for="email">Email:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="email" value={add.email} required/></label>
-                                    <label for="role">Role:
-                                    <input type="text" onChange={handleOnChange} className="form-control" name="role" value={add.role} required/></label>
-                                    <button className="form-control" type="submit" >Add {add.fname} to {show.title} </button>
-                                </form>
+                        <div className="card invite content">
+                            <form action="/addcast" method="POST">
+                                <label className="add" for="fname">First Name:
+                                <input className="add" type="text" onChange={handleOnChange} name="fname" value={add.fname} placeholder="Enter First Name" required/></label><br/>
+                                <label className="add" for="lname">Last Name:
+                                <input className="add" type="text" onChange={handleOnChange}  name="lname" value={add.lname} required/></label><br/>
+                                <label className="add" for="email">Email:
+                                <input className="add" type="text" onChange={handleOnChange}  name="email" value={add.email} required/></label><br/>
+                                <label className="add" for="role">Role:
+                                <input className="add" type="text" onChange={handleOnChange}  name="role" value={add.role} required/></label><br/>
+                                <button style={{width: "fit-content"}}className="submitBio" type="submit" >Add {add.fname} to {show.title} </button>
+                            </form>
+                            
                             </div>
-                        </div>
+
+                           
+                    </div>
                     </div>
                    
                     </div>

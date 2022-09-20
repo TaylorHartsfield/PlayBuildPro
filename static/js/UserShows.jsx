@@ -306,7 +306,7 @@ function UserShows() {
                  <div className="header profile">
                         <div className="row">
                             <div className="col-6 offset-6">
-                                <label  for="firstName" style={{transition:"none", fontFamily: "Raleway", fontSize: "14px"}}>First Name: </label>
+                                <label for="firstName" style={{transition:"none", fontFamily: "Raleway", fontSize: "14px"}}>First Name: </label>
                             <input style={{margin: "3px", fontFamily: "Raleway", fontSize: "14px"}} id="firstName" type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
                             <label style={{fontFamily: "Raleway", fontSize: "14px"}}for="lastName">Last Name: </label>
                             <input style={{margin: "3px", fontFamily: "Raleway", fontSize: "14px"}} id="lastName" type="text" placeholder={user.name} value={user.lname} onChange={handleLNameChange}/>
