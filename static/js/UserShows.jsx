@@ -7,7 +7,6 @@ function UserShows() {
     const [viewActive, setViewActive] = React.useState(true);
 
 
-
     const showInfoCards = [];
     const notActive = [];
 

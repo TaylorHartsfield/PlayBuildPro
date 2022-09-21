@@ -243,10 +243,15 @@ div.container.userinfo {
 }
 
 .card.cast{
-    overflow: hidden;
+    height: 300px;
+    border-radius: 10px;
+    width:500px;
+    padding:42px 55px 10px 55px;
+    overflow: auto;
     margin-top: 2em;
     border: none;
-    box-shadow: 1px 3px 3px #242424;   
+    box-shadow: 1px 3px 3px #242424; 
+ 
 }
 .card.invite{
     border-radius: 10px;
@@ -268,6 +273,7 @@ div.container.userinfo {
     justify-content: center;
     align-items: center;
     margin: 5px;
+    margin-left: 5rem;
 }
 .card.show:hover > .front {
     transform: perspective(600px) rotateY(-180deg);

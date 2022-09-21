@@ -52,10 +52,10 @@ function InviteCompany() {
     function CurrentCast() {
         return (
             <React.Fragment>
-                        <div className="col-6">
+                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card cast">
                             <h4 className="show-title">Cast List</h4>
-                            <div style={{height:"1.5px"}}className="line company"></div>
+                            <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
                                 {castList}
                         </div>
                         </div>
@@ -70,11 +70,11 @@ function InviteCompany() {
         return(
             <React.Fragment>
                 <div className="row castlist">
-                    <div className="col-4 offset-2" >
-                        <strong><p style={{fontFamily: "Raleway", float: "center", fontStyle: "italic"}}>{role}</p></strong>
+                    <div className="col-6" align="center" >
+                        <strong><p style={{fontSize: "14px",fontFamily: "Raleway", float: "center", fontStyle: "italic"}}>{role}</p></strong>
                     </div>
-                    <div className="col-4">
-                        <strong><p style={{fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
+                    <div className="col-6" align="center">
+                        <strong><p style={{fontSize: "14px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
                     </div>
                 </div>
             </React.Fragment>
@@ -181,7 +181,7 @@ function InviteCompany() {
 
                         <CurrentCast />
                         
-                        <div className="col-6">
+                        <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card invite">
                         <div className="row">
                             <h4 className="show-title">Invite Company</h4>
