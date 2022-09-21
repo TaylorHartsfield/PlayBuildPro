@@ -211,6 +211,8 @@ div.container.userinfo {
 }
 
 .container.home {
+  
+    margin:auto;
     align-items: center;
     height: auto;
     padding: 2rem;
@@ -221,7 +223,13 @@ div.container.userinfo {
 #carousel {
     height: 33rem;
     width: 25rem;
+    padding: 0;
    
+}
+.row.home{
+    margin: 1em;
+    justify-content: center;
+    overflow:visible;
 }
 .card-img{
     height: 350px;
@@ -277,6 +285,37 @@ div.container.userinfo {
 }
 .card.show:hover > .front {
     transform: perspective(600px) rotateY(-180deg);
+}
+
+.submitBio.edit:hover{
+    transform: perspective(600px) rotateY(-180deg);
+}
+@keyframes button-load-right {
+    0% {
+        transform: translateX(400%)
+    };
+    100% {
+        transform: translateX(0)
+    }   
+}
+@keyframes button-load-left {
+    0% {
+        transform: translateX(-400%)
+    };
+    100% {
+        transform: translateX(0)
+    }   
+}
+.submitBio.edit:hover{
+    transform: perspective(600px) rotateY(-180deg);
+}
+.submitBio.edit{
+    animation: button-load-right 1200ms ease;  
+}
+
+.submitBio.archive{
+    animation: button-load-left 1200ms ease;  
+
 }
 
 .card.show:hover > .back {
@@ -498,6 +537,11 @@ button.submitBio.unarchive:hover{
     cursor: pointer;
 }
 
+.adminButton.archive:hover{
+    background: red;
+    color:white;
+    cursor: pointer;
+}
 .adminButton{
     color: black;
     background-color: transparent;
@@ -513,6 +557,7 @@ button.submitBio.unarchive:hover{
     height: 50px;
     padding: 10px;
 }
+
 .adminButton:hover{
     background: #f9eb0d;
     color:#242424;

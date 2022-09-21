@@ -69,10 +69,10 @@ function UserShowProfile() {
     function renderShowInfo() {
         return (
             <React.Fragment>
-                    <div className="container" style={{fontFamily: "Raleway", marginTop: "10px", textAlign:"center"}}>
-                        <div className="row">
-                       <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", marginBottom: "8px",borderRadius:"4px"}}></img></div>
-                           <div className="col-6" style={{marginTop: "40px", justifyContent: "center"}}> 
+                    <div className="container" style={{marginTop: "38px", fontFamily: "Raleway", textAlign:"center"}}>
+                        <div className="row" textAlign="center">
+                        <div  className="col-xs-12 col-sm-12 col-md-8 col-lg-8 col-xl-8"> <img src={show.image} style={{height:"230px", width:"190px", marginBottom: "8px",borderRadius:"4px"}}></img></div>
+                           <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4"style={{ justifyContent: "center", marginTop: "10px"}}> 
                                 <h5 style={{fontFamily: "broadway"}}>{show.company}</h5>
                                 <div className="row" style={{fontFamily: "Raleway", marginTop: "5px"}}>
                                     <h6>{show.theater_name}</h6>
@@ -116,24 +116,36 @@ function UserShowProfile() {
         )}
     }
 
-    function EditShowInfo({title}) {
+    function editShowInfo() {
         return (
+            <div className="container" style={{marginTop: "38px",textAlign:"left"}}>
 
-            <div className="row" style={{fontFamily: "Raleway", marginTop: "10px"}}>
+            <div className="row" textAlign="left" style={{marginTop: "10px"}}>
                
-                <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", marginBottom: "8px",borderRadius:"4px"}}></img></div>
+               <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"> 
+                        <img src={show.image} style={{height:"230px", width:"165px", marginBottom: "8px",borderRadius:"4px"}}></img>
+                    </div>
                
-                <div className="col-6" style={{marginTop: "10px", textAlign: "center", fontSize: "12px"}}>
-                    <p>
-                    Title: <input type="text" placeholder={title} name="title" value={title} onChange={handleOnChange}/><br/>
-                    Company:<input type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/><br/>
-                    Theater Name:<input type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
-                    Opening Night: <input type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br />
-                    Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/>
+                <div className="col-xs-12 col-sm-12 col-md-4 col-lg-4 col-xl-4" style={{marginTop: "10px", textAlign: "left", fontSize: "12px"}}>
+                    <p style={{marginBottom: "0"}}>
+                    <label className="add label" style={{height: "12px",lineHeight: "3px",paddingTop: "1px",textAlign:"left"}}for="title">Title</label>
+                    <input id="title" type="text" placeholder={show.title} name="title" value={show.title} style={{marginBottom: "3px"}}onChange={handleOnChange}/><br/>
+
+                    <label className="add label" style={{height: "10px",lineHeight: "3px",paddingTop: "1px",textAlign:"left"}} for="company">Company</label>
+                    <input style={{marginBottom: "3px"}} id="company" type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/><br/>
+
+                    <label className="add label" style={{height: "10px",lineHeight: "3px",paddingTop: "1px",textAlign:"left"}} for="theater">Theater</label>
+                    <input style={{marginBottom: "3px"}} id="theater" type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
+
+                    <label className="add label" style={{height: "10px",lineHeight: "3px",paddingTop: "1px",textAlign:"left"}} for="opening">Opening</label>
+                    <input style={{marginBottom: "3px"}} id="opening" type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br/>
+
+                    <label className="add label" style={{height: "10px",lineHeight: "3px",paddingTop: "1px",textAlign:"left", marginBottom: "0"}} for="closing">Closing</label>
+                   <input style={{marginBottom: "3px"}} id="closing" type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/>
                     </p>
                     <input className="adminButton" style={{height: "38px", width: "100px"}} type="submit" onClick={handleSubmission}></input>
                 </div>
-                    
+                    </div>
                 </div>
                                   
           
@@ -142,17 +154,19 @@ function UserShowProfile() {
     }
     function updateShowPhoto() {
         return (
-                <div className="row" style={{fontFamily: "broadway", marginTop: "10px"}}>
-                    <div className="col-6" style={{justifyContent:"center", marginTop: "5px", marginBottom: "10px"}}>
-                            <img src={show.image} style={{height:"230px", width:"190px", borderRadius:"4px"}}></img>
-                        </div>
-                        <div className="col-6" style={{marginTop: "60px", textAlign: "center"}}>
+            <div className="container" style={{marginTop: "38px", fontFamily: "Raleway", textAlign:"center"}}>
+
+                <div className="row" textAlign="left" style={{fontFamily: "broadway", marginTop: "10px"}}>
+                    <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"> 
+                        <img src={show.image} style={{height:"230px", width:"165px", marginBottom: "8px",borderRadius:"4px"}}></img>
+                    </div>
+                        <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" align="left" style={{marginTop: "60px", textAlign: "left", paddingRight: "10px", paddingLeft: "0"}}>
                             <form action="/editplaybillimage" id="update_headshot" 
                           method="POST" 
                           encType="multipart/form-data">
                     <label for="upload_box" style={{
                         fontFamily:"Raleway",
-                        fontSize: "16px"}}>
+                        fontSize: "12px"}}>
                         Update Cover Photo</label>
                         <br/>
                             <input id="upload_box" type="file" name="image" required /><br/>
@@ -160,6 +174,7 @@ function UserShowProfile() {
                         </form>
                             </div>
                             
+                        </div>
                         </div>
               
 
@@ -169,7 +184,7 @@ function UserShowProfile() {
     function renderShowCard() {
         if (isEditingShow) {
 
-            return <EditShowInfo title={show.title}/>;
+            return editShowInfo();
 
         } else if (updatePhoto) {
 
@@ -232,21 +247,21 @@ function UserShowProfile() {
                 
                
                     <div className="row" style={{maxWidth: "auto", maxHeight: "auto"}}>
-                        <div className="col-4 offset-2"> 
+                        <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"> 
                             {renderShowCard()} 
                             </div>
-                        <div className="col-5" style={{marginTop: "38px"}}>
+                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" style={{marginTop: "38px"}}>
                             <div className="row"  style={{alignItems: "left"}}>
-                                <div className="col-5"  ><a className="adminButton" href="/invitecompany">Invite/Edit<br/> Cast Members</a></div>
-                                <div className="col-5"  >{NewSubmissions()}</div>
+                                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"  ><a className="adminButton" href="/invitecompany">Invite/Edit<br/> Cast Members</a></div>
+                                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"  >{NewSubmissions()}</div>
                             </div>
                             <div className="row"  style={{alignItems: "left"}}>
-                                <div className="col-5"><UpdatePlaybillPhoto /></div>
-                                <div className="col-5"><IsAdmin /></div>
+                                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"><UpdatePlaybillPhoto /></div>
+                                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"><IsAdmin /></div>
                             </div>
                             <div className="row"  style={{alignItems: "left"}}>
-                                <div className="col-5"><a className="adminButton" href="/viewplaybill">View Playbill</a></div>
-                                <div className="col-5"> <a className="adminButton" style={{color:"red"}} href="/archive">Archive Show</a></div>
+                                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"><a className="adminButton" href="/viewplaybill">View Playbill</a></div>
+                                <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5"> <a className="adminButton archive" href="/archive">Archive Show</a></div>
                             </div>
                      
                         
@@ -352,17 +367,56 @@ function UserShowProfile() {
             return <NotAdminUser />
         }
     }
-    return (
-        <React.Fragment>
-            <div className="container" style={{paddingTop: "1rem", justifyContent: "center"}}>
-                <h1 className="show-title">{show.title}</h1>
-                <div className="line company"></div>
-                <div className="row" style={{justifyContent: "center"}}>
-                    <UserInformation />
+
+    if(admin){
+        return (
+            <React.Fragment>
+                <div className="container" style={{maxWidth: "1500px",paddingTop: "1rem", justifyContent: "center"}}>
+                    <h1 className="show-title">{show.title}</h1>
+                    <div className="line company" style={{marginTop: "10px"}}></div>
+                    <div className="row" style={{justifyContent: "center"}}>
+
+                        <div className="row" style={{maxWidth: "auto", maxHeight: "auto"}}>
+                                <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6"> 
+                                    {renderShowCard()} 
+                                </div>
+                                <div className="col-xs-12 col-sm-12 col-md-6 col-lg-6 col-xl-6" style={{marginTop: "43px"}}>
+                                    <div className="row" align="center" style={{alignItems: "center"}}>
+                                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" align="center" style={{marginBottom: "18px"}}><a className="adminButton" href="/invitecompany">Invite/Edit<br/> Cast Members</a></div>
+                                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" style={{marginBottom: "18px"}}>{NewSubmissions()}</div>
+                                    </div>
+                                    <div className="row"  style={{alignItems: "left"}}>
+                                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" style={{marginBottom: "18px"}}><UpdatePlaybillPhoto /></div>
+                                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" style={{marginBottom: "18px"}}><IsAdmin /></div>
+                                    </div>
+                                    <div className="row"  style={{alignItems: "left"}}>
+                                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" style={{marginBottom: "18px"}}><a className="adminButton" href="/viewplaybill">View Playbill</a></div>
+                                        <div className="col-xs-12 col-sm-12 col-md-5 col-lg-5 col-xl-5" style={{marginBottom: "18px"}}> <a className="adminButton archive" href="/archive">Archive Show</a></div>
+                                    </div>
+                                </div>     
+                        </div>   
+                    </div>
                 </div>
-            </div>
-      
-        </React.Fragment>
-    )}
+          
+            </React.Fragment>
+        )
+    } else {
+        return(
+            <div className="container" style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
+                <h1 className="show-title">{show.title}</h1>
+                <div className="line company" style={{marginTop: "10px"}}></div>
+                    <div className="row" style={{justifyContent: "center"}}>
+                        <div className="card" style={{
+                            boxShadow: "2px 2px 3px black",
+                            marginTop: "25px",
+                            maxWidth: "800px", 
+                        }}>
+                            <NotAdminUser/>
+                        </div>   
+                    </div>
+            </div> )
+
+    }
+}
 
 ReactDOM.render(<UserShowProfile />, document.querySelector("#showEdits"))

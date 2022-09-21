@@ -178,7 +178,7 @@ function InviteCompany() {
         <React.Fragment>
             <Title />
             <BackOrView />
-            <div className='container'>
+            <div className='container' style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
                     <div className="row">
 
                         <CurrentCast />

@@ -189,7 +189,7 @@ function UserShows() {
                         <div className="header line active">
                         </div>
                         <div className="view action">
-                        <button type="button" className="submitBio" onClick={handleViewActive}>View Archived</button>
+                        <button type="button" className="submitBio archive" onClick={handleViewActive}>View Archived</button>
                         </div>
                         </div>
                     </div>
@@ -207,7 +207,7 @@ function UserShows() {
                         <div className="header line active">
                         </div>
                         <div className="view action">
-                        <button type="button" className="submitBio" onClick={handleViewActive}>View Active</button>
+                        <button type="button" className="submitBio archive" onClick={handleViewActive}>View Active</button>
                         </div>
                         </div>
                     </div>
@@ -293,7 +293,7 @@ function UserShows() {
                             </div>
                         </div>
                         <div className="header actions">
-                            <button type="button" className="submitBio" onClick={handleOnClick}>Edit Profile</button>
+                            <button type="button" className="submitBio edit" onClick={handleOnClick}>Edit Profile</button>
                         </div>
                     </div>
                  <ViewActive view={viewActive} />
@@ -302,7 +302,7 @@ function UserShows() {
     } else {
         return(
             <React.Fragment>
-                 <div className="header profile">
+                 <div className="header profile" style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
                         <div className="row">
                             <div className="col-6 offset-6">
                                 <label for="firstName" style={{transition:"none", fontFamily: "Raleway", fontSize: "14px"}}>First Name: </label>

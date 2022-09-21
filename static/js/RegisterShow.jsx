@@ -67,9 +67,7 @@ function RegisterShow() {
 
           <div style={{height:"3px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
         <div className="row">
-            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
-                <br/>
-                
+            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center" style={{marginTop: "2em"}}>
                     <h4>Company Information</h4>
                     
                     <form action='/register_show' method="POST" encType="multipart/form-data">
@@ -101,7 +99,7 @@ function RegisterShow() {
                     <p style={{marginTop:"3px"}}><i>Don't worry! You can edit this information later!</i></p>
             </div>
 
-            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
+            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center">
                 <PlayBillView />
             </div>
 
