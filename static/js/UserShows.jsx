@@ -91,8 +91,8 @@ function UserShows() {
     }
 
 
-    function Waiting({waiting, submission, admin, headshot, bio}) {
-        if (admin){
+    function Waiting({waiting, submission, admin, headshot, bio, active}) {
+        if (admin && active){
             if (submission) {
                 return (
                     <div style={{paddingTop: "5px"}}>
@@ -114,7 +114,7 @@ function UserShows() {
             }
 
         } else {
-            if (headshot==="/static/img/download.png" | bio==="No Bio Submitted") {
+            if (active && headshot==="/static/img/download.png" | bio==="No Bio Submitted") {
                 return(
                 <div style={{paddingTop: "5px"}}>
                     <h6 style={{color: "blue"}}>Headshot or Bio Needed!</h6>
@@ -235,7 +235,7 @@ function UserShows() {
                         <UpdateShow active={active} show_id={show_id} admin={admin} />
                         <ViewPlaybill show_id={show_id}/>
                         <Unarchive active={active} show_id={show_id} admin={admin}/>
-                        <Waiting admin={admin} waiting={waiting} submission={submissions} headshot={headshot} bio={bio}/>
+                        <Waiting active={active} admin={admin} waiting={waiting} submission={submissions} headshot={headshot} bio={bio}/>
                     </div>
                 </div>
             

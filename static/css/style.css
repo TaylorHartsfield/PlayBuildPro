@@ -139,13 +139,13 @@ nav{
     size: 10px;
 }
 .line.company.invite{
-    height: 3px;
+   
     background:linear-gradient(90deg,#0840a5 50%, transparent);
     border: 0;
     margin-top: 0;
     margin-bottom: .5em;
     width: 100%;
-    size: 10px;
+   
 }
 
 

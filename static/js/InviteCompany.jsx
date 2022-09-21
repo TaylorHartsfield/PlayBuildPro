@@ -202,7 +202,7 @@ function InviteCompany() {
                                 <div style={{height:"1.5px"}} className="line company invite"></div>
                                 <label className="add label" for="role">Role
                                 <input className="add" type="text" onChange={handleOnChange}  name="role" value={add.role} placeholder="Enter Role" required/></label><br/>
-                                <div style={{height:"1.5px"} }className="line company invite"></div>
+                                <div style={{height:"1.5px"}} className="line company invite"></div>
                                 <button style={{marginTop: "15px",fontSize: "12px",padding: "1rem 5rem", width: "fit-content"}}className="submitBio" type="submit" >Add {add.fname} to {show.title} </button>
                             </form>
                             

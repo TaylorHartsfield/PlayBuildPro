@@ -116,7 +116,7 @@ function UserShowProfile() {
         )}
     }
 
-    function editShowInfo() {
+    function EditShowInfo({title}) {
         return (
 
             <div className="row" style={{fontFamily: "Raleway", marginTop: "10px"}}>
@@ -124,10 +124,13 @@ function UserShowProfile() {
                 <div className="col-6"> <img src={show.image} style={{height:"230px", width:"190px", marginBottom: "8px",borderRadius:"4px"}}></img></div>
                
                 <div className="col-6" style={{marginTop: "10px", textAlign: "center", fontSize: "12px"}}>
-                    <p>Company:<input type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/><br/>
+                    <p>
+                    Title: <input type="text" placeholder={title} name="title" value={title} onChange={handleOnChange}/><br/>
+                    Company:<input type="text" placeholder={show.company} name="company" value={show.company} onChange={handleOnChange}/><br/>
                     Theater Name:<input type="text" placeholder={show.theater_name} name="theater_name" value={show.theater_name} onChange={handleOnChange}/><br/>
                     Opening Night: <input type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br />
-                    Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/></p>
+                    Closing Night: <input type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/>
+                    </p>
                     <input className="adminButton" style={{height: "38px", width: "100px"}} type="submit" onClick={handleSubmission}></input>
                 </div>
                     
@@ -166,7 +169,7 @@ function UserShowProfile() {
     function renderShowCard() {
         if (isEditingShow) {
 
-            return editShowInfo();
+            return <EditShowInfo title={show.title}/>;
 
         } else if (updatePhoto) {
 

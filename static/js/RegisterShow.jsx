@@ -64,9 +64,10 @@ function RegisterShow() {
    return (
      <React.Fragment>
         <Title editing={editing}/>
-            <hr/>
+
+          <div style={{height:"3px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
         <div className="row">
-            <div className="col-6">
+            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
                 <br/>
                 
                     <h4>Company Information</h4>
@@ -100,7 +101,7 @@ function RegisterShow() {
                     <p style={{marginTop:"3px"}}><i>Don't worry! You can edit this information later!</i></p>
             </div>
 
-            <div className="col-6">
+            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6">
                 <PlayBillView />
             </div>
 
