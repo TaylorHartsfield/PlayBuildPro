@@ -71,10 +71,10 @@ function InviteCompany() {
             <React.Fragment>
                 <div className="row castlist">
                     <div className="col-6" align="center" >
-                        <strong><p style={{fontSize: "14px",fontFamily: "Raleway", float: "center", fontStyle: "italic"}}>{role}</p></strong>
+                        <strong><p style={{fontSize: "16px",fontFamily: "Raleway", float: "center", fontStyle: "italic"}}>{role}</p></strong>
                     </div>
                     <div className="col-6" align="center">
-                        <strong><p style={{fontSize: "14px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
+                        <strong><p style={{fontSize: "16px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
                     </div>
                 </div>
             </React.Fragment>
@@ -136,18 +136,20 @@ function InviteCompany() {
         return (
             <React.Fragment>
                 
-                    <div className="row" style={{justifyContent: "center", display: "flex", marginTop: ".5rem"}}>
-                        <div className="col" style={{justifyContent: "right", textAlign:"right"}}>
+                    <div className="row" style={{marginTop: ".5rem"}}>
+                        <div style={{float:"right"}}>
+                        <div className="col" style={{float:"right",justifyContent: "right", textAlign:"right"}}>
                     <form action='/updateshow'>
                         <input type="hidden" name="show_id" value={show.show_id}/>
                         <button style={{width: "fit-content"}}className="submitBio" type="submit" >Back to Show Profile</button>
                     </form>
                     </div>
-                    <div className="col" style={{justifyContent: "left", textAlign:"left"}}>
+                    <div className="col" style={{marginRight: "1em",float:"right",justifyContent: "left", textAlign:"left"}}>
                     <form action='/viewplaybill'>
                         <input type="hidden" name="show_id" value={show.show_id}/>
                         <button style={{width: "fit-content"}}className="submitBio" type="submit" >View Playbill</button>
                     </form>
+                    </div>
                     </div>
                     
                 </div>
