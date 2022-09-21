@@ -182,6 +182,21 @@ def register_show():
     
     model.db.session.commit()
 
+    """Get Playbill Cover Photo"""
+    image = request.files['image']
+    
+    image = cloudinary.uploader.upload(image,
+                                            api_key=CLOUDINARY_KEY,
+                                            api_secret=CLOUDINARY_SECRET,
+                                            cloud_name=CLOUD_NAME,
+                                            eager = [
+                                                    {"width": 528, 
+                                                    "height": 588,
+                                                    "crop": "scale"}])
+       
+    img_url = image['eager'][0]['url']
+    update = crud.update_show_image(new_show.show_id, img_url)
+
     admin = crud.get_user_by_email(session['user']['userinfo']['email'])
 
     add_admin_to_show = crud.add_to_cast('Admin', True)
@@ -521,13 +536,12 @@ def add_cast():
 @app.route('/update_actor', methods=["POST"])
 def udpate_actor():
 
-    user_id = request.form.get("id")
-    new_role = request.form.get("role")
+    user_id = request.json.get("id")
+    new_role = request.json.get("role")
     
     crud.update_actor(user_id, new_role, session['show_id'])
- 
 
-    return redirect('/invitecompany')
+    return jsonify({"message": "success"})
 
 
 @app.route('/approvesubmits')
@@ -546,7 +560,7 @@ def update_headshot():
     update_headshot = crud.update_headshot(current_headshot, new_headshot, user, show)
 
 
-    flash("Headshot Updated!")
+
     return redirect(f'/updateshow')
 
 
@@ -568,7 +582,7 @@ def update_bio():
     update_bio.show_id = show.show_id
     model.db.session.commit()
 
-    flash('Your Bio has been updated!')
+  
     return redirect(f'/updateshow')
 
 
@@ -577,6 +591,7 @@ def update_bio():
 def viewplaybill():
 
     show_id = request.args.get('show_id')
+   
     
     
     if not show_id:

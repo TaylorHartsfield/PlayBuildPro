@@ -90,12 +90,13 @@ function RegisterShow() {
                         <input id="openingNight" className="form-control" type="date" name="openingNight" value={state.openingNight} onChange={handleOnChange} required/>
                         <label for="closingNight">Closing Night:</label>
                         <input id="closingNight" className="form-control" type="date" name="closingNight" value={state.closingNight} onChange={handleOnChange} required/>
+                      
+            
 
-
-                        <label for="image">Preview Your Playbill Cover Image:<br/><i>You will upload your final image at a later step</i></label>
+                        <label for="image">Preview Your Playbill Cover Image:<br/></label>
                         <input id="image" onChange={handleImageChange} className="form-control" type="file" name="image" style={{marginTop:"3px"}}/>
                         <button className="submitBio" type="submit" style={{marginTop:"5px", marginBottom: "3px"}}>Looks Good!</button>
-                    </form>
+                        </form>
                     <p style={{marginTop:"3px"}}><i>Don't worry! You can edit this information later!</i></p>
             </div>
 

@@ -8,19 +8,22 @@ function InviteCompany() {
                                         "role" : ''})
                                         
     const [show, setShow] = React.useState({})
+    const [newRole, setNewRole] = React.useState('')
 
     const [isEditing, setIsEditing] = React.useState(false)
 
+    const editCastInfo =[]
     const castList = []
 
     React.useEffect(() => {
+        console.log("I am running")
         fetch('/api/inviteCast')
         .then((response) => response.json())
         .then((result) => {
             setCast(result.company)
-            
         });
     }, []);
+
 
     React.useEffect(() => {
         fetch('/api/showInfo')
@@ -30,15 +33,35 @@ function InviteCompany() {
         })
     }, []);
 
-
     function handleOnChange(event) {
-      
         setAdd({...add, [event.target.name]: event.target.value})
     }
-
     
     function handleOnClick() {
         setIsEditing(!isEditing)
+    }
+    
+
+    function handleUpdate() {
+
+        console.log(document.getElementById('role').value)
+        console.log(document.getElementById('id').value)
+
+        const formInputs ={
+            "role": (document.getElementById('role').value),
+            "id": (document.getElementById('id').value)
+        }
+
+        fetch('/update_actor', {
+            method: "POST",
+            body: JSON.stringify(formInputs),
+            headers: {
+                'Content-Type': 'application/json'
+            },})          
+            .then(setIsEditing(false))  
+            window.location.reload(true)
+            
+            
     }
 
     function Title(){
@@ -50,22 +73,39 @@ function InviteCompany() {
         )
     }
     function CurrentCast() {
+        if(isEditing) {
+               
+            return (
+                <React.Fragment>
+                        <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
+                            <div className="card cast">
+                            <i className="fa-solid fa-x"align="right" onClick={handleOnClick}></i>
+                            <h4 className="show-title">Cast List</h4>
+                            <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
+                                {editCastInfo}
+                            </div>
+                        </div>
+            </React.Fragment>
+            )
+        } else {
         return (
             <React.Fragment>
+                
                          <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card cast">
+                            <i align="right" style={{height: "8px"}}className="fa-solid fa-pen-to-square" onClick={handleOnClick}></i>
                             <h4 className="show-title">Cast List</h4>
                             <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
                                 {castList}
-                        </div>
+                            </div>
                         </div>
             </React.Fragment>
         )
-    }
+    }}
     
     
 
-    function CastList({fname, lname, role, email, id, isEditing}) {
+    function CastList({fname, lname, role}) {
 
         return(
             <React.Fragment>
@@ -79,57 +119,24 @@ function InviteCompany() {
                 </div>
             </React.Fragment>
         )
+        }
 
-        if (isEditing){
-            return (
-            <React.Fragment>
-               <div className="card">
-                <div className="row">
-                    <div className="col-6">
-                        <h5>{fname} {lname}</h5>
-                        <h5></h5>
-                    </div>
-                    <div className="col-6">
-                        <h6>
-                        <i>{role}</i>
-                        <form action='/update_actor' method="POST">
-                            <input type="hidden" value={id} name="id"></input>
-                            <input type="text" name="role" placeholder={role} required></input>
-                            <button type="submit">Submit</button>
-                        </form>
-                        </h6>
-                    </div>
-                </div>
-                </div>
-              
-            </React.Fragment>
-            )
-        } else
+    function EditCast({fname, lname, role, id}){
+       
         return (
-           <React.Fragment>
-            <div className="card">
-                <div className="row">
-                    <div className="col-4">
-                        <p><strong>{fname} {lname}</strong></p>
-                        <p>{email}</p>
+        <React.Fragment>
+                 <div className="row castlist">
+                    <div className="col-6" align="center">
+                            <input type="text" id="role" name="role" placeholder={role} required></input>
+                            <input type="hidden" value={id} id="id"></input>
+                            <i align="right" style={{paddingLeft: "5px"}} className="fa-solid fa-check"onClick={handleUpdate}></i>
                     </div>
-                    <div className="col-4">
-                        <p><i>{role}</i></p> 
-                    </div>
-                    <div className="col-4">
-                        <button onClick={handleOnClick} type="button" value={id}>Update Role</button>
-                        <form action='/delete_from_cast' method="POST">
-                            <input type="hidden" value={id} name="id"></input>
-                            <button type="submit">Remove From Cast</button>
-                        </form>
+                    <div className="col-6" align="center">
+                        <strong><p style={{fontSize: "16px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
                     </div>
                 </div>
-            </div>
-            </React.Fragment>
-            
-        )
+            </React.Fragment>)
     }
-
 
     function BackOrView() {
 
@@ -159,6 +166,22 @@ function InviteCompany() {
         )
     }
 
+    
+    for (const member of cast){
+        console.log(member.id)
+        if (member.role != 'Admin'){
+            editCastInfo.push(
+                <EditCast
+                fname={member.fname}
+                lname={member.lname}
+                role={member.role}
+                id={member.id}
+                key={member.key}
+                />
+            )
+        }
+    }
+    console.log(editCastInfo)
     for (const member of cast) {
         if (member.role != 'Admin') {
 
@@ -180,7 +203,6 @@ function InviteCompany() {
             <BackOrView />
             <div className='container' style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
                     <div className="row">
-
                         <CurrentCast />
                         
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">

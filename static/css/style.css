@@ -53,8 +53,7 @@ body{
 }
 .invite-content{
     text-align: center;
-    padding: 2rem;
-    padding-top: 0;
+    padding: 0 2rem 0 2em;
     justify-content: center;
     align-items: center;
     font-size: 1rem;
@@ -115,7 +114,7 @@ nav{
     margin-bottom: 0px;
     padding-right: 0;
     padding-left: 1em;
-    animation: welcome-load 1200ms ease;  
+   
     font-size: 22px;
 
 }
@@ -127,7 +126,7 @@ nav{
     margin-bottom: .5em;
     width: 100%;
     size: 10px;
-    animation: welcome-load 1000ms ease;  
+     
 }
 .line.company {
     height: 3px;
@@ -157,7 +156,7 @@ nav{
     text-align: left;
     font-size: 22px;
     margin-top: 1em;
-    animation: active-load 1200ms ease;
+   
    
 }
 .header.actions{
@@ -169,8 +168,8 @@ nav{
     margin-bottom: .3em;
 }
 .header.line.active{
+    animation: none;
     margin-bottom: .5em;
-    animation: active-load 1000ms ease; 
     width:100%;
     size: 10px;
     background:linear-gradient(90deg, #0840a5,  transparent);
@@ -251,9 +250,9 @@ div.container.userinfo {
 }
 
 .card.cast{
-    height: 552px;
     border-radius: 10px;
     width:500px;
+    height: 550px;
     padding:42px 55px 10px 55px;
     overflow: auto;
     margin-top: 2em;
@@ -264,7 +263,8 @@ div.container.userinfo {
 .card.invite{
     border-radius: 10px;
     width:500px;
-    padding:42px 55px 10px 55px;
+    height: 550px;
+    padding:42px 55px 0 55px;
     overflow: hidden;
     margin-top: 2em;
     border: none;
@@ -287,9 +287,7 @@ div.container.userinfo {
     transform: perspective(600px) rotateY(-180deg);
 }
 
-.submitBio.edit:hover{
-    transform: perspective(600px) rotateY(-180deg);
-}
+
 @keyframes button-load-right {
     0% {
         transform: translateX(400%)
@@ -305,17 +303,6 @@ div.container.userinfo {
     100% {
         transform: translateX(0)
     }   
-}
-.submitBio.edit:hover{
-    transform: perspective(600px) rotateY(-180deg);
-}
-.submitBio.edit{
-    animation: button-load-right 1200ms ease;  
-}
-
-.submitBio.archive{
-    animation: button-load-left 1200ms ease;  
-
 }
 
 .card.show:hover > .back {
@@ -396,7 +383,6 @@ button.submitBio.archive:hover{
     background-color: red;
 }
 button.submitBio.unarchive:hover{
-    background-color: #1C4BAA;
     color: white;
 }
 

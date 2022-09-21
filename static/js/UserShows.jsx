@@ -189,7 +189,7 @@ function UserShows() {
                         <div className="header line active">
                         </div>
                         <div className="view action">
-                        <button type="button" className="submitBio archive" onClick={handleViewActive}>View Archived</button>
+                        <button type="button" className="submitBio view-archive" onClick={handleViewActive}>View Archived</button>
                         </div>
                         </div>
                     </div>
