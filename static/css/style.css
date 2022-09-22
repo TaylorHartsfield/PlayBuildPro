@@ -161,7 +161,6 @@ nav{
     background:#0840a5;
 }
 
-
 .row.castlist{
     margin-top: 1em;
 }
@@ -170,9 +169,8 @@ nav{
     text-align: left;
     font-size: 22px;
     margin-top: 1em;
-   
-   
 }
+
 .header.actions{
     text-align: right;
 }
@@ -181,6 +179,7 @@ nav{
     text-align: left;
     margin-bottom: .3em;
 }
+
 .header.line.active{
     animation: none;
     margin-bottom: .5em;
@@ -188,7 +187,6 @@ nav{
     size: 10px;
     background:linear-gradient(90deg, #0840a5,  transparent);
 }
-
 
 .noImage{
     text-align: center;
@@ -203,13 +201,15 @@ nav{
 div.row.whoswho {
     padding: 3px;
 }
+
 div.col-4.head {
     align-items: center;
 }
+
 div{
     display: block;
- 
 }
+
 div.container {
     font-size: 12px;
     text-align: center;
@@ -237,28 +237,33 @@ div.container.userinfo {
     height: 33rem;
     width: 25rem;
     padding: 0;
-   
 }
+
 .row.home{
     margin: 1em;
     justify-content: center;
     overflow:visible;
 }
+
 .card-img{
     height: 350px;
     width: 250px;
 }
+
 .d-block {
     height: 33rem;
     width: 25rem;
 }
+
 .row.shows{
     justify-content: center;
 }
+
 .row.show{
     margin-top:0;
     margin-bottom: 0;
 }
+
 .col-6.show{
     margin-bottom: 0;
 }
@@ -272,8 +277,8 @@ div.container.userinfo {
     margin-top: 2em;
     border: none;
     box-shadow: 1px 3px 3px #242424; 
- 
 }
+
 .card.invite{
     border-radius: 10px;
     width:500px;
@@ -284,6 +289,7 @@ div.container.userinfo {
     border: none;
     box-shadow: 1px 3px 3px #242424; 
 }
+
 .card.show{
     border:none;
     height: 350px;
