@@ -289,7 +289,12 @@ div.container.userinfo {
     border: none;
     box-shadow: 1px 3px 3px #242424; 
 }
+.card.admin{
+    box-shadow: 2px 2px 3px black;
+    margin-top: 25px;
+    max-width: 800px;
 
+}
 .card.show{
     border:none;
     height: 350px;

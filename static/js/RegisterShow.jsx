@@ -52,11 +52,11 @@ function RegisterShow() {
     function Title({editing}){
         if(editing){
             return(
-                <h1 style={{marginTop:"5px", marginBottom: "1px"}}>{state.title}</h1>
+                <h1 style={{marginBottom: "1px"}}>{state.title}</h1>
             )
         } else {
             return (
-                <h1 style={{marginTop:"5px", marginBottom: "1px"}}>Register A New Show</h1>
+                <h1 style={{marginBottom: "1px"}}>Register A New Show</h1>
             )
         }
     }
@@ -65,8 +65,11 @@ function RegisterShow() {
         <Title editing={editing}/>
 
           <div style={{height:"3px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
-        <div className="row">
-            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center" style={{fontFamily: "Raleway", paddingTop: ".5rem"}}>
+        <div className="row align-items-center">
+        <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center">
+                <PlayBillView />
+            </div>
+            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6"  style={{alignItems: "center", fontFamily: "Raleway"}}>
                     <h4 align="center">Company Information</h4>
                     
                     <form align="left" action='/register_show' method="POST" encType="multipart/form-data">
@@ -108,7 +111,8 @@ function RegisterShow() {
                         <label className="add label register" style={{marginBottom: "1px"}}for="image">Preview Your Playbill Cover Image<br/></label>
                         <input id="image" onChange={handleImageChange} className="form-control" type="file" name="image" style={{marginTop:"3px"}}/>
                         
-                        <button  className="submitBio" type="submit" style={{fontSize: "20px", marginTop: "12px",fontSize: "12px",padding: "1rem 5rem", width: "fit-content", marginLeft: "25%"}}>Looks Good!</button>
+                       <h4 align="center"> <button  align="center" className="submitBio" type="submit" style={{textAlign: "center",fontSize: "20px", marginTop: "12px",fontSize: "12px",padding: "1rem 5rem", width: "fit-content"}}>Looks Good!</button></h4>
+                        
                         </form>
                    
                     </div>
@@ -116,9 +120,7 @@ function RegisterShow() {
                     
           
 
-            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center">
-                <PlayBillView />
-            </div>
+          
 
         </div>
     </React.Fragment>
