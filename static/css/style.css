@@ -72,6 +72,19 @@ body{
     outline: none;
     border:none;
 }
+
+.add.register {
+    height: 20px;
+    font-size: 16px;
+}
+.add.label.register{
+margin-bottom: 5px;
+margin-top: 0;
+padding-top: 2px;
+margin-bottom: 16px;
+font-size: 18px;
+}
+
 .add.label{
     text-align: left;
     font-size: 15px;
@@ -138,13 +151,14 @@ nav{
     size: 10px;
 }
 .line.company.invite{
-   
     background:linear-gradient(90deg,#0840a5 50%, transparent);
     border: 0;
     margin-top: 0;
     margin-bottom: .5em;
     width: 100%;
-   
+}
+.line.company.register{
+    background:#0840a5;
 }
 
 
