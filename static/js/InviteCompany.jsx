@@ -8,15 +8,14 @@ function InviteCompany() {
                                         "role" : ''})
                                         
     const [show, setShow] = React.useState({})
-    const [newRole, setNewRole] = React.useState('')
-
+    
     const [isEditing, setIsEditing] = React.useState(false)
 
     const editCastInfo =[]
     const castList = []
 
     React.useEffect(() => {
-        console.log("I am running")
+        
         fetch('/api/inviteCast')
         .then((response) => response.json())
         .then((result) => {
@@ -37,19 +36,19 @@ function InviteCompany() {
         setAdd({...add, [event.target.name]: event.target.value})
     }
     
+ 
     function handleOnClick() {
         setIsEditing(!isEditing)
     }
     
-
-    function handleUpdate() {
-
-        console.log(document.getElementById('role').value)
-        console.log(document.getElementById('id').value)
+    
+    function handleUpdate(id, role) {
+        console.log(id)
+        console.log(role)
 
         const formInputs ={
-            "role": (document.getElementById('role').value),
-            "id": (document.getElementById('id').value)
+            "role": role,
+            "id": id,
         }
 
         fetch('/update_actor', {
@@ -58,8 +57,9 @@ function InviteCompany() {
             headers: {
                 'Content-Type': 'application/json'
             },})          
-            .then(setIsEditing(false))  
+            .then(setIsEditing(false))
             window.location.reload(true)
+           
             
             
     }
@@ -72,7 +72,7 @@ function InviteCompany() {
             </div>
         )
     }
-    function CurrentCast() {
+    function CurrentCast({editCastInfo}) {
         if(isEditing) {
                
             return (
@@ -122,14 +122,19 @@ function InviteCompany() {
         }
 
     function EditCast({fname, lname, role, id}){
-       
+
+        const [newRole, setNewRole] = React.useState(`${role}`)
+
+        function handleChange(event) {
+            setNewRole(event.target.value)
+        }
         return (
         <React.Fragment>
                  <div className="row castlist">
                     <div className="col-6" align="center">
-                            <input type="text" id="role" name="role" placeholder={role} required></input>
-                            <input type="hidden" value={id} id="id"></input>
-                            <i align="right" style={{paddingLeft: "5px"}} className="fa-solid fa-check"onClick={handleUpdate}></i>
+                            <input type="text" name="role" placeholder={newRole} onChange={handleChange} required></input>
+                            
+                            <i align="right" style={{paddingLeft: "5px"}} className="fa-solid fa-check" onClick={() => handleUpdate(`${id}`,newRole)}></i>
                     </div>
                     <div className="col-6" align="center">
                         <strong><p style={{fontSize: "16px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
@@ -165,10 +170,9 @@ function InviteCompany() {
             </React.Fragment>
         )
     }
-
     
     for (const member of cast){
-        console.log(member.id)
+       
         if (member.role != 'Admin'){
             editCastInfo.push(
                 <EditCast
@@ -181,7 +185,7 @@ function InviteCompany() {
             )
         }
     }
-    console.log(editCastInfo)
+   
     for (const member of cast) {
         if (member.role != 'Admin') {
 
@@ -203,7 +207,7 @@ function InviteCompany() {
             <BackOrView />
             <div className='container' style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
                     <div className="row">
-                        <CurrentCast />
+                        <CurrentCast editCastInfo={editCastInfo} />
                         
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card invite">

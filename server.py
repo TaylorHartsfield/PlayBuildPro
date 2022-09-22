@@ -208,8 +208,8 @@ def register_show():
     model.db.session.commit()
 
     session['show_id'] = new_show.show_id
-    flash('Show registered!')
-    return redirect("/invitecompany")
+    
+    return render_template("update_show.html", show={new_show})
 
 
 @app.route('/api/showInfo')
@@ -426,10 +426,11 @@ def user_profile():
 
 @app.route('/updateshow')
 def update_show():
-
     show_id = request.args.get('show_id')
+    print(show_id)
     if show_id == None:
         show_id = session['show_id']
+
     show = crud.get_show_by_id(show_id)
     user = crud.get_user_by_email(session['user']['userinfo']['email'])
     is_admin = crud.is_admin(show_id, user)
@@ -442,10 +443,7 @@ def update_show():
 
     session['show_id'] = show_id
     
-    return render_template("update_show.html", show=show, admin=is_admin, 
-                                               user=user, headshot=headshot, 
-                                               bio=bio, role=role,
-                                               new_submissions=new_submissions)
+    return render_template("update_show.html", show=show)
 
 
 @app.route('/invitecompany')

@@ -67,8 +67,8 @@ function RegisterShow() {
 
           <div style={{height:"3px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
         <div className="row">
-            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center" style={{marginTop: "2em"}}>
-                    <h4>Company Information</h4>
+            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="left" style={{marginTop: "2em"}}>
+                    <h4 align="center">Company Information</h4>
                     
                     <form action='/register_show' method="POST" encType="multipart/form-data">
                         <label for="company">Company Name:</label>
@@ -80,7 +80,7 @@ function RegisterShow() {
                         <label for="zipcode">Zip Code:</label>
                         <input id="zipcode" className="form-control" type="number" name="zipcode" value={state.zipcode} onChange={handleOnChange} required/>
                         <br/>
-                    <h4>Show and Performance Information</h4>
+                    <h4 align="center">Show and Performance Information</h4>
                         <label for="title">Show Title:</label>
                         <input id="title" className="form-control" type="text" name="title" value={state.title} onChange={handleEditing} required/>
                         <label for="theater">Performances at: <i>(Theater Name)</i></label>
@@ -91,8 +91,6 @@ function RegisterShow() {
                         <label for="closingNight">Closing Night:</label>
                         <input id="closingNight" className="form-control" type="date" name="closingNight" value={state.closingNight} onChange={handleOnChange} required/>
                       
-            
-
                         <label for="image">Preview Your Playbill Cover Image:<br/></label>
                         <input id="image" onChange={handleImageChange} className="form-control" type="file" name="image" style={{marginTop:"3px"}}/>
                         <button className="submitBio" type="submit" style={{marginTop:"5px", marginBottom: "3px"}}>Looks Good!</button>
