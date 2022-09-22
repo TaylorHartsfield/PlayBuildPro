@@ -151,7 +151,7 @@ nav{
     size: 10px;
 }
 .line.company.invite{
-    background:linear-gradient(90deg,#0840a5 50%, transparent);
+    background:#0840a5 50%;
     border: 0;
     margin-top: 0;
     margin-bottom: .5em;

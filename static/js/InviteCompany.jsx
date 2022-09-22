@@ -61,7 +61,6 @@ function InviteCompany() {
             window.location.reload(true)
            
             
-            
     }
 
     function Title(){
@@ -81,8 +80,12 @@ function InviteCompany() {
                             <div className="card cast">
                             <i className="fa-solid fa-x"align="right" onClick={handleOnClick}></i>
                             <h4 className="show-title">Cast List</h4>
-                            <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
-                                {editCastInfo}
+                                <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
+                                <div className="row castlist">
+                                    <div className="col-6" align="center">
+                                        {editCastInfo}
+                                    </div>
+                                </div>  
                             </div>
                         </div>
             </React.Fragment>
@@ -93,7 +96,7 @@ function InviteCompany() {
                 
                          <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card cast">
-                            <i align="right" style={{height: "8px"}}className="fa-solid fa-pen-to-square" onClick={handleOnClick}></i>
+                            <i align="right" className="fa-solid fa-pen-to-square" onClick={handleOnClick}></i>
                             <h4 className="show-title">Cast List</h4>
                             <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
                                 {castList}
@@ -124,23 +127,28 @@ function InviteCompany() {
     function EditCast({fname, lname, role, id}){
 
         const [newRole, setNewRole] = React.useState(`${role}`)
+        const [changing, setChanging] = React.useState(false)
 
         function handleChange(event) {
             setNewRole(event.target.value)
+            setChanging(true)
         }
+        function isHandling(){
+            console.log(changing)
+            if(changing){
+                return (
+                    <i align="right" style={{paddingLeft: "5px"}} className="fa-solid fa-check" onClick={() => handleUpdate(`${id}`,newRole)}></i>
+                )
+        }}
+
         return (
         <React.Fragment>
-                 <div className="row castlist">
-                    <div className="col-6" align="center">
-                            <input type="text" name="role" placeholder={newRole} onChange={handleChange} required></input>
-                            
-                            <i align="right" style={{paddingLeft: "5px"}} className="fa-solid fa-check" onClick={() => handleUpdate(`${id}`,newRole)}></i>
-                    </div>
-                    <div className="col-6" align="center">
-                        <strong><p style={{fontSize: "16px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
-                    </div>
-                </div>
-            </React.Fragment>)
+                 
+            <input type="text" className="add" style={{height: "16px", fontSize: "16px"}}name="role" placeholder={newRole} onChange={handleChange} required></input>
+            <div style={{height:"1px"}} className="line company invite"></div>{isHandling(`${changing}`)}
+            
+                 
+        </React.Fragment>)
     }
 
     function BackOrView() {
