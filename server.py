@@ -128,7 +128,7 @@ def create_user():
 def search_show():
 
     title = request.form.get("show_title")
-    shows = crud.search_shows(title)
+    shows = crud.search_shows(title.title())
 
     if not shows:
         flash("No show by that title! Search again.")
@@ -528,7 +528,7 @@ def add_cast():
     except:
         None
   
-    flash(f'{user.fname}, added to cast!')
+   
     return redirect('/invitecompany')
 
 

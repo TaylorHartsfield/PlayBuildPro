@@ -25,7 +25,8 @@
    
     <div class="col order-first" justify-content="center">
 {%if shows%}
-      <h3>View Playbills</h3>
+      <h3 style="margin-bottom:2px">View Playbills</h3>
+      <div style="margin-bottom: 15px" class="line company"></div>
 {%for show in shows%}
         <div class="row">
           <div class="col">
@@ -43,8 +44,10 @@
             {{show.opening_night.strftime("%B %d, %Y")}} - {{show.closing_night.strftime("%B %d, %Y")}}
           </div>
         </div>
-{%endfor%}
         <hr/>
+      
+{%endfor%}
+        
     <div class="row">
       <div class="col order-first">
         <label for="searchAgain" class="searchAgain"><h6>Find Another Show</h6></label>

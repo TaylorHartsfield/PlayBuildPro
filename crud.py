@@ -14,10 +14,10 @@ CLOUDINARY_URL= os.environ['CLOUDINARY_URL']
 def register_new_show(title, opening_night, closing_night, theater_name):
     
     new_show = model.Show(
-                        title=title, 
+                        title=(title.title()), 
                         opening_night=opening_night,
                         closing_night=closing_night,
-                        theater_name=theater_name)
+                        theater_name=(theater_name.title()))
 
     return new_show
 
@@ -65,9 +65,9 @@ def search_shows(title):
 def register_new_company(name, city, state, zip_code):
 
     new_company = model.Company(
-                                name=name,
-                                city=city,
-                                state=state,
+                                name=name.title(),
+                                city=city.title(),
+                                state=state.capitalize(),
                                 zip_code=zip_code)
                                 
 
@@ -77,9 +77,9 @@ def register_new_company(name, city, state, zip_code):
 def get_company_by_name_city_state(name, city, state):
 
     company = model.Company.query.filter_by(
-                                    name=name, 
-                                    city=city, 
-                                    state=state).first()
+                                    name=name.title(), 
+                                    city=city.title(), 
+                                    state=state.title().first())
     return company
 
 
@@ -88,8 +88,8 @@ def get_company_by_name_city_state(name, city, state):
 def create_user(fname, lname, email):
 
     user = model.User(  
-                    fname=fname,
-                    lname=lname,
+                    fname=fname.title(),
+                    lname=lname.title(),
                     email=email)
     
     return user
@@ -127,7 +127,7 @@ def get_cast_by_show_id(show_id):
 def add_to_cast(role, admin):
 
     new_cast_member = model.Cast(
-                                role=role,
+                                role=role.title(),
                                 admin=admin)
     
     return new_cast_member
