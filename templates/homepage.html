@@ -29,7 +29,7 @@
 {%for show in shows%}
         <div class="row">
           <div class="col">
-            <form action='/viewplaybill'>
+            <form action='/viewplaybill/'>
               <input type="hidden" name="show_id" value="{{show.show_id}}"/>
               <button class="submitBio" type="submit">{{show.title}}</button>
             </form>

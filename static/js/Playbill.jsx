@@ -78,6 +78,7 @@ function Playbill() {
                 <React.Fragment>
                     <div className="allCast">
                         <h3>Cast</h3>
+                        <div style={{height:"2px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
                         {castList}
                     </div>
                 </React.Fragment>
@@ -87,6 +88,7 @@ function Playbill() {
             return (
                 <React.Fragment>
                  <h3>Who's Who</h3>
+                 <div style={{height:"2px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
                     <div className="castList">
                         {pageItems.map((item)=> 
                         {return <CastInfoCard
@@ -126,13 +128,13 @@ function Playbill() {
             <React.Fragment>
                 <div className="row">
                     <div className="col-4" >
-                        <strong><p style={{float: "center"}}>{role}</p></strong>
+                        <strong><p style={{fontSize: "14px", float: "center"}}>{role}</p></strong>
                     </div>
                     <div className="col-4">
                         <p>............................................</p> 
                     </div>
                     <div className="col-4">
-                        <strong><p style={{float: "center"}}>{fname} {lname}</p></strong>
+                        <strong><p style={{fontSize: "14px", float: "center"}}>{fname} {lname}</p></strong>
                     </div>
                 </div>
             </React.Fragment>
@@ -163,8 +165,6 @@ function Playbill() {
         )
 
 }
-
-    console.log(cast)
 
     return (
         <React.Fragment>

@@ -263,38 +263,41 @@ function UserShowProfile() {
                         <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "broadway", textAlign: "center"}}>
                             <h4>Role: {user.role}</h4>
                         </div>
-                        <div className="col-6">
-                        <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "Raleway", textAlign: "left"}}>
-                            <h5 style={{fontSize: "15px"}}>Company:  {show.company}</h5>  
+                        <div className="col-6" align="center">
+                        <div className="row align-items-center" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "Raleway", textAlign: "center"}}>
+                        <h5 style={{fontSize: "18px"}}><span style={{fontFamily: "broadway"}}>Company</span>: {show.company}</h5>  
                         </div>
                         
-                        <div className="row" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "Raleway", textAlign: "left"}}>
-                            <h5 style={{fontSize: "15px"}}>Theater: {show.theater_name}</h5>  
+                        <div className="row align-items-center" style={{marginBottom: "3px", marginTop: "5px", paddingLeft: "12px", fontFamily: "Raleway", textAlign: "center"}}>
+                            <h5 style={{fontSize: "18px"}}><span style={{fontFamily: "broadway"}}>Theater</span>: {show.theater_name}</h5>  
                         </div>
 
                         </div>
-                        <div className="col-6" style={{paddingTop: "15px"}}>
+                        <div className="col-6 align-items-center" style={{paddingTop: "15px"}}>
                         
-                        <a class="viewPlaybill" href="/viewplaybill" >View Playbill</a>
-                        <a class="viewPlaybill" href="/user_profile">Back to Profile</a>
+                        <a style={{padding: "1em", fontSize: "11px"}} className="viewPlaybill" href="/viewplaybill" >View Playbill</a>
+                        <a style={{padding: "1em", fontSize: "11px"}} className="viewPlaybill" href="/user_profile">Back to Profile</a>
                  
                         </div>
                 </div>
                 <div className="row" style={{marginTop: "5px", marginBottom: "8px"}}>
                     <div className="col-6">
-                    <div className="row"> <h4 style={{float:"left", marginBottom: "8px"}}>Headshot</h4></div>
+                    <div className="row"> <h4 style={{float:"left"}}>Headshot</h4></div>
+                    <div style={{height:"1px",padding: "0 30px", marginBottom: "12px"}}className="line company"></div>
                         <img src={user.headshot}></img>
+                      
                     </div>
                     
-                    <div className="col-6" style={{float:"left"}}>
-                        <div className="row"> <h4 style={{float:"left", marginBottom: "8px"}}>Bio</h4></div>
-                        <div className="row">
+                    <div className="col-6" style={{textAlign:"center"}}>
+                        <div className="row" style={{textAlign:"center"}}> <h4 style={{align:"center"}}>Bio</h4></div>
+                        <div align="center" style={{height:"1px",padding: "0 30px", marginBottom: "12px"}}className="line company"></div>
+                        <div style={{textAlign:"center"}} className="row">
                     
                         <p style={{
                         fontSize: "14px", 
                         fontWeight: "normal", 
                         fontFamily: "Raleway", 
-                        textAlign:"left", 
+                        textAlign:"center", 
                         
                         }}>
                             {user.bio}
@@ -302,28 +305,30 @@ function UserShowProfile() {
                         </div>
                     </div>
                     </div>
-                    <div style={{height:"1.5px"}}className="line company"></div>
+                    <div style={{marginTop: "8px",height:"2px"}}className="line company"></div>
                 
                 
-                <div className="row">
+                <div className="row" style={{margin: "10px 0 10px 0"}}>
                     <div className="col-6">
                         <form 
                         action="/update_headshot" id="update_headshot" 
                         method="POST" 
                         encType="multipart/form-data">
                             <label for="upload_box" style={{
-                                fontFamily:"Raleway",
-                                fontSize: "16px"}}>Update Headshot</label><br/>
+                                fontFamily: "broadway",
+                                fontSize: "16px",
+                                marginBottom: ".2em"}}>Update Headshot</label><br/>
                             <input id="upload_box" type="file" name="headshot" required /><br/>
                             <input className="submitShot" type="submit" />
                         </form>
                     </div>
                     <div className="col-6">
                     <label for="update_bio" style={{
-                                fontFamily:"Raleway",
-                                fontSize: "16px"}}>Update Bio</label><br/>
+                                fontFamily: "broadway",
+                                fontSize: "16px",
+                                marginBottom: ".2em"}}>Update Bio</label><br/>
                     <form action="/update_bio" id="add_bio" method="POST">
-                        <textarea id="update_bio" name="update" maxLength="375" placeholder="Update Bio..." required/> 
+                        <textarea style={{padding: ".1em"}}id="update_bio" name="update" maxLength="375" placeholder="Update Bio..." required/> 
                         <br/>
                         <input className="submitBio" type="submit" />
                     </form>

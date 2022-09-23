@@ -16,6 +16,7 @@ import random
 
 app = Flask(__name__)
 app.secret_key=os.environ['APP_SECRET_KEY']
+app.url_map.strict_slashes = False
 
 #Auth0 Configs
 oauth=OAuth(app)
@@ -427,7 +428,7 @@ def user_profile():
 @app.route('/updateshow')
 def update_show():
     show_id = request.args.get('show_id')
-    print(show_id)
+
     if show_id == None:
         show_id = session['show_id']
 
@@ -585,22 +586,17 @@ def update_bio():
 
 
 
-@app.route('/viewplaybill/')
+@app.route('/viewplaybill')
 def viewplaybill():
 
     show_id = request.args.get('show_id')
    
-    
-    
     if not show_id:
         show_id = session['show_id']
-
-       
 
     session['show_id'] = show_id
     show = crud.get_show_by_id(show_id)
 
-    
     if show == None:
         flash('Oops, something went wrong here!')
         return redirect('/')
@@ -683,7 +679,7 @@ def get_cast_list():
             model.db.session.commit()
 
         bio = crud.get_user_bio_for_show(member.user, show)
-        print(bio)
+       
        
         
         if member.role == "Admin":
