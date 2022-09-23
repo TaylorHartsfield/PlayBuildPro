@@ -82,9 +82,9 @@ function InviteCompany() {
                             <h4 className="show-title">Cast List</h4>
                                 <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
                                 <div className="row castlist">
-                                    <div className="col-6" align="center">
+                                    
                                         {editCastInfo}
-                                    </div>
+                                  
                                 </div>  
                             </div>
                         </div>
@@ -94,12 +94,14 @@ function InviteCompany() {
         return (
             <React.Fragment>
                 
-                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
+                        <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card cast">
-                            <i align="right" className="fa-solid fa-pen-to-square" onClick={handleOnClick}></i>
-                            <h4 className="show-title">Cast List</h4>
-                            <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
-                                {castList}
+                                <i align="right" className="fa-solid fa-pen-to-square" onClick={handleOnClick}></i>
+                                <h4 className="show-title">Cast List</h4>
+                                <div style={{height:"1.5px", overflow:"auto"}}className="line company"></div>
+                                <div className="row castlist">
+                                    {castList} 
+                                </div>
                             </div>
                         </div>
             </React.Fragment>
@@ -137,20 +139,30 @@ function InviteCompany() {
             console.log(changing)
             if(changing){
                 return (
-                    <i align="right" style={{paddingLeft: "5px"}} className="fa-solid fa-check" onClick={() => handleUpdate(`${id}`,newRole)}></i>
+                    
+                    <i style={{position: "absolute", paddingLeft: "36%", paddingTop: "1%"}}className="fa-solid fa-check" onClick={() => handleUpdate(`${id}`,newRole)}></i>
                 )
         }}
 
         return (
         <React.Fragment>
-                 
-            <input type="text" className="add" style={{height: "16px", fontSize: "16px"}}name="role" placeholder={newRole} onChange={handleChange} required></input>
-            <div style={{height:"1px"}} className="line company invite"></div>{isHandling(`${changing}`)}
-            
-                 
+            <div className="row castlist">
+           
+                 <div className="col-6" align="center">
+                    {isHandling(`${changing}`)} 
+                    <input type="text" className="add" style={{position: "relative", height: "14px", fontSize: "16px", float:"center"}}name="role" placeholder={newRole} onChange={handleChange} required></input>
+                    <div style={{height:"1px", marginBottom: "0"}} className="line company invite"></div>
+                  
+                </div>
+                <div className="col-6" align="center">
+                    <strong><p style={{fontSize: "16px", fontFamily: "Raleway", float: "center"}}>{fname} {lname}</p></strong>
+                </div>
+            </div>   
         </React.Fragment>)
     }
 
+
+   
     function BackOrView() {
 
         return (
@@ -219,7 +231,7 @@ function InviteCompany() {
                         
                         <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
                             <div className="card invite">
-                        <div className="row">
+                        <div className="row castlist">
                             <h4 className="show-title">Invite Company</h4>
                             <div style={{height:"1.5px"}}className="line company"></div>
                         </div>
