@@ -302,26 +302,23 @@ function UserShows() {
     } else {
         return(
             <React.Fragment>
-                 <div className="header profile" style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
+                 <div className="header profile">
                         <div className="row">
                             <div className="col-6 offset-6">
-                                <label for="firstName" style={{transition:"none", fontFamily: "Raleway", fontSize: "14px"}}>First Name: </label>
-                            <input style={{margin: "3px", fontFamily: "Raleway", fontSize: "14px"}} id="firstName" type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
+                                <label for="firstName" className="header message" style={{transition:"none", fontFamily: "Raleway", fontSize: "14px"}}>First Name: </label>
+                            <input style={{margin: "3px", marginTop:"0", fontFamily: "Raleway", fontSize: "14px"}} id="firstName" type="text" placeholder={user.fname} value={user.fname} onChange={handleFNameChange}/>
                             <label style={{fontFamily: "Raleway", fontSize: "14px"}}for="lastName">Last Name: </label>
-                            <input style={{margin: "3px", fontFamily: "Raleway", fontSize: "14px"}} id="lastName" type="text" placeholder={user.name} value={user.lname} onChange={handleLNameChange}/>
+                            <input style={{margin: "3px", marginTop:"0", fontFamily: "Raleway", fontSize: "14px"}} id="lastName" type="text" placeholder={user.name} value={user.lname} onChange={handleLNameChange}/>
                                 <div className="header line"></div>
                                 
-            <button type="submit" onClick={handleSumbission} className="submitBio">
-                Submit your Changes!
-                </button>
+                            <button style={{width: "fit-content", marginBottom: '0'}}type="submit" onClick={handleSumbission} className="submitBio">
+                                Submit your Changes!
+                            </button>
               
                             </div>
                         </div>
                         
-                    </div>
-               
-            
-            
+                    </div>       
             <ViewActive view={viewActive} />
             </React.Fragment>
         )

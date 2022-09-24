@@ -52,11 +52,11 @@ function RegisterShow() {
     function Title({editing}){
         if(editing){
             return(
-                <h1 style={{marginBottom: "1px"}}>{state.title}</h1>
+                <h1 style={{marginTop: "8px", marginBottom: "8px"}}>{state.title}</h1>
             )
         } else {
             return (
-                <h1 style={{marginBottom: "1px"}}>Register A New Show</h1>
+                <h1 style={{marginTop: "8px",marginBottom: "8px"}}>Register A New Show</h1>
             )
         }
     }
@@ -66,10 +66,10 @@ function RegisterShow() {
 
           <div style={{height:"3px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
         <div className="row align-items-center">
-        <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6" align="center">
+        <div className="col-xs-12 order-2 order-xs-2 col-sm-12 order-2 order-sm-2 col-md-6 order-1 order-md-1 col-lg-6 order-1 order-lg-1 col-xl-6 order-1 order-xl-1" align="center">
                 <PlayBillView />
             </div>
-            <div className="col-sm-12 col-xs-12 col-md-6 col-lg-6 col-xl-6"  style={{alignItems: "center", fontFamily: "Raleway"}}>
+            <div className="col-xs-12 order-1 order-xs-1 col-sm-12 order-1 order-sm-1 col-md-6 order-2 order-md-2 col-lg-6 order-2 order-lg-2 col-xl-6 order-2 order-xl-2"  style={{alignItems: "center", fontFamily: "Raleway"}}>
                     <h4 align="center">Company Information</h4>
                     
                     <form align="left" action='/register_show' method="POST" encType="multipart/form-data">
@@ -109,7 +109,7 @@ function RegisterShow() {
                         
                         
                         <label className="add label register" style={{marginBottom: "1px"}}for="image">Preview Your Playbill Cover Image<br/></label>
-                        <input id="image" onChange={handleImageChange} className="form-control" type="file" name="image" style={{marginTop:"3px"}}/>
+                        <input id="image" onChange={handleImageChange} className="form-control" type="file" accept=".jpg, .png" name="image" style={{marginTop:"3px"}}/>
                         
                        <h4 align="center"> <button  align="center" className="submitBio" type="submit" style={{textAlign: "center",fontSize: "20px", marginTop: "12px",fontSize: "12px",padding: "1rem 5rem", width: "fit-content"}}>Looks Good!</button></h4>
                         

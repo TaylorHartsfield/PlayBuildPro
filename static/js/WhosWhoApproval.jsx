@@ -100,8 +100,8 @@ function WhosWhoApproval () {
            <div className="row">
             <h3 style={{marginBottom: "2px", marginTop: "10px"}}>Who's Who</h3>
             <div className="row" style={{justifyContent:"center", alignContent:"center"}}>
-                    <a href="/updateshow"  style={{margin: "2px", width:"fit-content", textAlign:"center", display: "flex", alignContent: "center",justifyContent:"center"}}className="submitBio">Back to Show Profile</a>
-                    <a href="/viewplaybill"  style={{margin: "2px", width:"fit-content"}} className="submitBio">View Playbill</a>
+                    <a href="/updateshow"  style={{margin: "2px", width:"fit-content", textAlign:"center", display: "flex", alignContent: "center",justifyContent:"center",textDecoration:"none"}}className="submitBio">Back to Show Profile</a>
+                    <a href="/viewplaybill"  style={{margin: "2px", width:"fit-content", textDecoration:"none"}} className="submitBio">View Playbill</a>
                 </div> 
             </div>
             <div className="playbillBase">

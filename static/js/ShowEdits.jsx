@@ -318,7 +318,7 @@ function UserShowProfile() {
                                 fontFamily: "broadway",
                                 fontSize: "16px",
                                 marginBottom: ".2em"}}>Update Headshot</label><br/>
-                            <input id="upload_box" type="file" name="headshot" required /><br/>
+                            <input id="upload_box" type="file" accept=".jpg,.png,.jpeg"name="headshot" required /><br/>
                             <input className="submitShot" type="submit" />
                         </form>
                     </div>

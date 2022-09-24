@@ -79,7 +79,7 @@ def get_company_by_name_city_state(name, city, state):
     company = model.Company.query.filter_by(
                                     name=name.title(), 
                                     city=city.title(), 
-                                    state=state.title().first())
+                                    state=state.title()).first()
     return company
 
 
