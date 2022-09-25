@@ -43,11 +43,47 @@ CLOUDINARY_URL= os.environ['CLOUDINARY_URL']
 def homepage():
     return render_template("homepage.html")
 
-@app.route('/login')
-def login_or_register():
-    return oauth.auth0.authorize_redirect(
-        redirect_uri=url_for("callback", _external=True)
-    )
+@app.route('/login', methods=["GET", "POST"])
+def login():
+    if request.method == "GET":
+        return render_template("register_user.html")
+    
+    email = request.form.get('email')
+    user = model.User.query.filter_by(email=email).first()
+
+    if user:
+        password = request.form.get('password')
+        if user.check_password(password):
+            session['user'] = email
+            return redirect('/user_profile')
+
+        flash('Incorrect Password. Try Again!')
+        return redirect('/login')
+    
+    flash('Please register!')
+    return redirect('/login')
+
+@app.route('/register_user', methods=["POST"])
+def register_user():
+
+    email = request.form.get('email')
+    email_exists = model.User.query.filter_by(email=email).first()
+
+    if email_exists:
+        flash("You are already registered. Please Login")
+        return redirect('/login')
+
+    fname = request.form.get('fname')
+    lname = request.form.get('lname')
+
+    new_user = crud.User(fname=fname, lname=lname, email=email)
+    new_user.hash_password(request.form.get('password'))
+
+    db.session.add(new_user)
+    db.session.commit()
+
+    session['user'] = email
+    return redirect('/user_profile')
 
 @app.route('/callback', methods=["GET", "POST"])
 def callback():
@@ -72,20 +108,7 @@ def callback():
     return redirect('/user_profile')
 
 
-@app.route('/logout')
-def logout():
-    session.clear()
-    return redirect(
-        "https://" + os.environ["AUTH0_DOMAIN"]
-        + "/v2/logout?"
-        + urlencode(
-            {
-                "returnTo": url_for("homepage", _external=True),
-                "client_id": os.environ["AUTH0_CLIENT_ID"],
-            },
-            quote_via=quote_plus,
-        )
-    )
+
 
 
 @app.route('/createUser', methods=['POST'])
@@ -754,4 +777,4 @@ def delete_from_cast():
 
 if __name__ == "__main__":
     model.connect_to_db(app)
-    app.run()
+    app.run(debug=True)

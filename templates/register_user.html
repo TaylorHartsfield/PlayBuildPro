@@ -2,14 +2,45 @@
 
 {%block title%}Register User{%endblock%}
 {%block body%}
-<h1>New User Registration</h1>
+<div class="container" text-algin="center">
+    <div class="row align-items-center" text-align="center">
+<div class="card admin" text-align="center" style="padding-top:3px">
+    <h1>New User Registration</h1>
+    <div class="line company"></div>
+    <form action="/register_user" method="POST">
+        <label class="add label" for="fname">First Name</label>
+        <input class="add" type="text" id="fname" name="fname" placeholder="Enter First Name" required/><br/>
+        <div class="line company invite"></div>
+        <label class="add label" for="lname">Last Name</label>
+        <input class="add" type="text" id="lname" name="lname" placeholder="Enter Last Name"required/><br/>
+        <div class="line company invite"></div>
+        <label class="add label" for="email">Email</label>
+        <input class="add" type="text" id="email" name="email" placeholder="Enter Email"required/><br/>
+        <div class="line company invite"></div>
+        <label class="add label" for="createPassword">Password</label>
+        <input class="add" type="password" id="createPassword" name="password" placeholder="Enter Password" required/><br/>
+        <div class="line company invite"></div>
+        <label class="add label" for="confirmPassword">Confirm Password</label>
+        <input class="add" type="password" id="confirmPassword" name="confirm-password" placeholder="Enter Password Again" onKeyUp="checkPasswordMatch()" required/><br/>
+        <div class="line company invite"></div>
+        <button disabled id="submitUser" type="submit" class="disabled">Register!</button>
+    </form>
+</div>
 
-<form class="register_user" name="new_user" method="POST">
-    <input type="text" name="fname" placeholder="First Name" required />
-    <input type="text" name="lname" placeholder="Last Name" required />
-    <input type="text" name="email" placeholder="Email" required />
-    <input type="password" name="password" placeholder="Password" required />
-    <input id="sumbit_new_user" type="submit" placeholder="Register!" />
-</form>
-
+<div class="card admin" style="padding-top:3px">
+    <h1>Login</h1>
+    <div class="line company"></div>
+    <form action="/login" method="POST">
+        <label class="add label" for="email">Email</label>
+        <input class="add" type="text" id="email" name="email" placeholder="Enter Email" required/></label><br/>
+        <div class="line company invite"></div>
+        <label class="add label" for="password">Password</label>
+        <input class="add" type="password" id="password" name="password" placeholder="Enter Password" required/><br/>
+        <div class="line company invite"></div>
+        <button class="submitBio" type="submit">Login!</button> 
+    </form>
+</div>
+</div>
+</div>
+<script src="/static/js/passwordCheck.js" type=""></script>
 {%endblock%}

@@ -1,4 +1,3 @@
-import model
 from cloudinary import CloudinaryImage
 import cloudinary.uploader
 import os

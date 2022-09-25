@@ -40,15 +40,15 @@ class User(db.Model):
     fname = db.Column(db.String(50), nullable=False)
     lname = db.Column(db.String(50), nullable=False)
     email = db.Column(db.String(100), nullable=False)
-    # password_hash = db.Column(db.String(200))
+    password_hash = db.Column(db.String(200))
 
-    # """Function to hash user password for DB"""
-    # def hash_password(self, password):
-    #     self.password_hash = generate_password_hash(password)
+    """Function to hash user password for DB"""
+    def hash_password(self, password):
+        self.password_hash = generate_password_hash(password)
     
-    # """Function to check password hash for login authentication"""
-    # def check_password(self, password):
-    #     return check_password_hash(self.password_hash, password)
+    """Function to check password hash for login authentication"""
+    def check_password(self, password):
+        return check_password_hash(self.password_hash, password)
     
 
     def __repr__(self):

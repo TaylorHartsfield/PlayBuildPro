@@ -495,6 +495,29 @@ button.submitBio.unarchive:hover{
     color:#242424;
     cursor: pointer;
 }
+
+#submitUser.disabled{
+    padding: 5px;
+    border: none;
+    border-radius: 50px;
+    outline: none;
+    width:100px;
+    box-shadow: 2px 3px 5px black;
+    margin-bottom: 8px;
+    font-family: Raleway;
+    font-size: 9px;
+    letter-spacing: 1px;
+    text-transform: uppercase;
+    background: #9a9494;
+    color:#242424;
+    cursor: pointer;
+}
+
+#submitUser.disabled.submitBio{
+    background: #f9eb0d;
+    color:#242424;
+    cursor: pointer;
+}
 #update_bio{
     box-shadow: 1px 1px 2px black;
     background-color: #dddddd;
