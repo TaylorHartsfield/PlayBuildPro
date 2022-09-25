@@ -66,10 +66,10 @@ function RegisterShow() {
 
           <div style={{height:"3px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
         <div className="row align-items-center">
-        <div className="col-xs-12 order-2 order-xs-2 col-sm-12 order-2 order-sm-2 col-md-6 order-1 order-md-1 col-lg-6 order-1 order-lg-1 col-xl-6 order-1 order-xl-1" align="center">
+        <div className="col-xs-12 order-2 order-sm-12 order-2 col-md-12 order-1 col-lg-6 order-1 col-xl-6 order-1" align="center">
                 <PlayBillView />
             </div>
-            <div className="col-xs-12 order-1 order-xs-1 col-sm-12 order-1 order-sm-1 col-md-6 order-2 order-md-2 col-lg-6 order-2 order-lg-2 col-xl-6 order-2 order-xl-2"  style={{alignItems: "center", fontFamily: "Raleway"}}>
+            <div className="col-xs-12 order-1 col-sm-12 order-1 col-md-6 order-2 col-lg-6 order-2 col-xl-6 order-2"  style={{alignItems: "center", fontFamily: "Raleway"}}>
                     <h4 align="center">Company Information</h4>
                     
                     <form align="left" action='/register_show' method="POST" encType="multipart/form-data">
