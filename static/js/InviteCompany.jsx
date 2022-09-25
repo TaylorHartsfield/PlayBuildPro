@@ -226,39 +226,34 @@ function InviteCompany() {
             <Title />
             <BackOrView />
             <div className='container' style={{maxWidth: "1200px",paddingTop: "1rem", justifyContent: "center"}}>
-                    <div className="row">
-                        <CurrentCast editCastInfo={editCastInfo} />
-                        
-                        <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
-                            <div className="card invite">
-                        <div className="row castlist">
-                            <h4 className="show-title">Invite Company</h4>
-                            <div style={{height:"1.5px"}}className="line company"></div>
-                        </div>
-                        <div className="invite-content">
-                            <form action="/addcast" method="POST">
-                                <label className="add label" for="fname">First Name
-                                <input className="add" type="text" onChange={handleOnChange} name="fname" value={add.fname} placeholder="Enter First Name" required/></label><br/>
-                                <div style={{height:"1.5px"}} className="line company invite"></div>
-                                <label className="add label" for="lname">Last Name
-                                <input className="add" type="text" onChange={handleOnChange}  name="lname" value={add.lname} placeholder="Enter Last Name"required/></label><br/>
-                                <div style={{height:"1.5px"}} className="line company invite"></div>
-                                <label className="add label" for="email">Email
-                                <input className="add" type="text" onChange={handleOnChange}  name="email" value={add.email} placeholder="Enter Email"required/></label><br/>
-                                <div style={{height:"1.5px"}} className="line company invite"></div>
-                                <label className="add label" for="role">Role
-                                <input className="add" type="text" onChange={handleOnChange}  name="role" value={add.role} placeholder="Enter Role" required/></label><br/>
-                                <div style={{height:"1.5px"}} className="line company invite"></div>
-                                <button style={{marginTop: "15px",fontSize: "12px",padding: "1rem 5rem", width: "fit-content"}}className="submitBio" type="submit" >Add {add.fname} to {show.title} </button>
-                            </form>
-                            
+                <div className="row">
+                    <CurrentCast editCastInfo={editCastInfo} />
+                    <div className="col-sm-12 col-md-12 col-lg-6 col-xl-6" align="center">
+                        <div className="card invite">
+                            <div className="row castlist">
+                                <h4 className="show-title">Invite Company</h4>
+                                <div style={{height:"1.5px"}}className="line company"></div>
                             </div>
-
-                           
+                                <div className="invite-content">
+                                    <form action="/addcast" method="POST">
+                                        <label className="add label" for="fname">First Name
+                                        <input className="add" type="text" onChange={handleOnChange} name="fname" value={add.fname} placeholder="Enter First Name" required/></label><br/>
+                                        <div style={{height:"1.5px"}} className="line company invite"></div>
+                                        <label className="add label" for="lname">Last Name
+                                        <input className="add" type="text" onChange={handleOnChange}  name="lname" value={add.lname} placeholder="Enter Last Name"required/></label><br/>
+                                        <div style={{height:"1.5px"}} className="line company invite"></div>
+                                        <label className="add label" for="email">Email
+                                        <input className="add" type="text" onChange={handleOnChange}  name="email" value={add.email} placeholder="Enter Email"required/></label><br/>
+                                        <div style={{height:"1.5px"}} className="line company invite"></div>
+                                        <label className="add label" for="role">Role
+                                        <input className="add" type="text" onChange={handleOnChange}  name="role" value={add.role} placeholder="Enter Role" required/></label><br/>
+                                        <div style={{height:"1.5px"}} className="line company invite"></div>
+                                        <button style={{marginTop: "15px",fontSize: "12px",padding: "1rem 5rem", width: "fit-content"}}className="submitBio" type="submit" >Add {add.fname} to {show.title} </button>
+                                    </form>
+                                </div>
+                        </div>
                     </div>
-                    </div>
-                   
-                    </div>
+                </div>
             </div>
         </React.Fragment>
     )
