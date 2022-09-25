@@ -2,6 +2,8 @@ from cloudinary import CloudinaryImage
 import cloudinary.uploader
 import os
 from datetime import datetime
+import model
+from model import db
 CLOUDINARY_KEY = os.environ['API_KEY']
 CLOUDINARY_SECRET = os.environ['API_SECRET']
 CLOUD_NAME = os.environ['CLOUD_NAME']

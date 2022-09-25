@@ -4,7 +4,6 @@ import crud
 from datetime import datetime, date
 import cloudinary.uploader
 from cloudinary import CloudinaryImage
-from authlib.integrations.flask_client import OAuth
 from urllib.parse import quote_plus, urlencode
 import json
 import os
@@ -18,18 +17,6 @@ app = Flask(__name__)
 app.secret_key=os.environ['APP_SECRET_KEY']
 app.url_map.strict_slashes = False
 
-#Auth0 Configs
-oauth=OAuth(app)
-oauth.register(
-    "auth0",
-    client_id = os.environ['AUTH0_CLIENT_ID'],
-    client_secret=os.environ['AUTH0_CLIENT_SECRET'],
-    client_kwargs={
-        "scope": "openid profile email",
-    },
-    server_metadata_url=f'https://{os.environ["AUTH0_DOMAIN"]}/.well-known/openid-configuration'
-)
-NEW_USER_MANAGEMENT_TOKEN = ""
 
 # Cloudinary Configs
 CLOUDINARY_KEY = os.environ['API_KEY']
@@ -70,46 +57,31 @@ def register_user():
     email_exists = model.User.query.filter_by(email=email).first()
 
     if email_exists:
+        if email_exists.password_hash == None:
+            email_exists.hash_password(request.form.get('password'))
+            model.db.session.commit()
+            session['user'] = email
+            return redirect('/user_profile')
+            
         flash("You are already registered. Please Login")
         return redirect('/login')
 
     fname = request.form.get('fname')
     lname = request.form.get('lname')
 
-    new_user = crud.User(fname=fname, lname=lname, email=email)
+    new_user = crud.create_user(fname=fname, lname=lname, email=email)
     new_user.hash_password(request.form.get('password'))
 
-    db.session.add(new_user)
-    db.session.commit()
+    model.db.session.add(new_user)
+    model.db.session.commit()
 
     session['user'] = email
     return redirect('/user_profile')
 
-@app.route('/callback', methods=["GET", "POST"])
-def callback():
-    token = oauth.auth0.authorize_access_token()
-    session['user'] = token
-    email = token['userinfo']['email']
-    new_user = crud.get_user_by_email(email)
-   
-    if new_user == None:
-        try:
-            fname = token['userinfo']['given_name']
-            lname = token['userinfo']['family_name']
-            new_user = model.User(fname=fname, lname=lname, email=email)
-        except:
-            fname = token['userinfo']['nickname']
-            lname = "Last Name"
-            new_user = model.User(fname=fname, lname=lname, email=email)
-        
-        model.db.session.add(new_user)
-        model.db.session.commit()
-
-    return redirect('/user_profile')
-
-
-
-
+@app.route('/logout')
+def logout():
+    session.clear()
+    return redirect('/')
 
 @app.route('/createUser', methods=['POST'])
 def create_user():
@@ -221,7 +193,7 @@ def register_show():
     img_url = image['eager'][0]['url']
     update = crud.update_show_image(new_show.show_id, img_url)
 
-    admin = crud.get_user_by_email(session['user']['userinfo']['email'])
+    admin = crud.get_user_by_email(session['user'])
 
     add_admin_to_show = crud.add_to_cast('Admin', True)
 
@@ -287,7 +259,7 @@ def edit_show_info():
 
 @app.route('/api/userinfo')
 def get_user_info():
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     
     return jsonify({"user": {
                 "fname": user.fname,
@@ -298,7 +270,7 @@ def get_user_info():
 @app.route('/api/usershowinfo')
 def get_user_show_info():
     """Return user information from database"""
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     
     show = crud.get_show_by_id(session['show_id'])
     
@@ -366,7 +338,7 @@ def get_user_show_info():
 def update_user_info():
     """Update User first name and last name to DB."""
     
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
 
     fname = request.json.get('fname')
     lname = request.json.get('lname')
@@ -387,7 +359,7 @@ def update_user_info():
 @app.route('/api/usershows')
 def get_user_shows():
 
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
 
     shows = []
 
@@ -432,11 +404,11 @@ def user_profile():
         flash('Please Login!')
         return redirect('/')
 
-    user_email = session['user']['userinfo']['email']
+    user_email = session['user']
     # user_id = session['user']
 
     #Grab user from DB by querying PK with user_id arguement
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     
 
     #check that the logged in user matches the profile we are visiting
@@ -456,7 +428,7 @@ def update_show():
         show_id = session['show_id']
 
     show = crud.get_show_by_id(show_id)
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     is_admin = crud.is_admin(show_id, user)
 
     headshot = crud.get_user_headshot_for_show(user, show)
@@ -478,7 +450,7 @@ def cast():
         flash('Please Login!')
         return redirect('/')
 
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     if not crud.is_admin(session['show_id'], user):
         flash('You are not an admin for this show. Please update your headshot and bio from your profile.')
         return redirect(f'/user_profile')
@@ -575,7 +547,7 @@ def approval():
 def update_headshot():
 
     new_headshot = request.files['headshot']
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     show = crud.get_show_by_id(session['show_id'])
     current_headshot = crud.get_user_headshot_for_show(user, show)
 
@@ -590,7 +562,7 @@ def update_headshot():
 @app.route('/update_bio', methods=["POST"])
 def update_bio():
 
-    user = crud.get_user_by_email(session['user']['userinfo']['email'])
+    user = crud.get_user_by_email(session['user'])
     show= crud.get_show_by_id(session['show_id'])
 
     bio = crud.get_user_bio_for_show(user,show)

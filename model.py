@@ -131,7 +131,7 @@ class Headshot(db.Model):
         return f'<Headshot {self.pending} headshot_id={self.headshot_id} user_id={self.user_id} show_id={self.show_id}>'
 
 
-def connect_to_db(flask_app, db_uri='postgresql:///playbillApp', echo=True):
+def connect_to_db(flask_app, db_uri='postgresql:///playBuildProApp', echo=True):
     flask_app.config["SQLALCHEMY_DATABASE_URI"] = db_uri
     flask_app.config["SQLALCHEMY_ECHO"] = False
     flask_app.config["SQLALCHEMY_TRACK_MODIFICATIONS"] = False
