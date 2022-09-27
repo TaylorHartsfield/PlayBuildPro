@@ -681,17 +681,17 @@ def get_cast_list():
 
         bio = crud.get_user_bio_for_show(member.user, show)
        
-        
-        castList.append({
-            "fname": member.user.fname,
-            "lname": member.user.lname,
-            "role": member.role,
-            "headshot": headshot.img,
-            "hpend": headshot.pending,
-            "bio" : bio.bio,
-            "bpend": bio.pending,
-            "id" : member.user.user_id
-        })
+        if member.role != "Admin":
+            castList.append({
+                "fname": member.user.fname,
+                "lname": member.user.lname,
+                "role": member.role,
+                "headshot": headshot.img,
+                "hpend": headshot.pending,
+                "bio" : bio.bio,
+                "bpend": bio.pending,
+                "id" : member.user.user_id
+            })
 
         if headshot.pending == True or bio.pending == True:
             pendingApproval.append({
