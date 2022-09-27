@@ -15,14 +15,14 @@
                     <label class="add label" for="lname">Last Name</label>
                     <input class="add" type="text" id="lname" name="lname" placeholder="Enter Last Name"required/><br/>
                     <div class="line company invite"></div>
-                    <label class="add label" for="email">Email</label>
-                    <input class="add" type="text" id="email" name="email" placeholder="Enter Email"required/><br/>
+                    <label class="add label" for="newemail">Email</label>
+                    <input class="add" type="text" id="newemail" name="email" placeholder="Enter Email"required/><br/>
                     <div class="line company invite"></div>
                     <label class="add label" for="createPassword">Password</label>
-                    <input class="add" type="password" id="createPassword" name="password" placeholder="Enter Password" required/><br/>
+                    <input class="add" type="password" id="createPassword" name="password" placeholder="Enter Password" onkeyup="checkPasswordMatch();" required/><br/>
                     <div class="line company invite"></div>
                     <label class="add label" for="confirmPassword">Confirm Password</label>
-                    <input class="add" type="password" id="confirmPassword" name="confirm-password" placeholder="Enter Password Again" onKeyUp="checkPasswordMatch()" required/><br/>
+                    <input class="add" type="password" id="confirmPassword" name="confirm-password" placeholder="Enter Password Again" onkeyup="checkPasswordMatch();" required/><br/>
                     <div class="line company invite"></div>
                     <button disabled id="submitUser" type="submit" class="disabled">Register!</button>
                 </form>

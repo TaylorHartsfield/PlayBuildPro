@@ -53,7 +53,7 @@ def login():
 @app.route('/register_user', methods=["POST"])
 def register_user():
 
-    email = request.form.get('email')
+    email = request.form.get('newemail')
     email_exists = model.User.query.filter_by(email=email).first()
 
     if email_exists:
@@ -750,4 +750,4 @@ def delete_from_cast():
 
 if __name__ == "__main__":
     model.connect_to_db(app)
-    app.run()
+    app.run(debug=True)
