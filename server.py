@@ -750,4 +750,4 @@ def delete_from_cast():
 
 if __name__ == "__main__":
     model.connect_to_db(app)
-    app.run(debug=True)
+    app.run()
