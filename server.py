@@ -95,6 +95,7 @@ def create_user():
     model.db.session.add(user)
     model.db.session.commit()
 
+    admin = crud.get_user_by_email(session['email'])
 
     add_to_cast = crud.add_to_cast(role, admin=False)
     add_to_cast.show_id = (crud.get_show_by_id(session['show_id']).show_id)
@@ -106,8 +107,8 @@ def create_user():
         from_email='playbuildpro@gmail.com',
         to_emails=email,
         subject = f'Welcome to {crud.get_show_by_id(session["show_id"]).title}!',
-        html_content=f'<strong>Break a leg {fname} {lname}!</strong> <p>Please register to <a href="http://18.189.157.171/">PlayBuild Pro</a>\
-            with {email}  to access your show account and upload your Playbill Bio and Headshot for <i>{crud.get_show_by_id(session["show_id"]).title}</i> at {crud.get_show_by_id(session["show_id"]).company.name}! You can edit this information at anytime\
+        html_content=f'<strong>Break a leg {fname} {lname}!</strong> <p>{admin.fname} {admin.lname} has added you to the cast of <i>{crud.get_show_by_id(session["show_id"]).title}</i> at {crud.get_show_by_id(session["show_id"]).company.name}! Please register to <a href="http://18.189.157.171/">PlayBuild Pro</a>\
+            with {email} to access your show account. Once logged in, you will be able to upload your Playbill Bio and Headshot. You can edit this information at any time\
                 during the run of your show and, once approved, see those changes rendered to the virtual Playbill!</p>'
     )
     try:
