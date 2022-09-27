@@ -600,7 +600,7 @@ def viewplaybill():
         flash('Oops, something went wrong here!')
         return redirect('/')
         
-    return render_template('playbill.html')
+    return render_template('playbill.html', show={show})
     
 
 @app.route('/editplaybillimage', methods=["POST"])
