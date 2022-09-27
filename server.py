@@ -42,6 +42,7 @@ def login():
         password = request.form.get('password')
         if user.check_password(password):
             session['user'] = email
+          
             return redirect('/user_profile')
 
         flash('Incorrect Password. Try Again!')
@@ -549,7 +550,9 @@ def update_headshot():
 
     new_headshot = request.files['headshot']
     user = crud.get_user_by_email(session['user'])
+
     show = crud.get_show_by_id(session['show_id'])
+  
     current_headshot = crud.get_user_headshot_for_show(user, show)
 
     update_headshot = crud.update_headshot(current_headshot, new_headshot, user, show)
@@ -642,6 +645,7 @@ def current_cast():
 def get_cast_list():
 
     cast = crud.get_cast_by_show_id(session['show_id'])
+   
 
     show = crud.get_show_by_id(session['show_id'])
     
@@ -652,8 +656,9 @@ def get_cast_list():
     for member in cast:
     
         headshot = crud.get_user_headshot_for_show(member.user, show)
+     
         bio = crud.get_user_bio_for_show(member.user, show)
-       
+      
         if headshot == None:
             headshot = crud.add_new_headshot("/static/img/download.png")
             model.db.session.add(headshot)
@@ -676,23 +681,19 @@ def get_cast_list():
 
         bio = crud.get_user_bio_for_show(member.user, show)
        
-       
         
-        if member.role == "Admin":
-            continue
+        castList.append({
+            "fname": member.user.fname,
+            "lname": member.user.lname,
+            "role": member.role,
+            "headshot": headshot.img,
+            "hpend": headshot.pending,
+            "bio" : bio.bio,
+            "bpend": bio.pending,
+            "id" : member.user.user_id
+        })
 
-        if (headshot.pending == False and bio.pending == False):
-            castList.append({
-                "fname": member.user.fname,
-                "lname": member.user.lname,
-                "role": member.role,
-                "headshot": headshot.img,
-                "hpend": headshot.pending,
-                "bio" : bio.bio,
-                "bpend": bio.pending,
-                "id" : member.user.user_id
-            })
-        else:
+        if headshot.pending == True or bio.pending == True:
             pendingApproval.append({
                 "fname": member.user.fname,
                 "lname": member.user.lname,
@@ -704,6 +705,7 @@ def get_cast_list():
                 "id" : member.user.user_id
             })
 
+  
    
     return jsonify({
                     'cast' : castList, 

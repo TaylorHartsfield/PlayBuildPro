@@ -169,7 +169,7 @@ def add_new_headshot(img):
 
 
 def update_headshot(current_headshot, new_headshot, user, show):
-    
+    print(current_headshot.user_id)
 
     upload_new_headshot = cloudinary.uploader.upload(new_headshot,
                                         api_key=CLOUDINARY_KEY,
@@ -193,6 +193,7 @@ def update_headshot(current_headshot, new_headshot, user, show):
         return current_headshot
 
     current_headshot.img = new_headshot_url
+    print(current_headshot.user_id)
     current_headshot.pending = True
     model.db.session.commit()
    

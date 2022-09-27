@@ -30,15 +30,20 @@ function Playbill() {
     }, []);
 
     for (const member of cast){
+        if (member.role!="Admin") {
         castList.push(
             <CastList 
             fname={member.fname}
             lname={member.lname}
             role={member.role}
             key={member.id}
+            hpend={member.hpend}
+            bpend={member.bpend}
+            headshot={member.headshot}
+            bio={member.bio}
             /> 
-
         )
+        }
     }
     function handleNext() {
         if (page === 2) {
@@ -91,14 +96,16 @@ function Playbill() {
                  <div style={{height:"2px", marginBottom: "1rem",overflow:"auto"}}className="line company"></div>
                     <div className="castList">
                         {pageItems.map((item)=> 
-                        {return <CastInfoCard
+                        {if(item.role!="Admin") {return <CastInfoCard
                             fname={item.fname}
                             lname={item.lname}
                             role={item.role}
                             headshot={item.headshot}
                             bio={item.bio}
                             key={item.id}
-                            />})}
+                            hpend={item.hpend}
+                            bpend={item.bpend}
+                            />}})}
                 </div>
            </React.Fragment>
            )
@@ -141,14 +148,44 @@ function Playbill() {
         )
     }
 
-    function CastInfoCard({fname, lname, role, headshot, bio}) {
+    function Headshot({headshot, hpend}){
+        if (hpend || headshot==="/static/img/download.png") {
+            return (
+                <div className="col-4 head">
+                
+            </div>
+            )
+           
+        } else {
+            return (
+                <div className="col-4 head">
+                    <img src={headshot}></img>
+                </div>
+            )
+        }
+    }
+
+    function Bio ({bio, bpend}) {
+     
+        if (bpend || bio === 'No Bio Submitted') {
+            return (
+            
+                    <span></span>
+              
+            )
+        } else {
+                return(
+                    <p textAlign="right">{bio}</p>
+                )
+        }
+    }
+
+    function CastInfoCard({fname, lname, role, headshot, bio, bpend, hpend}) {
         return (
             <React.Fragment>
             
             <div className="row whoswho">
-                <div className="col-4 head">
-                    <img src={headshot}></img>
-                </div>
+                <Headshot headshot={headshot} hpend={hpend} />
                 <div className="col-8">
                     <div className="row">
                         <div className="col" style={{textAlign: 'left'}}>
@@ -156,8 +193,9 @@ function Playbill() {
                         </div>
                     </div>
                     <div className="row" style={{textAlign: 'right'}}>
-                        <p>{bio}</p>
-                    </div>
+                    <Bio bio={bio} bpend={bpend} />
+                </div>
+                   
                 </div>
             </div>
     
@@ -166,14 +204,15 @@ function Playbill() {
 
 }
 
+
     return (
         <React.Fragment>
            
             <div className="playbillBase">
                 <button className="pager-prev" onClick={handlePrev}/>
-                    <div className="slideBase">
-                        {OnPage()}
-                    </div>
+                        <div className="slideBase">
+                            {OnPage()}
+                        </div>
                     <button className="pager-next" onClick={handleNext}/>
             </div>
          
