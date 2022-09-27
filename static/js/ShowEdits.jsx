@@ -135,11 +135,11 @@ function UserShowProfile() {
                         <div style={{height:"1px"}} className="line company register"></div>
                         
                         <label className="add label" style={{fontFamily: "broadway",height: "10px",lineHeight: "3px",paddingTop: "1px",textAlign:"left"}} for="opening">Opening</label>
-                        <input style={{marginBottom: "3px"}} id="opening" className="add register" type="date" placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br/>
+                        <input style={{marginBottom: "3px"}} id="opening" className="add register" type="text" onFocus={(e) =>(e.target.type='date')} onBlur={(e)=>(e.target.type='text')} placeholder={show.opening_night} name="opening_night" value={show.opening_night} onChange={handleOnChange}/><br/>
                         <div style={{height:"1px"}} className="line company register"></div>
                         
                         <label className="add label" style={{fontFamily: "broadway",height: "10px",lineHeight: "3px",paddingTop: "1px",textAlign:"left", marginBottom: "0"}} for="closing">Closing</label>
-                        <input style={{marginBottom: "3px"}} id="closing" className="add register" type="date" placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/>
+                        <input style={{marginBottom: "3px"}} id="closing" className="add register" type="text" onFocus={(e) =>(e.target.type='date')} onBlur={(e)=>(e.target.type='text')} placeholder={show.closing_night} name="closing_night" value={show.closing_night} onChange={handleOnChange}/>
                         <div style={{height:"1px"}} className="line company register"></div>
 
                         <input className="submitBio" style={{fontFamily: "broadway",height: "38px", width: "100px"}} type="submit" onClick={handleSubmission}></input>
