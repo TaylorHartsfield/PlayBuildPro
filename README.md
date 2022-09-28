@@ -1,7 +1,7 @@
 # PlayBuild Pro
 Currently Hosted here with AWS: http://18.189.157.171/
 
-PlayBuild Pro is a web application where Theater Adminastators can register a show, upload/edit show information, invite cast members to upload their headshots and bios, and dynamically render a Playbill for their show. Theater goers can find the playbill on the website to view as they enjoy the show.
+PlayBuild Pro is a web application where Theater Administrators can register a show, upload/edit show information, invite cast members to upload their headshots and bios, and dynamically render a Playbill for their show. Theater goers can find the playbill on the website to view as they enjoy the show.
 
 
 ![ezgif com-gif-maker (1)](https://user-images.githubusercontent.com/98723432/192673302-4ae96fcc-c33f-4649-915b-9617d565433d.gif)
