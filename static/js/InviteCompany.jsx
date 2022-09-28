@@ -192,8 +192,6 @@ function InviteCompany() {
     }
     
     for (const member of cast){
-       
-        if (member.role != 'Admin'){
             editCastInfo.push(
                 <EditCast
                 fname={member.fname}
@@ -204,11 +202,9 @@ function InviteCompany() {
                 />
             )
         }
-    }
+    
    
     for (const member of cast) {
-        if (member.role != 'Admin') {
-
         castList.push(
             <CastList 
             fname={member.fname}
@@ -219,7 +215,7 @@ function InviteCompany() {
             id={member.id}
             isEditing={isEditing}
             />)
-        }}
+        }
 
     return (
         <React.Fragment>
