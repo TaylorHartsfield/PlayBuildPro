@@ -71,7 +71,6 @@ function WhosWhoApproval () {
       
     
     for (const pend of pending) {
-
             pendingCastRows.push(
                 <HeadshotPending 
                 headshot={pend.headshot}

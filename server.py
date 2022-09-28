@@ -645,7 +645,6 @@ def current_cast():
 def get_cast_list():
 
     cast = crud.get_cast_by_show_id(session['show_id'])
-   
 
     show = crud.get_show_by_id(session['show_id'])
     
@@ -690,20 +689,22 @@ def get_cast_list():
                 "hpend": headshot.pending,
                 "bio" : bio.bio,
                 "bpend": bio.pending,
-                "id" : member.user.user_id
+                "id" : member.user.user_id,
+
             })
 
         if headshot.pending == True or bio.pending == True:
-            pendingApproval.append({
-                "fname": member.user.fname,
-                "lname": member.user.lname,
-                "role": member.role,
-                "headshot": headshot.img,
-                "hpend": headshot.pending,
-                "bio" : bio.bio,
-                "bpend": bio.pending,
-                "id" : member.user.user_id
-            })
+            if not member.admin:
+                pendingApproval.append({
+                    "fname": member.user.fname,
+                    "lname": member.user.lname,
+                    "role": member.role,
+                    "headshot": headshot.img,
+                    "hpend": headshot.pending,
+                    "bio" : bio.bio,
+                    "bpend": bio.pending,
+                    "id" : member.user.user_id
+                })
 
   
    
