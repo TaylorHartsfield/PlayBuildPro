@@ -20,6 +20,7 @@
           <span class="navbar-toggler-icon"></span>
         </button>
       
+      
         <div class="collapse navbar-collapse" id="navbarSupportedContent">
           <ul class="navbar-nav active">
             {%if 'user' in session%}
@@ -38,8 +39,23 @@
               <a class="nav-link active" href="/login" style="font-family: Broadway;">Login/Register</a>
             </li>
             {%endif%}
-        </div>
-        </div>
+          </div>
+      </ul>
+     
+        <ul class="nav navbar-nav navbar-right">
+          <li class="nav-item">
+            <a class="nav-link active" style="font-family: Broadway;" href="https://youtu.be/T5ZozcJGobc">Demo of PlayBuild Pro!</a>
+          </li>
+          <li class="nav-item">
+            <a class="navbar-brand" href="https://github.com/TaylorHartsfield/PlayBuildPro">
+              <div class="logo-image">
+                  <img src="/static/img/github logo.png" class="img-fluid">
+              </div>
+            </a>
+          </li>
+
+        </ul>
+    </div>
       </nav>
 
 {% for message in get_flashed_messages()%}

@@ -133,6 +133,11 @@ def search_show():
 
     return render_template("homepage.html", shows=shows)
 
+@app.route('/viewall')
+def view_all():
+
+    shows = model.Show.query.all()
+    return render_template("homepage.html", shows=shows)
 
 @app.route('/register_show')
 def register_show_form():

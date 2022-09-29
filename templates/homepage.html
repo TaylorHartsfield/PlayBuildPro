@@ -55,43 +55,46 @@
             <input  id="searchAgain" class="searchAgain" type="input" name="show_title" placeholder="Search by show title"/> 
             <button type="submit" class="submitBio">Search</button>
           </form>
+          <button type="submit" class="submitBio"><a href="/viewall" style="text-decoration: none; color: black">View All</a></button>
+         
       </div>
       <div class="col order-last">
-        <div class="card search">
+        <div class="card search" style="height: 9em">
           <div class="front">
-            <h4>Create Your Own Playbill</h4>
+            <h4 style="padding-top: 7%">Create Your Own Playbill</h4>
           </div>
           <div class="back">
-            <div class="back-content">
-              <a class="submitBio" href="/login">Login</a>
-              <a class="submitBio" href="/login">Register</a>
+            <div class="back-content" style="padding-top: 13%">
+              <button type="submit" class="submitBio"><a href="/login" style="text-decoration: none; color: black">Login</a></button>
+              <button type="submit" class="submitBio"><a href="/login" style="text-decoration: none; color: black">Register</a></button>
             </div>
           </div>
         </div>
       </div>
     </div>
 {%else%}
-    <div class="card search">
+<div class="card search" style="height: 9em">
       <div class="front">
-        <h4>Create Your Own Playbill!</h4>
+        <h4 style="padding-top: 7%">Create Your Own Playbill!</h4>
       </div>
       <div class="back">
-        <div class="back-content">
-          <a class="submitBio" href="/login">Login</a>
-          <a class="submitBio" href="/login">Register</a>
+        <div class="back-content" style="padding-top: 13%">
+          <button type="submit" class="submitBio"><a href="/login" style="text-decoration: none; color: black">Login</a></button>
+          <button type="submit" class="submitBio"><a href="/login" style="text-decoration: none; color: black">Register</a></button>
         </div>
       </div>
     </div>
-    <div class="card search">  
+    <div class="card search" style="height: 9em">
       <div class="front">
-        <h4 align-text="center">Search for a Playbill!</h4>
+        <h4 style="padding-top: 7%">Search for a Playbill!</h4>
       </div>        
       <div class="back">
-        <div class="back-content">
-          <form action="/search" method="POST">
-            <input class="searchAgain" id="search" type="input" name="show_title" placeholder="Search by show title"/>
+        <div class="back-content" style="padding: .2em" >
+          <form action="/search" method="POST" style="padding:none; margin:none">
+            <input style="margin: none; padding: none" text-align="left" class="searchAgain" id="search" type="input" name="show_title" placeholder="Search by show title"/> 
             <button type="submit" class="submitBio">Search</button>
-          </form>
+          </form> 
+          <button type="submit" class="submitBio"><a href="/viewall" style="text-decoration: none; color: black; ">View All</a></button>
         </div>
       </div>
     </div>     
