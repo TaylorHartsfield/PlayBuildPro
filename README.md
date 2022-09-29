@@ -75,6 +75,9 @@ Incorporating React, I designed a registration page that instantly shows users w
 After show registration, users can invite their cast to the show. Using the Twilio Sendgrid API, actors are alerted to the invitation and asked to login or create a PlayBuild Pro account. Once logged in, users will see the show is already connected to their account and they can upload their headshot and bio for the show.
 
 ![ezgif com-gif-maker (3)](https://user-images.githubusercontent.com/98723432/192680400-6618aa26-fe87-4716-b03d-50ae9a468042.gif)
+# 2.0
+### <ins>Updates I have made to this project since creating the demo</ins>
+- Addeed a View All feature to the homepage so users can see every show that has been created and view the playbill.
 
 # Author
 Taylor is a fullstack developer located in Colorado, US. She is passionate about making the world a better place through software development, continued education and funny memes.
